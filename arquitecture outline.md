@@ -1,0 +1,36 @@
+# overall architecture
+This nested list describes the main parts of the software system that spans from the kernel-facing C-side API all the way up to the application-facing gesture hooks.
+
+- backends
+    - linux evdev c-side
+        - multitouch protocol event parsing
+        - detect touchpad features
+        - (LOW-PRIORITY) hot-plug
+    - (OUT OF SCOPE) windows raw input event (basically HID)
+- gesture engine
+    - touch point tracking buffer (2D points over time)
+    - gesture builder
+        - Finite State Machine for **touch sequence primitives**
+            - general **relative** movement
+                - straight lines from colinear point sequence (averaged or within an error radius)
+                - curve parsing (finger drags with direction change)
+            - **absolute** movement
+                - edge detection (if touch/drag on border, also which border it is)
+                - coarse regions (e.g. numberpad grid, center/not-center, left & right half)
+        - Base library of full gestures
+            - basic closed shapes (circle, triangle, etc.)
+                - two-finger
+                    - tap
+                    - drag
+                    - pinch (zoom & rotate)
+                - three-finger
+                    - tap
+                    - drag
+- gesture API
+    - gesture hooks: run some code in response to touchpad actions.
+        - gesture begin: callback for when a certain gesture started.
+        - gesture end: callback for when a certain gesture ended.
+        - gesture update: callback for when a certain gesture has changed.
+    - gesture language environment
+        - register gesture: define a custom gesture Finite-State-Machine with a **simplified DSL** (as in "triggered if 2-finger-dragged in left half")
+        - remove gesture: stop responding to a certain gesture.
