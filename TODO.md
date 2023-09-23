@@ -1,5 +1,5 @@
 # TODO
-## V2 - C-side evdev with touchpad probing
+## V2 - touchpad identification
 - (00/06) LIBEVDEV DEVICE DETECTION
     - (00/03) define platform interface for touchpad parameters
         - touchpad bounding box (min/max XY)
