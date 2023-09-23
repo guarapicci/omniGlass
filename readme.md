@@ -1,7 +1,23 @@
 # Omni-Glass: touchpad gestures library
 
-## (DISCLAIMER) This is W.I.P: no code yet.
+## (DISCLAIMER) This is W.I.P: only a small platform test is available right now.
 
+## STATUS
+- linux evdev platform in progress.
+- no gesture detection yet.
+- a misclanneous "linux nonblocking test" application demonstrates the workings and caveats of both reading in non-blocking mode and printing in small chunks.
+
+## HOW TO RUN
+You're gonna need `cmake`, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
+- 1: enter the repository directory in your console with `cd`
+- 2: run `cmake .` to generate makefiles.
+- 3: run `make` to build the source files into a "dummy" executable.
+- 4: run `./dummy <devfile>`, with <devfile> being a path to the touchpad's device file.
+  - you do have a touchpad, right? is it working? did you plug it in?
+  - your path will look like `/dev/input/by-id/0934:a26c touchpad` or `/dev/input/by-path/goofyahhchipset0318:platform-serio-1-event-mouse`
+  - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`
+ 
+This will run a multitouch point dump application, showing one line of coordinates of two contact points everytime the drivers detect a change. The datastructures and routines involved in acquiring such coordinates will be the basis for future work on OmniGlass.
 ## What is this thing?
 
 **summing up:** A library for touchpad gestures and a mouse/keyboard/joypad emulator that uses these gestures.
