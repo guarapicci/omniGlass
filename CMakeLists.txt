@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 project(omniGlass 
     VERSION 0.1.0
-    DESCRIPTION "omi-glass touch gesture platform prototype"
+    DESCRIPTION "omni-glass touch gesture platform prototype"
 )
 
 find_path(LIBEVDEV_INCLUDE_DIR libevdev.h
