@@ -1,10 +1,11 @@
 # Omni-Glass: touchpad gestures library
 
-## (DISCLAIMER) This is W.I.P: only a small platform test is available right now.
+## (DISCLAIMER) This is W.I.P: only a small linux platform test is available right now.
 
 ## STATUS
 - linux evdev platform in progress.
 - no gesture detection yet.
+- sample application for linux evdev platform dumps 2D touch points.
 - a misclanneous "linux nonblocking test" application demonstrates the workings and caveats of both reading in non-blocking mode and printing in small chunks.
 
 ## HOW TO RUN
