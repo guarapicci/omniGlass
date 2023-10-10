@@ -35,7 +35,7 @@ typedef struct touch_point{
 typedef enum touchParameter {
     PRESSURE, /**< pressure (unknown metric) */
     AREA,   /**< area of the touch being tracked, in cm^2 */
-    DISTANCE_TO_SURFACE /** (note: only Galaxy S5 mini digitizers are known to have this feature) distance between object extremity and the sensitive surface, in millimiters accross the surface normal.*/
+    DISTANCE_TO_SURFACE /** (note: only Galaxy S5 mini digitizers are known to have this feature) distance between object extremity and the sensitive surface, in millimters accross the surface normal.*/
 } touch_parameter;
 
 //extended parameters (many touchpad drivers may not support any of these.)
@@ -53,9 +53,11 @@ typedef struct extended_touch_parameter{
 } extended_touch_parameter;
 
 /** central data structure for touch tracking.
- * this data structure contains position data associated to each point*/
+ * this data structure contains position data associated to each point.
+ NOTE: Exact number of touches on every multitouch report is per-session, computed at initialization time.
+ */
 typedef struct multitouch_report{
-    //ordered array or touch points
+    //ordered array of touch points
     //(each index identifies a single finger)
     touch_point *touches;
     
@@ -63,5 +65,22 @@ typedef struct multitouch_report{
     extended_touch_parameter **extended_touch_parameters;
 } multitouch_report;
 
+int multitouch_next_report(struct multitouch_report *report);
 
+typedef struct touchpad_params{
+    int min_x;
+    int max_x;
+    int min_y;
+    int max_y;
+    int touch_count;
+    int extended_touch_parameter_count;
+} touchpad_params;
+
+struct omniglass;
+
+/**this function must be called at ~100hz in the application's main loop in non-blocking mode,
+ * or as soon as possible in a separate thread.*/
+int omniglass_step();
+
+int omniglass_register_callback(void (*callback) ());
 
