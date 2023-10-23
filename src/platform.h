@@ -76,11 +76,15 @@ typedef struct touchpad_params{
     int extended_touch_parameter_count;
 } touchpad_params;
 
+/** opaque omniGlass structure used by all library calls */
 struct omniglass;
+
+/**make sure to call this initializer before anything else*/
+int omniglass_init(omniglass **handle);
 
 /**this function must be called at ~100hz in the application's main loop in non-blocking mode,
  * or as soon as possible in a separate thread.*/
-int omniglass_step();
+int omniglass_step(omniglass *handle);
 
 int omniglass_register_callback(void (*callback) ());
 
