@@ -17,19 +17,23 @@
 #include "libevdev-1.0/libevdev/libevdev.h"
 
 
-/** handle for the library, in evdev implementation */
-struct omniglass{
+
+/** all state for the linux platform*/
+struct platform{
     struct libevdev *touchpad_handle; /**<the evdev-specific handle to the touchpad device*/
     struct multitouch_report *report; /**<the latest set of touch contacts checked for*/
     int max_touchpoints; /**<how many simultaneous touches the device can track.*/
-    lua_State *vm; /**<lua Virtual Machine (vm)*/
+};
+
+struct init_config {
+    char *touchpad_file_path;
 };
 
 /**
  * this function is called from the application.
  * this function samples touchpoints from the touchpad and triggers any events previously registered.
  */
-int omniglass_step(struct omniglass *handle){
+int omniglass_step(struct platform *handle){
     
     return 0;
 };
@@ -37,16 +41,16 @@ int omniglass_step(struct omniglass *handle){
 /**
 initialization function that detects a touchpad and sets up datastructures and functions needed by the lua VM.
 */
-void platform_evdev_init(struct omniglass *omniglass, char *touchpad_file_path){
+void platform_evdev_init(struct platform *platform, char *touchpad_file_path){
     /**start evdev*/
     printf("opening event file: %s\n", touchpad_file_path);
     int fd = open(touchpad_file_path,O_RDONLY | O_NONBLOCK);
     int rc = 1;
-    rc = libevdev_new_from_fd(fd, &(omniglass->touchpad_handle));
+    rc = libevdev_new_from_fd(fd, &(platform->touchpad_handle));
     if(rc<0) {
         fprintf(stderr, "failed to initialize libevdev (%s)\n", strerror(-rc));
     }
-    printf("Input device name: \"%s\"\n", libevdev_get_name(omniglass->touchpad_handle));
+    printf("Input device name: \"%s\"\n", libevdev_get_name(platform->touchpad_handle));
 
     /**diagnostics: check if selected device does have touchpad-like event reporting*/
     int touchpad_profile_types[] = {EV_SYN, EV_KEY, EV_ABS};
@@ -56,13 +60,13 @@ void platform_evdev_init(struct omniglass *omniglass, char *touchpad_file_path){
         EV_ABS,ABS_MT_SLOT,
         EV_ABS,ABS_MT_TRACKING_ID};
     for (int i = 0;i<3;i++){
-        if(!libevdev_has_event_type(omniglass->touchpad_handle, touchpad_profile_types[i])) {
+        if(!libevdev_has_event_type(platform->touchpad_handle, touchpad_profile_types[i])) {
             printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad.\n",touchpad_file_path, touchpad_profile_types[i]);
             return;
         }
     }
     for (int i = 0;i<4;i+=2){
-        if(!libevdev_has_event_code(omniglass->touchpad_handle, touchpad_profile_codes[i], touchpad_profile_codes[i+1])) {
+        if(!libevdev_has_event_code(platform->touchpad_handle, touchpad_profile_codes[i], touchpad_profile_codes[i+1])) {
             printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad\n.",touchpad_file_path, touchpad_profile_codes[i]);
             return;
         }
@@ -70,27 +74,27 @@ void platform_evdev_init(struct omniglass *omniglass, char *touchpad_file_path){
     printf("the device selected is considered a touchpad.\n");
     
     //autodetect number of slots in a multitouch device.
-    omniglass->max_touchpoints = libevdev_get_num_slots(omniglass->touchpad_handle);
-    touch_point *touch_slots = malloc(sizeof(touch_point) * (omniglass->max_touchpoints));
+    platform->max_touchpoints = libevdev_get_num_slots(platform->touchpad_handle);
+    touch_point *touch_slots = malloc(sizeof(touch_point) * (platform->max_touchpoints));
     multitouch_report *report = malloc(sizeof(multitouch_report));
     report->touches = touch_slots;
     report->extended_touch_parameters = NULL;
-    omniglass->report = report;
+    platform->report = report;
     
-    printf("successfully allocated evdev: %d \n.", omniglass->max_touchpoints);
+    printf("successfully allocated evdev: %d \n.", platform->max_touchpoints);
     fflush(stdout);
 }
 
 /**
  * this function is where the linux touchpad implementation gets its touch points from the evdev interface
  */
-int platform_evdev_parse_events(struct omniglass *omniglass){
+int platform_parse_events(struct platform *platform){
     // printf("touch reporting.\n");
     struct input_event ev;
     
-    struct libevdev *dev = omniglass->touchpad_handle;
-    int slot_count= omniglass->max_touchpoints;
-    struct multitouch_report *report = omniglass->report;
+    struct libevdev *dev = platform->touchpad_handle;
+    int slot_count= platform->max_touchpoints;
+    struct multitouch_report *report = platform->report;
     //pull next input event
     if((libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev)) != LIBEVDEV_READ_STATUS_SUCCESS){
         //no success means no points available..
@@ -127,40 +131,34 @@ int platform_evdev_parse_events(struct omniglass *omniglass){
     return 0;
 };
 
-static const struct luaL_Reg omniglass_platform_linux [] = {
-    {"init_evdev",platform_evdev_init},
-    {"parse_events_evdev",platform_evdev_parse_events},
-    {NULL,NULL}
-};
-
-int omniglass_init(struct omniglass **handle){
-    struct omniglass *new = malloc(sizeof(struct omniglass));
+int platform_init(struct platform **handle, lua_State *vm){
+    struct platform *new = malloc(sizeof(struct platform));
     if(new==NULL)
         return ENOMEM;
     *handle = new;
     
-    /**prepare a lua instance**/
-    lua_State *vm = luaL_newstate();
-    if(vm == NULL)
-        return ENOMEM;
-    
-    (*handle)->vm = vm;
+    //run the real configuration process as a lua script.
     luaL_dofile(vm, "omniglass_linux.lua");
+    
+    struct init_config cfg;
+    cfg.touchpad_file_path = luaL_checkstring(vm,1);
+    platform_evdev_init(*handle, cfg.touchpad_file_path);
+    
     return 0;
 }
 
 int main (int argc, char ** argv){
-    struct omniglass *omniglass = malloc(sizeof(struct omniglass));
-    platform_evdev_init(omniglass, argv[1]);
+    struct platform *platform;
+    platform_evdev_init(platform, argv[1]);
     
     while(true){
-        if(!platform_evdev_parse_events(omniglass)){
-            for(int i=0;i<omniglass->max_touchpoints;i++){
+        if(!platform_parse_events(platform)){
+            for(int i=0;i<platform->max_touchpoints;i++){
                 printf("touch%d:",i);
-                if(omniglass->report->touches[i].touched==0)
+                if(platform->report->touches[i].touched==0)
                     printf("(lifted) ");
                 else{
-                    printf("(%d,%d) ",omniglass->report->touches[i].x,omniglass->report->touches[i].y);
+                    printf("(%d,%d) ",platform->report->touches[i].x,platform->report->touches[i].y);
                 }
             }
             printf("\n");

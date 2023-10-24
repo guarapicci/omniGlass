@@ -17,6 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 #include <stdbool.h>
+
+#include <lua.h>
+
+struct platform;
+
+int platform_init(struct platform **platform, lua_State *vm);
+
 /**
  * Touch point in left-to-right x and bottom-to-top y.
  * Touch points include a touch ID;
@@ -76,15 +83,4 @@ typedef struct touchpad_params{
     int extended_touch_parameter_count;
 } touchpad_params;
 
-/** opaque omniGlass structure used by all library calls */
-struct omniglass;
-
-/**make sure to call this initializer before anything else*/
-int omniglass_init(omniglass **handle);
-
-/**this function must be called at ~100hz in the application's main loop in non-blocking mode,
- * or as soon as possible in a separate thread.*/
-int omniglass_step(omniglass *handle);
-
-int omniglass_register_callback(void (*callback) ());
-
+int platform_parse_events(struct platform *platform);
