@@ -9,11 +9,18 @@
 #include "omniglass.h"
 #include "platform.h"
 
-/** handle for the library, in evdev implementation */
+/** handle for the library*/
 struct omniglass{
     struct platform *platform; /**<touchpad device backends (evdev/HID/etc.) and all of their associated state go here*/
     lua_State *vm; /**<lua Virtual Machine (abbreviated as "vm")*/
 };
+
+/**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
+int omniglass_step(struct omniglass *handle){
+    platform_parse_events(handle->platform);
+    
+    return 0;
+}
 
 static const struct luaL_Reg omniglass_platform [] = {
     {"parse_events",platform_parse_events},

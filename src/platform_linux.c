@@ -16,7 +16,7 @@
 //but it is the actual path for both debian, arch and SUSE.
 #include "libevdev-1.0/libevdev/libevdev.h"
 
-
+#define PLATFORM_CLASS_NAME "platform"
 
 /** all state for the linux platform*/
 struct platform{
@@ -30,18 +30,14 @@ struct init_config {
 };
 
 /**
- * this function is called from the application.
- * this function samples touchpoints from the touchpad and triggers any events previously registered.
- */
-int omniglass_step(struct platform *handle){
-    
-    return 0;
-};
-
-/**
 initialization function that detects a touchpad and sets up datastructures and functions needed by the lua VM.
 */
-void platform_evdev_init(struct platform *platform, char *touchpad_file_path){
+int platform_evdev_init(lua_State *vm){
+    
+    //get parameters: platform state pointer and touchpad device file path
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME);
+    char *touchpad_file_path = luaL_checkstring(vm,2);
+    
     /**start evdev*/
     printf("opening event file: %s\n", touchpad_file_path);
     int fd = open(touchpad_file_path,O_RDONLY | O_NONBLOCK);
@@ -62,13 +58,13 @@ void platform_evdev_init(struct platform *platform, char *touchpad_file_path){
     for (int i = 0;i<3;i++){
         if(!libevdev_has_event_type(platform->touchpad_handle, touchpad_profile_types[i])) {
             printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad.\n",touchpad_file_path, touchpad_profile_types[i]);
-            return;
+            return 0;
         }
     }
     for (int i = 0;i<4;i+=2){
         if(!libevdev_has_event_code(platform->touchpad_handle, touchpad_profile_codes[i], touchpad_profile_codes[i+1])) {
             printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad\n.",touchpad_file_path, touchpad_profile_codes[i]);
-            return;
+            return 0;
         }
     }
     printf("the device selected is considered a touchpad.\n");
@@ -83,6 +79,7 @@ void platform_evdev_init(struct platform *platform, char *touchpad_file_path){
     
     printf("successfully allocated evdev: %d \n.", platform->max_touchpoints);
     fflush(stdout);
+    return 0;
 }
 
 /**
@@ -131,11 +128,23 @@ int platform_parse_events(struct platform *platform){
     return 0;
 };
 
+static luaL_reg plaftorm_funcs [] = {
+    {"evdev_init",platform_evdev_init},
+    {NULL,NULL}
+};
+
 int platform_init(struct platform **handle, lua_State *vm){
     struct platform *new = malloc(sizeof(struct platform));
     if(new==NULL)
         return ENOMEM;
     *handle = new;
+    
+    //add evdev-specific functionality to lua
+    luaL_newmetatable(vm,PLATFORM_CLASS_NAME);
+    
+    lua_pushlightuserdata(vm, (*handle));
+    lua_pushstring(vm,"__index");
+    luaL_register(vm,NULL,)
     
     //run the real configuration process as a lua script.
     luaL_dofile(vm, "omniglass_linux.lua");
