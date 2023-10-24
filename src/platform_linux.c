@@ -1,4 +1,5 @@
 #include <linux/input-event-codes.h>
+#include <lua.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -128,7 +129,7 @@ int platform_parse_events(struct platform *platform){
     return 0;
 };
 
-static luaL_reg plaftorm_funcs [] = {
+static luaL_Reg platform_funcs [] = {
     {"evdev_init",platform_evdev_init},
     {NULL,NULL}
 };
@@ -139,12 +140,18 @@ int platform_init(struct platform **handle, lua_State *vm){
         return ENOMEM;
     *handle = new;
     
-    //add evdev-specific functionality to lua
-    luaL_newmetatable(vm,PLATFORM_CLASS_NAME);
+    lua_pushlightuserdata(vm, (*handle));   // the "platform" userdata is a pointer to the platform handle.
+        lua_newtable(vm);    // the "platform" metatable holds native operations
+            lua_pushstring(vm,"__index");
+                lua_newtable(vm);
+                    luaL_register(vm, NULL, platform_funcs);
+                    /* 
+                    *define here any other stuff you expect inside the global platform table...
+                    */
+                lua_settable(vm, -3);
+            lua_setmetatable(vm, -2);   // userdata member access proxies to the metatable's index table.
+        lua_setglobal(vm,PLATFORM_CLASS_NAME);
     
-    lua_pushlightuserdata(vm, (*handle));
-    lua_pushstring(vm,"__index");
-    luaL_register(vm,NULL,)
     
     //run the real configuration process as a lua script.
     luaL_dofile(vm, "omniglass_linux.lua");
