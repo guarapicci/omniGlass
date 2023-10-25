@@ -1,4 +1,6 @@
-
+/** \file constants.h
+ *  \brief mostly enumerations for use in flow control
+ */
 #ifndef OMNIGLASS_LIB_CONSTANTS
     #define OMNIGLASS_LIB_CONSTANTS
 
@@ -20,8 +22,8 @@ typedef enum {
 /** defines the results of touchpad platform initialization.*/
 typedef enum {
     OMNIGLASS_PLATFORM_INIT_SUCCESS,
-    OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD,
-    OMNIGLASS_PLATFORM_INIT_CONFIG_INVALID
+    OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD, /**< touchpad could not be detected*/
+    OMNIGLASS_PLATFORM_INIT_CONFIG_INVALID /**< settings were not accepted */
 } omniglass_init_result;
 
 #endif

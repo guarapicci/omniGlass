@@ -30,7 +30,9 @@ static const struct luaL_Reg omniglass_platform [] = {
 };
 
 /**initialization function.
- * this function MUST be called before everything else. It will give you a handle that is required for all the other functions of the user-facing API.*/
+ * this function MUST be called before everything else. It will give you a handle that is required for all the other functions of the user-facing API.
+ @param handle pointer to a pointer of omniglass.
+ */
 omniglass_operation_results omniglass_init(struct omniglass **handle){
     *handle = malloc(sizeof(struct omniglass));
     

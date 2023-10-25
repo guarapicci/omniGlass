@@ -16,6 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
+
+/** \file platform.h
+ *  \brief interface with touchpad drivers
+ */
+
 #include <stdbool.h>
 
 #include <lua.h>
@@ -66,12 +71,8 @@ typedef struct extended_touch_parameter{
  NOTE: Exact number of touches on every multitouch report is per-session, computed at initialization time.
  */
 typedef struct multitouch_report{
-    //ordered array of touch points
-    //(each index identifies a single finger)
-    touch_point *touches;
-    
-    //ordered array of touch parameter arrays
-    extended_touch_parameter **extended_touch_parameters;
+    touch_point *touches;/**<ordered array of touch points (each index identifies a single finger)*/
+    extended_touch_parameter **extended_touch_parameters;/**<ordered array of touch parameter arrays*/
 } multitouch_report;
 
 int multitouch_next_report(struct multitouch_report *report);

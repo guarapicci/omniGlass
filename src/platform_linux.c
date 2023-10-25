@@ -1,3 +1,7 @@
+
+/** \file platform_linux.c
+ *  \brief linux-evdev implementation for the omniglass touchpad platform
+ */
 #include <linux/input-event-codes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,7 +104,7 @@ int platform_parse_events(lua_State *vm){
         return -1;
     }
 
-    /**fetch current touch position for all multitouch slots.*/
+    //fetch current touch position for all multitouch slots.
     for (int i=0; i < slot_count; i++){
         int tracking_id = 0;
         libevdev_fetch_slot_value(dev, i, ABS_MT_TRACKING_ID, &tracking_id);
@@ -130,11 +134,16 @@ int platform_parse_events(lua_State *vm){
     return 0;
 };
 
+//functions used during linux backend initialization.
 static luaL_Reg platform_funcs [] = {
     {"evdev_init",platform_evdev_init},
     {NULL,NULL}
 };
 
+/** this function pushes the entire platform internal API and state into a lua table
+    @param handle a pointer to a pointer of a handle to create.
+    @param vm an already-initialized lua state to be injected with the internal platform API
+ */
 omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     // struct platform *new = malloc(sizeof(struct platform));
     
