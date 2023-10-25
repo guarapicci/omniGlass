@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# generate documentation
+doxygen doxcfg.txt
+
+# build the library using gcc
 [ -e build ] || mkdir build
 cp src/omniglass_linux.lua build/ &&\
 gcc -fPIC -shared src/platform_linux.c src/omniglass.c -llua5.1 -levdev -o build/libomniglass.so &&\
