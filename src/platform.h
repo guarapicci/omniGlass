@@ -20,9 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include <lua.h>
 
+#include "omniglass.h"
+
 struct platform;
 
-int platform_init(struct platform **platform, lua_State *vm);
+omniglass_init_result platform_init(struct platform **platform, lua_State *vm);
 
 /**
  * Touch point in left-to-right x and bottom-to-top y.
@@ -83,4 +85,4 @@ typedef struct touchpad_params{
     int extended_touch_parameter_count;
 } touchpad_params;
 
-int platform_parse_events(struct platform *platform);
+int platform_parse_events(lua_State *vm);

@@ -1,5 +1,4 @@
 #include <linux/input-event-codes.h>
-#include <lua.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -26,10 +25,6 @@ struct platform{
     int max_touchpoints; /**<how many simultaneous touches the device can track.*/
 };
 
-struct init_config {
-    char *touchpad_file_path;
-};
-
 /**
 initialization function that detects a touchpad and sets up datastructures and functions needed by the lua VM.
 */
@@ -37,7 +32,7 @@ int platform_evdev_init(lua_State *vm){
     
     //get parameters: platform state pointer and touchpad device file path
     struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME);
-    char *touchpad_file_path = luaL_checkstring(vm,2);
+    const char *touchpad_file_path = luaL_checkstring(vm,2);
     
     /**start evdev*/
     printf("opening event file: %s\n", touchpad_file_path);
@@ -86,7 +81,10 @@ int platform_evdev_init(lua_State *vm){
 /**
  * this function is where the linux touchpad implementation gets its touch points from the evdev interface
  */
-int platform_parse_events(struct platform *platform){
+int platform_parse_events(lua_State *vm){
+    
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME);
+    
     // printf("touch reporting.\n");
     struct input_event ev;
     
@@ -134,7 +132,7 @@ static luaL_Reg platform_funcs [] = {
     {NULL,NULL}
 };
 
-int platform_init(struct platform **handle, lua_State *vm){
+omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     struct platform *new = malloc(sizeof(struct platform));
     if(new==NULL)
         return ENOMEM;
@@ -154,15 +152,16 @@ int platform_init(struct platform **handle, lua_State *vm){
     
     
     //run the real configuration process as a lua script.
-    luaL_dofile(vm, "omniglass_linux.lua");
+    if(luaL_dofile(vm, "omniglass_linux.lua")){
+        printf("omniglass could not connect to an available touchpad device.\nerror: %s", luaL_checkstring(vm,-1));
+        return OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD;
+    }
     
-    struct init_config cfg;
-    cfg.touchpad_file_path = luaL_checkstring(vm,1);
-    platform_evdev_init(*handle, cfg.touchpad_file_path);
-    
-    return 0;
+    return OMNIGLASS_PLATFORM_INIT_SUCCESS;
 }
 
+//(outdated test code for r1 monolithic architecture)
+/*
 int main (int argc, char ** argv){
     struct platform *platform;
     platform_evdev_init(platform, argv[1]);
@@ -185,3 +184,4 @@ int main (int argc, char ** argv){
     
     
 }
+*/

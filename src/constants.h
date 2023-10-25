@@ -1,16 +1,27 @@
-enum omniglass_operation_results{
-SUCCESS,
-MULTITOUCH_REPORT_FAILED
-};
 
-enum omniglass_event_type{
-    GESTURE_STARTED,
-    GESTURE_CHANGED,
-    GESTURE_ENDED
-};
+#ifndef OMNIGLASS_LIB_CONSTANTS
+    #define OMNIGLASS_LIB_CONSTANTS
 
-enum omniglass_init_error{
-    INIT_SUCCESS,
-    INIT_NO_TOUCHPAD,
-    CONFIG_INVALID
-};
+/**operation results summarize the aftermath of API calls (as in: registering a callback, masking an event...).*/
+typedef enum {
+OMNIGLASS_RESULT_SUCCESS,
+OMNIGLASS_RESULT_MULTITOUCH_REPORT_FAILED,
+OMNIGLASS_RESULT_NOMEM,
+OMNIGLASS_RESULT_BOOTSTRAP_FAILED
+} omniglass_operation_results;
+
+/**specifies what type of event triggered the action or callback.*/
+typedef enum {
+    OMNIGLASS_EVENT_GESTURE_STARTED,
+    OMNIGLASS_EVENT_GESTURE_CHANGED,
+    OMNIGLASS_EVENT_GESTURE_ENDED
+} omniglass_event_type;
+
+/** defines the results of touchpad platform initialization.*/
+typedef enum {
+    OMNIGLASS_PLATFORM_INIT_SUCCESS,
+    OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD,
+    OMNIGLASS_PLATFORM_INIT_CONFIG_INVALID
+} omniglass_init_result;
+
+#endif

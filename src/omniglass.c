@@ -17,7 +17,7 @@ struct omniglass{
 
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
 int omniglass_step(struct omniglass *handle){
-    platform_parse_events(handle->platform);
+    ;
     
     return 0;
 }
@@ -29,16 +29,21 @@ static const struct luaL_Reg omniglass_platform [] = {
 
 /**initialization function.
  * this function MUST be called before everything else. It will give you a handle that is required for all the other functions of the user-facing API.*/
-int ommniglass_init(struct omniglass **handle){
+omniglass_operation_results omniglass_init(struct omniglass **handle){
     *handle = malloc(sizeof(struct omniglass));
     
     //prepare a lua instance.
     lua_State *vm = luaL_newstate();
     if(vm == NULL)
-        return ENOMEM;
+        return OMNIGLASS_RESULT_NOMEM;
     luaL_openlibs(vm);
     (*handle)->vm = vm;
     
     //initialize subsystems.
-    platform_init(&((*handle)->platform), vm);
+    if(platform_init(&((*handle)->platform), vm)
+        != OMNIGLASS_PLATFORM_INIT_SUCCESS) {
+        fprintf(stderr,"failed to initialize omniglass platform.\n");
+        return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
+    }
+    return OMNIGLASS_RESULT_SUCCESS;
 }
