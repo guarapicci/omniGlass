@@ -1,6 +1,8 @@
 --hardcoded paths where the script will look for configuration files.
 local paths = {
-    "/home/neido/.config/omniGlass/config.lua",
+    "config.lua",
+    --(lua does not recognize the home directory macro)
+    --"~/.config/omniGlass/config.lua",
     "/usr/share/omniGlass/config.lua"
 }
 

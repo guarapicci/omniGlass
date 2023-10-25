@@ -16,7 +16,8 @@
 //but it is the actual path for both debian, arch and SUSE.
 #include "libevdev-1.0/libevdev/libevdev.h"
 
-#define PLATFORM_CLASS_NAME "platform"
+#define PLATFORM_CLASS_NAME_META "platform_meta"
+#define PLATFORM_CLASS_NAME_GLOBAL "platform"
 
 /** all state for the linux platform*/
 struct platform{
@@ -31,7 +32,7 @@ initialization function that detects a touchpad and sets up datastructures and f
 int platform_evdev_init(lua_State *vm){
     
     //get parameters: platform state pointer and touchpad device file path
-    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME);
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
     const char *touchpad_file_path = luaL_checkstring(vm,2);
     
     /**start evdev*/
@@ -75,7 +76,9 @@ int platform_evdev_init(lua_State *vm){
     
     printf("successfully allocated evdev: %d \n.", platform->max_touchpoints);
     fflush(stdout);
-    return 0;
+    
+    lua_pushstring(vm,"ok");
+    return 1;
 }
 
 /**
@@ -83,7 +86,7 @@ int platform_evdev_init(lua_State *vm){
  */
 int platform_parse_events(lua_State *vm){
     
-    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME);
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
     
     // printf("touch reporting.\n");
     struct input_event ev;
@@ -140,7 +143,7 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     if(new==NULL)
         return ENOMEM;
     *handle = new;
-        lua_newtable(vm);    // the "platform" metatable holds native operations
+        luaL_newmetatable(vm, PLATFORM_CLASS_NAME_META);    // the "platform" metatable holds native operations
             lua_pushstring(vm,"__index");
                 lua_newtable(vm);
                     luaL_register(vm, NULL, platform_funcs);
@@ -149,8 +152,7 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
                     */
                 lua_settable(vm, -3);
             lua_setmetatable(vm, -2);   // userdata member access proxies to the metatable's index table.
-        lua_setglobal(vm,PLATFORM_CLASS_NAME);
-    
+        lua_setglobal(vm, PLATFORM_CLASS_NAME_GLOBAL);
     
     //run the real configuration process as a lua script.
     if(luaL_dofile(vm, "omniglass_linux.lua")){

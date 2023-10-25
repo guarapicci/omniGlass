@@ -17,7 +17,9 @@ struct omniglass{
 
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
 int omniglass_step(struct omniglass *handle){
-    ;
+    //call the step function at the lua VM
+    lua_pushstring(handle->vm,"step");
+    lua_call(handle->vm,0,0);
     
     return 0;
 }
