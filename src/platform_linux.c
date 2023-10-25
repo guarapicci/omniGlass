@@ -133,12 +133,13 @@ static luaL_Reg platform_funcs [] = {
 };
 
 omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
-    struct platform *new = malloc(sizeof(struct platform));
+    // struct platform *new = malloc(sizeof(struct platform));
+    
+    // create the platform handle as pointer to userdata 
+    struct platform *new = lua_newuserdata(vm, sizeof(struct platform));   // the "platform" userdata is a pointer to the platform state.
     if(new==NULL)
         return ENOMEM;
     *handle = new;
-    
-    lua_pushlightuserdata(vm, (*handle));   // the "platform" userdata is a pointer to the platform handle.
         lua_newtable(vm);    // the "platform" metatable holds native operations
             lua_pushstring(vm,"__index");
                 lua_newtable(vm);

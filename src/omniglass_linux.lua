@@ -1,6 +1,6 @@
 --hardcoded paths where the script will look for configuration files.
 local paths = {
-    "~/.config/omniGlass/config.lua",
+    "/home/neido/.config/omniGlass/config.lua",
     "/usr/share/omniGlass/config.lua"
 }
 
@@ -13,13 +13,9 @@ do
         do
             local script, err = loadfile(v,"t")
             if script then
-                script.configure(config)
+                config = script()
                 config.sourcefile = v
                 configured = true
-            end
-            if err then
-                print(err)
-                error("no_config")
             end
         end
     if not configured then
@@ -36,6 +32,9 @@ if not config.touchpad_file_path then
     print("error: device file path for touchpad not set in \""..config.sourcefile.."\"")
     error("no_config")
 end
+
+local dameta = debug.getmetatable(platform)
+print ("metatable for platform is:", dameta)
 
 local linux_init_status = platform:evdev_init(config.touchpad_file_path)
 if not (linux_init_status == "ok") then
