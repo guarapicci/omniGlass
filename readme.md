@@ -9,7 +9,7 @@
 - a misclanneous "linux nonblocking test" application demonstrates the workings and caveats of both reading in non-blocking mode and printing in small chunks.
 
 ## HOW TO RUN
-You're gonna need `cmake`, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
+You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
 - 1: enter the repository directory in your console with `cd`
 - 2: open "config.lua" on a text editor. plug into it a path to the touchpad's device file.
   - you do have a touchpad, right? is it working? did you plug it in?
