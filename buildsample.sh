@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # generate documentation
-doxygen doxcfg.txt
+#doxygen doxcfg.txt
 
 # build the library using gcc
 [ -e build ] || mkdir build
