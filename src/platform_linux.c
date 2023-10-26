@@ -30,7 +30,22 @@ struct platform{
     int max_touchpoints; /**<how many simultaneous touches the device can track.*/
 };
 
-/**
+//pushes a touch point table in the lua stack.
+//(must match the platform's touch point format)
+void _push_new_touch_point(lua_State *vm, touch_point *point){
+    lua_newtable(vm);
+        lua_pushstring(vm,"x");
+            lua_pushnumber(vm, point->x);
+    lua_settable(vm,-3);
+        lua_pushstring(vm,"y");
+            lua_pushnumber(vm,point->y);
+    lua_settable(vm,-3);
+        lua_pushstring(vm,"touched");
+            lua_pushboolean(vm,point->touched);
+    lua_settable(vm,-3);
+}
+
+/**(LUA-FACING)
 initialization function that detects a touchpad and sets up datastructures and functions needed by the lua VM.
 */
 int platform_evdev_init(lua_State *vm){
@@ -85,12 +100,12 @@ int platform_evdev_init(lua_State *vm){
     return 1;
 }
 
-/**
+/** (LUA-FACING)
  * this function is where the linux touchpad implementation gets its touch points from the evdev interface
  */
 int platform_parse_events(lua_State *vm){
     
-    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META); //parameter 1 is platform userdata
     
     // printf("touch reporting.\n");
     struct input_event ev;
@@ -101,7 +116,8 @@ int platform_parse_events(lua_State *vm){
     //pull next input event
     if((libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev)) != LIBEVDEV_READ_STATUS_SUCCESS){
         //no success means no points available..
-        return -1;
+        lua_pushstring(vm,"no_ev");
+        return 1;
     }
 
     //fetch current touch position for all multitouch slots.
@@ -131,12 +147,48 @@ int platform_parse_events(lua_State *vm){
     }
     fflush(stdout);
     
+    lua_pushstring(vm,"ok");
     return 0;
 };
 
+
+// typedef struct multitouch_report{
+//     touch_point *touches;/**<ordered array of touch points (each index identifies a single finger)*/
+//     extended_touch_parameter **extended_touch_parameters;/**<ordered array of touch parameter arrays*/
+// } multitouch_report;
+
+// typedef struct touch_point{
+//     int x;
+//     int y;
+//     bool touched;
+// } touch_point;
+
+/** (LUA-FACING)
+ *  push latest report from the platform into lua 
+ */
+int platform_get_last_report(lua_State *vm){
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
+    
+    multitouch_report *current = platform->report;
+    lua_newtable(vm);
+        lua_pushstring(vm,"touches");
+            lua_newtable(vm);
+            for(int i=0; i<platform->max_touchpoints; i++){
+                // printf("pushing a touchpoint");
+                lua_pushinteger(vm, i+1);
+                    _push_new_touch_point(vm, &(platform->report->touches[i]));
+                lua_settable(vm, -3);
+            }
+    lua_settable(vm,-3);
+    // printf("pushed touch report to stack");
+    return 1;   
+}
+
 //functions used during linux backend initialization.
 static luaL_Reg platform_funcs [] = {
-    {"evdev_init",platform_evdev_init},
+    {"evdev_init", platform_evdev_init},
+    {"get_last_report", platform_get_last_report},
+    {"parse_events", platform_parse_events},
     {NULL,NULL}
 };
 
@@ -159,9 +211,9 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
                     /* 
                     *define here any other stuff you expect inside the global platform table...
                     */
-                lua_settable(vm, -3);
-            lua_setmetatable(vm, -2);   // userdata member access proxies to the metatable's index table.
-        lua_setglobal(vm, PLATFORM_CLASS_NAME_GLOBAL);
+            lua_settable(vm, -3);
+        lua_setmetatable(vm, -2);   // userdata member access proxies to the metatable's index table.
+    lua_setglobal(vm, PLATFORM_CLASS_NAME_GLOBAL);
     
     //run the real configuration process as a lua script.
     if(luaL_dofile(vm, "omniglass_linux.lua")){

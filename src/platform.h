@@ -19,6 +19,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 /** \file platform.h
  *  \brief interface with touchpad drivers
+ * 
+ *  Touchpad enumeration, selection and multitouch report generation are implemented by the platform layer.
+ * 
+ *  Initialization of this subsystem happens on the C-side, however most functions here are expected to be called from the lua-side,
+ *  be it directly or through userdata metatable indexing.
  */
 
 #include <stdbool.h>
@@ -27,8 +32,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #include "omniglass.h"
 
+
 struct platform;
 
+/** initialize the platform.
+ * you MUST call the platform init before using any other platform function.
+ * you MUST ensure any lua state passed into the other functions has been passed to this function first.
+ * @param platform a pointer to a pointer of a platform.
+ * @param vm the lua state that will use platform functions.
+ */
 omniglass_init_result platform_init(struct platform **platform, lua_State *vm);
 
 /**
@@ -86,4 +98,12 @@ typedef struct touchpad_params{
     int extended_touch_parameter_count;
 } touchpad_params;
 
+/**(LUA-FACING)
+ * called by the lua VM to convert the latest events into a touch report.
+ */
 int platform_parse_events(lua_State *vm);
+
+/**(LUA-FACING)
+ * called by the lua VM to get the last touch report generated.
+ */
+int platform_get_last_report(lua_State *vm);
