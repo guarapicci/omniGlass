@@ -51,10 +51,19 @@ local function xor(a,b)
     return ((a and (not b)) or ((not a) and b))
 end
 local function point_delta(a,b)
-    local transition = (a.pressed and not b)
+    local changed = xor(a.touched,b.touched)
+    local transition = 0
+    if (b.touched) then
+        if (not a.touched) then
+            transition = -1
+        end
+    elseif (a.touched) then
+        transition = 1
+    end
     return {
         x = (a.x - b.x),
         y = (a.y - b.y),
+        transition = transition
         }
 end
 
@@ -77,12 +86,16 @@ while true do
     for k, _ in ipairs(prev.touches) do
         local delta = point_delta(current.touches[k],prev.touches[k])
         if (delta.x < 0) then
-            print("slide left", delta.x)
-            prev = current
+            print("slide left", delta.x, current.touches[1].touched, delta.transition)
         elseif (delta.x > 0) then
             print("slide right", delta.x)
-            prev = current
         end
+        if delta.transition == 1 then
+            print("touching.")
+        elseif delta.transition == -1 then
+            print("released.")
+        end
+        prev = current
     end
 end
 
