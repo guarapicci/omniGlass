@@ -15,7 +15,8 @@ You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your r
   - you do have a touchpad, right? is it working? did you plug it in?
   - your path will look like `/dev/input/by-id/0934:a26c touchpad` or `/dev/input/by-path/goofyahhchipset0318:platform-serio-1-event-mouse`
   - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`
-- 3: run "buildsample.sh". It will build the library and run a sample that uses your touchpad configuration.
+- 3: make sure your user has permission to access the touchpad device file, otherwise the program will fail unless you have root access
+- 4: run "buildsample.sh". It will build the library and run a sample that uses your touchpad configuration.
 
 ## What is this thing?
 
