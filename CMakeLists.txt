@@ -12,7 +12,9 @@ find_path(LIBEVDEV_INCLUDE_DIR libevdev.h
     PATH_SUFFIXES "libevdev" "libevdev-1.0/libevdev")
 
 file(MAKE_DIRECTORY "output" "output/lib" "output/bin")
-file(COPY_FILE "scripts/launcher.sh" "output/launcher.sh")
+#file(COPY "scripts/launcher.sh" DESTINATION ${CMAKE_BINARY_DIR})
+file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/src/omniglass_linux.lua ${CMAKE_CURRENT_BINARY_DIR}/bin/omniglass_linux.lua SYMBOLIC)
+file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/scripts/launcher.sh ${CMAKE_CURRENT_BINARY_DIR}/launcher.sh SYMBOLIC)
 
 # dependencies: lua 5.1 and libevdev
 find_library(evdev libevdev)
@@ -23,8 +25,9 @@ set_property(TARGET platform_linux
     PROPERTY POSITION_INDEPENDENT_CODE True)
     
 # platform uses libevdev and lua 5.1
-target_link_libraries(platform_linux evdev lua5.1)
-target_include_directories(platform_linux PUBLIC "/usr/include/lua5.1/" "/usr/include/lua51" "/usr/include/libevdev-1.0/")    
+target_link_libraries(platform_linux evdev)
+target_include_directories(platform_linux PUBLIC "/usr/include/lua5.1")
+#target_include_directories(platform_linux PUBLIC "/usr/include/lua5.1/" "/usr/include/lua51" "/usr/include/libevdev-1.0/")    
 add_library(omniglass_linux SHARED "src/omniglass.c")
 target_link_libraries(omniglass_linux lua5.1)
 
