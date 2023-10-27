@@ -4,7 +4,7 @@
 
 ## STATUS
 - linux evdev platform in progress.
-- a single gesture (slide left/right) is detected on the built-in demo.
+- built-in demo showcases slide left/right and pressure transition (as in: started pressing, stopped pressing).
 - removed the old sample application.
 - a misclanneous "linux nonblocking test" application demonstrates the workings and caveats of both reading in non-blocking mode and printing in small chunks.
 
