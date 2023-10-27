@@ -15,7 +15,7 @@ file(MAKE_DIRECTORY "output" "output/lib" "output/bin")
 #file(COPY "scripts/launcher.sh" DESTINATION ${CMAKE_BINARY_DIR})
 file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/src/omniglass_linux.lua ${CMAKE_CURRENT_BINARY_DIR}/bin/omniglass_linux.lua SYMBOLIC)
 file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/scripts/launcher.sh ${CMAKE_CURRENT_BINARY_DIR}/launcher.sh SYMBOLIC)
-file(COPY config.lua DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY templates/config.lua DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # dependencies: lua 5.1 and libevdev
 find_library(evdev libevdev)
