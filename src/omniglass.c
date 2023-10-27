@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#include <lua5.1/lua.h>
-#include <lua5.1/lauxlib.h>
-#include <lua5.1/lualib.h>
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
 
 #include "omniglass.h"
 #include "platform.h"
