@@ -21,8 +21,8 @@ You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your r
 ## EXPERIMENTAL CMAKE BUILDER
 There is a work-in-progress cmake file for cross-platform. Here is how you use it:
 - 1: run on shell: `cmake -S . -B output` to create a build folder at "output"
-- 2: `cd` to the output folder and run `make` to build the library.
-- 3: edit `bin/config.lua` to point to your touchpad device file.
+- 2: edit `templates/config.lua` to point to your touchpad device file.
+- 3: `cd` to the output folder and run `make` to build the library.
 - 4; run `cd bin; ./initialization_test`. You **must** be on the same folder as the binary, otherwise it will fail to load the libraries needed.
 
 ## What is this thing?
