@@ -12,10 +12,11 @@ find_path(LIBEVDEV_INCLUDE_DIR libevdev.h
     PATH_SUFFIXES "libevdev" "libevdev-1.0/libevdev")
 
 file(MAKE_DIRECTORY "output" "output/lib" "output/bin")
-#file(COPY "scripts/launcher.sh" DESTINATION ${CMAKE_BINARY_DIR})
-file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/src/omniglass_linux.lua ${CMAKE_CURRENT_BINARY_DIR}/bin/omniglass_linux.lua SYMBOLIC)
-file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/scripts/launcher.sh ${CMAKE_CURRENT_BINARY_DIR}/launcher.sh SYMBOLIC)
-file(COPY templates/config.lua DESTINATION ${CMAKE_BINARY_DIR}/bin)
+#file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/src/omniglass_linux.lua ${CMAKE_CURRENT_BINARY_DIR}/bin/omniglass_linux.lua SYMBOLIC)
+#file(CREATE_LINK ${CMAKE_CURRENT_SOURCE_DIR}/scripts/launcher.sh ${CMAKE_CURRENT_BINARY_DIR}/launcher.sh SYMBOLIC)
+configure_file(src/omniglass_linux.lua bin/omniglass_linux.lua COPYONLY)
+configure_file(templates/config.lua bin/config.lua COPYONLY)
+configure_file(scripts/launcher.sh ${CMAKE_BINARY_DIR} COPYONLY)
 
 # dependencies: lua 5.1 and libevdev
 find_library(evdev libevdev)
