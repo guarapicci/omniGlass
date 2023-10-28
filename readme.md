@@ -11,12 +11,19 @@
 ## HOW TO RUN
 You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
 - 1: enter the repository directory in your console with `cd`
-- 2: open "config.lua" on a text editor. plug into it a path to the touchpad's device file.
+- 2: open "templates/config.lua" on a text editor. plug into it a path to the touchpad's device file.
   - you do have a touchpad, right? is it working? did you plug it in?
   - your path will look like `/dev/input/by-id/0934:a26c touchpad` or `/dev/input/by-path/goofyahhchipset0318:platform-serio-1-event-mouse`
   - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`
 - 3: make sure your user has permission to access the touchpad device file, otherwise the program will fail unless you have root access
 - 4: run "buildsample.sh". It will build the library and run a sample that uses your touchpad configuration.
+
+## EXPERIMENTAL CMAKE BUILDER
+There is a work-in-progress cmake file for cross-platform. Here is how you use it:
+- 1: run on shell: `cmake -S . -B output` to create a build folder at "output"
+- 2: `cd` to the output folder and run `make` to build the library.
+- 3: edit `bin/config.lua` to point to your touchpad device file.
+- 4; run `cd bin; ./initialization_test`. You **must** be on the same folder as the binary, otherwise it will fail to load the libraries needed.
 
 ## What is this thing?
 
