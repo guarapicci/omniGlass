@@ -6,6 +6,7 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#include "constants.h"
 #include "omniglass.h"
 #include "platform.h"
 
@@ -25,7 +26,7 @@ struct omniglass{
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
 int omniglass_step(struct omniglass *handle){
     //call the step function at the lua VM
-    lua_pushstring(handle->vm,"step");
+    lua_getglobal(handle->vm,"step");
     lua_call(handle->vm,0,0);
     
     return 0;
@@ -108,8 +109,12 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
     }
     
     //Load core logic (configures gesture detection and event emission)
-    luaL_dofile((*handle)->vm, "./omniglass_core.lua");
-    
+    if(luaL_dofile((*handle)->vm, "omniglass_core.lua")){
+        printf("could not initialize omniglass lua core. Error: %s", luaL_checkstring((*handle)->vm,-1));
+        return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
+    }
+    printf("initialized omniglass core\n");
+    fflush(stdout);
     return OMNIGLASS_RESULT_SUCCESS;
 }
 

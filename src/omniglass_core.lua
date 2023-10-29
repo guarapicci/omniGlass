@@ -37,29 +37,34 @@ statemachines = {
 
 -- slide gesture detector task.
 -- current implementation: create a 2d direction vector from a two-point (previous -> current) path.
--- trigger 
 function create_task_slide ()
     local newtask = coroutine.create(function()
         local previous = platform:get_last_report()
         local current = previous
         while true do
+--             print("checking for slide")
             current = platform:get_last_report()
             local changed = false
-            for k, _ in ipairs(prev.touches) do
-                local delta = point_delta(current.touches[k],prev.touches[k])
+            for k, _ in ipairs(previous.touches) do
+--                 print("onetouch")
+                local delta = point_delta(current.touches[k],previous.touches[k])
                 if (delta.x ~= 0  and k == 1) then
-                    trigger_gesture_slide(delta.x)
+                    print("slide detected ", delta.x)
+                    omniglass:trigger_gesture_slide(delta.x)
                 end
             end
-            prev = current
+--             print("slide check over")
+            previous = current
             coroutine.yield()
         end
     end
     )
     return newtask
 end
+-- print("ms1 state machines")
 
 function listen_gesture_slide()
+    print("registered event")
     statemachines.slide = create_task_slide()
 end
 
@@ -69,9 +74,10 @@ end
 
 function step()
     platform:parse_events()
-    
+--     print("events acquired")
     --step through all registered gesture state machines
-    for name,task in statemachines do
+    for name,task in pairs(statemachines) do
         coroutine.resume(task)
     end
 end
+print("ms2: \n\t create_task_slide", create_task_slide)
