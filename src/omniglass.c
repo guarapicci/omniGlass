@@ -51,3 +51,10 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
     }
     return OMNIGLASS_RESULT_SUCCESS;
 }
+
+omniglass_api_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    lua_getglobal(vm,"listen_gesture_slide");
+        lua_call(vm,0,0);
+    return OMNIGLASS_API_GESTURE_OK;
+}
