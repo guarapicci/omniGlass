@@ -16,7 +16,10 @@
 struct omniglass{
     struct platform *platform; /**<touchpad device backends (evdev/HID/etc.) and all of their associated state go here*/
     lua_State *vm; /**<lua Virtual Machine (abbreviated as "vm")*/
-    omniglass_callback_slide cslide;
+    
+    // gesture trigger callbacks
+    // function pointers registered here will be called when their respective gesture happens.
+    omniglass_callback_slide cslide; /**< called on slide left/right.*/
 };
 
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
@@ -41,6 +44,19 @@ omniglass_api_result omniglass_listen_gesture_slide(struct omniglass *handle, om
     return OMNIGLASS_API_GESTURE_OK;
 }
 
+/** remove the listener for touch slide gestures. 
+ *  @param handle a handle to omniglass.
+ * */
+void omniglass_disable_gesture_slide(struct omniglass *handle){
+    lua_getglobal(handle->vm,"disable_gesture_slide");
+    lua_call(handle->vm, 0, 0);
+    handle->cslide = NULL;
+    return;
+}
+
+/** (LUA-FACING)
+ *  trigger the application's registered callback for the slide action
+ */
 int trigger_gesture_slide(lua_State *vm){
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
     double slide_amount = luaL_checknumber(vm,2);
@@ -58,18 +74,20 @@ luaL_Reg core_api_cfuncs [] = {
  @param handle pointer to a pointer of omniglass.
  */
 omniglass_operation_results omniglass_init(struct omniglass **handle){
-    
     //prepare a lua instance.
     lua_State *vm = luaL_newstate();
     if(vm == NULL)
         return OMNIGLASS_RESULT_NOMEM;
     luaL_openlibs(vm);
-    (*handle)->vm = vm;
+    printf("creating omniglass handle\n");
+    fflush(stdout);
     
     //create omniglass state structure with valid initial values.
     *handle = lua_newuserdata(vm, sizeof(struct omniglass));
     (*handle)->cslide = NULL;
+    (*handle)->vm = vm;
     
+    printf("pushing core C API.\n");
         //push core C functions into lua omniglass table
         luaL_newmetatable(vm, OMNIGLASS_CLASS_NAME_META);    // the "omniglass" metatable holds native operations
                 lua_pushstring(vm,"__index");

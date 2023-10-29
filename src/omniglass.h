@@ -30,4 +30,4 @@ typedef void (*omniglass_callback_released)(int);
 int omniglass_register_callback(struct omniglass *handle, void (*callback) ());
 
 omniglass_api_result omniglass_listen_gesture_slide(struct omniglass *handle,omniglass_callback_slide callback);
-omniglass_api_result omniglass_disable_gesture_slide(struct omniglass *handle);
+void omniglass_disable_gesture_slide(struct omniglass *handle);
