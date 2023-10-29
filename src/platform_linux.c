@@ -172,7 +172,7 @@ int platform_get_last_report(lua_State *vm){
     return 1;   
 }
 
-//functions used during linux backend initialization.
+//platform functions implemented by the linux backend.
 static luaL_Reg platform_funcs [] = {
     {"evdev_init", platform_evdev_init},
     {"get_last_report", platform_get_last_report},
