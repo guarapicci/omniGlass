@@ -151,18 +151,6 @@ int platform_parse_events(lua_State *vm){
     return 0;
 };
 
-
-// typedef struct multitouch_report{
-//     touch_point *touches;/**<ordered array of touch points (each index identifies a single finger)*/
-//     extended_touch_parameter **extended_touch_parameters;/**<ordered array of touch parameter arrays*/
-// } multitouch_report;
-
-// typedef struct touch_point{
-//     int x;
-//     int y;
-//     bool touched;
-// } touch_point;
-
 /** (LUA-FACING)
  *  push latest report from the platform into lua 
  */
@@ -223,29 +211,3 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     
     return OMNIGLASS_PLATFORM_INIT_SUCCESS;
 }
-
-//(outdated test code for r1 monolithic architecture)
-/*
-int main (int argc, char ** argv){
-    struct platform *platform;
-    platform_evdev_init(platform, argv[1]);
-    
-    while(true){
-        if(!platform_parse_events(platform)){
-            for(int i=0;i<platform->max_touchpoints;i++){
-                printf("touch%d:",i);
-                if(platform->report->touches[i].touched==0)
-                    printf("(lifted) ");
-                else{
-                    printf("(%d,%d) ",platform->report->touches[i].x,platform->report->touches[i].y);
-                }
-            }
-            printf("\n");
-            fflush(stdout);
-        }
-        
-    }
-    
-    
-}
-*/
