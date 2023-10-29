@@ -8,7 +8,7 @@ function cmgen() {
 }
 
 function rebuild() {
-    { [ -v OMNIGLASS_BUILDER_WAS_GENERATED ] || cmgen; } &&\
+    { [ -v OMNIGLASS_BUILDER_WAS_GENERATED ] && [ -d $OMNIGLASS_BUILD_DIR ] || cmgen; } &&\
     cd "$OMNIGLASS_BUILD_DIR" &&\
     make;
     cd "$OMNIGLASS_PROJECT_ROOT"
