@@ -13,3 +13,14 @@ function rebuild() {
     make;
     cd "$OMNIGLASS_PROJECT_ROOT"
 }
+
+function debug {
+    { [ -v 1 ] && echo "running $1 with lua remote debug" || echo "please provide the executable name as argument"; } && (
+    export ZBS=/opt/zbstudio
+    export LUA_PATH="./?.lua;$ZBS/lualibs/?/?.lua;$ZBS/lualibs/?.lua"
+    export LUA_CPATH="$ZBS/bin/linux/x64/?.so;$ZBS/bin/linux/x64/clibs/?.so"
+    cd $OMNIGLASS_BUILD_DIR/bin/
+    ./$1
+    cd $OMNIGLASS_PROJECT_ROOT;
+    )
+}
