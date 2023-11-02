@@ -57,6 +57,8 @@ int main(int argc, char **argv) {
 ## WINDOWS PORTING
 I wanna make a windows port of this. how? subjects to search:
 - windows rawInputDevice API
+  - `GetRawInputDeviceList()` will return a list of available raw input devices
+  - raw input devices returned by the list can be queried for HID data and identification
 - windows device interface class
 - HID API????
 
