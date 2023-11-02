@@ -1,22 +1,64 @@
 # Omni-Glass: touchpad gestures library
 
-## (DISCLAIMER) This is W.I.P: only a small linux platform test is available right now.
+## (DISCLAIMER) This is W.I.P. demo available at src/tests/swipetap.c
 
 ## STATUS
-- linux evdev platform in progress.
-- built-in demo showcases slide left/right and pressure transition (as in: started pressing, stopped pressing).
-- removed the old sample application.
-- a misclanneous "linux nonblocking test" application demonstrates the workings and caveats of both reading in non-blocking mode and printing in small chunks.
+- linux evdev platform glues libevdev to the gesture engine internals
+- built-in "swipetap" demo showcases slide left/right and pressure transition (as in: started pressing, stopped pressing).
+- new `utils.sh` module for build tools. See **"how to run"** for more details.
 
 ## HOW TO RUN
 You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
-- 1: enter the repository directory in your console with `cd`
+- Inside the project's root folder, call `source utils.sh` to load the functions into your unix shell, then:
+  - use `cmgen` to run cmake with the project's defaults
+  - use `rebuild` to recompile sources... presuming it's a makefile.
+  - use `debug <binary>` to run an executable `<binary>` must be replaced by one of:
+    - `swipetap` - an example that detects left/right swipel
+    - `init` - this executable just runs platform init. it fails if the system cannot connect to your touchpad.
 - 2: open "templates/config.lua" on a text editor. plug into it a path to the touchpad's device file.
   - you do have a touchpad, right? is it working? did you plug it in?
   - your path will look like `/dev/input/by-id/0934:a26c touchpad` or `/dev/input/by-path/goofyahhchipset0318:platform-serio-1-event-mouse`
   - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`
 - 3: make sure your user has permission to access the touchpad device file, otherwise the program will fail unless you have root access
 - 4: run "buildsample.sh". It will build the library and run a sample that uses your touchpad configuration.
+  
+## example: swipetap.c (shows how to use the API)
+```C
+#include "../omniglass.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+void on_slide(double value) {
+    if (value < 0)
+        printf("moved left\t\t%g\n", value);
+    else if (value > 0)
+        printf("moved right\t\t%g\n",value);
+    fflush(stdout);
+}
+
+int main(int argc, char **argv) {
+        
+    struct omniglass *handle;
+    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS)
+        fprintf(stderr,"could not initialize omniglass.\n");
+    omniglass_listen_gesture_slide(handle,&on_slide);
+    fflush(stdout);
+    printf("starting event loop\n");
+    while (true) {
+        omniglass_step(handle);
+    }
+    
+    return 0;
+}
+
+```
+
+## WINDOWS PORTING
+I wanna make a windows port of this. how? subjects to search:
+- windows rawInputDevice API
+- windows device interface class
+- HID API????
 
 ## EXPERIMENTAL CMAKE BUILDER
 There is a work-in-progress cmake file for cross-platform. Here is how you use it:
