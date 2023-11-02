@@ -12,7 +12,7 @@ You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your r
 - Inside the project's root folder, call `source utils.sh` to load the functions into your unix shell, then:
   - use `cmgen` to run cmake with the project's defaults
   - use `rebuild` to recompile sources... presuming it's a makefile.
-  - use `debug <binary>` to run an executable `<binary>` must be replaced by one of:
+  - use `debug <binary>` to run an executable. `<binary>` must be replaced by one of:
     - `swipetap` - an example that detects left/right swipel
     - `init` - this executable just runs platform init. it fails if the system cannot connect to your touchpad.
 - 2: open "templates/config.lua" on a text editor. plug into it a path to the touchpad's device file.
