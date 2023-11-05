@@ -21,6 +21,7 @@ struct omniglass{
     // gesture trigger callbacks
     // function pointers registered here will be called when their respective gesture happens.
     omniglass_callback_slide cslide; /**< called on slide left/right.*/
+    omniglass_callback_edge cedge;
 };
 
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
@@ -65,8 +66,42 @@ int trigger_gesture_slide(lua_State *vm){
     return 0;
 }
 
+/** register a listener for bottom edge slide gestures.
+ *  @param handle a handle to omniglass.
+ * @param callback this function will be called whenever a slide is detected at the bottom edge.
+ */
+omniglass_api_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    handle->cedge = callback;
+    lua_getglobal(vm,"listen_gesture_edge");
+        lua_call(vm,0,0);
+    return OMNIGLASS_API_GESTURE_OK;
+}
+
+/** remove the listener for bottom edge slide gestures.
+ *  @param handle a handle to omniglass.
+ * */
+void omniglass_disable_gesture_edge(struct omniglass *handle){
+    lua_getglobal(handle->vm,"disable_gesture_edge");
+    lua_call(handle->vm, 0, 0);
+    handle->cedge = NULL;
+    return;
+}
+
+/** (LUA-FACING)
+ *  trigger the application's registered callback for the bottom edge slide action
+ */
+int trigger_gesture_edge(lua_State *vm){
+    struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
+    double slide_amount = luaL_checknumber(vm,2);
+    handle->cedge(luaL_checknumber(vm,2));
+    return 0;
+}
+
+
 luaL_Reg core_api_cfuncs [] = {
     {"trigger_gesture_slide", trigger_gesture_slide},
+    {"trigger_gesture_edge", trigger_gesture_edge},
     {NULL, NULL}
 };
 

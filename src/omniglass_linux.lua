@@ -6,7 +6,9 @@ local paths = {
     "/usr/share/omniGlass/config.lua"
 }
 
-local config = {}
+-- global configuration table (with everything the user defined for their setup)
+-- TODO: move the acquisition of this config script to the core lua init
+config = {}
 
 --initialize the evdev backend
 do

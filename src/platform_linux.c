@@ -156,7 +156,7 @@ int platform_parse_events(lua_State *vm){
  */
 int platform_get_last_report(lua_State *vm){
     struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
-    
+
     multitouch_report *current = platform->report;
     lua_newtable(vm);
         lua_pushstring(vm,"touches");
@@ -172,11 +172,35 @@ int platform_get_last_report(lua_State *vm){
     return 1;   
 }
 
+
+/** (LUA-FACING)
+/** push coordinates of top-right corner into the virtual machine as a point
+ */
+int platform_get_touchpad_boundaries(lua_State *vm){
+    struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
+    struct libevdev *evdev = platform->touchpad_handle;
+
+    int max_x = 0;
+    int max_y = 0;
+    max_x = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_X);
+    max_y = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_Y);
+//     printf("c-side dump: %d %d", max_x, max_y);
+    lua_newtable(vm);
+        lua_pushstring(vm, "max_x");
+            lua_pushnumber(vm, (double) max_x);
+                lua_settable(vm,-3);
+        lua_pushstring(vm, "max_y");
+            lua_pushnumber(vm, (double) max_y);
+                lua_settable(vm,-3);
+    return 1;
+}
+
 //platform functions implemented by the linux backend.
 static luaL_Reg platform_funcs [] = {
     {"evdev_init", platform_evdev_init},
     {"get_last_report", platform_get_last_report},
     {"parse_events", platform_parse_events},
+    {"get_touchpad_boundaries", platform_get_touchpad_boundaries},
     {NULL,NULL}
 };
 

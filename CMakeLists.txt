@@ -41,3 +41,7 @@ target_link_libraries(initialization_test omniglass_linux lua5.1)
 # demo showcasing left/right slide and tapping
 add_executable(swipetap "src/tests/swipetap.c")
 target_link_libraries(swipetap omniglass_linux)
+
+# demo for bottom edge slide
+add_executable(edge_swipe "src/tests/edge_swipe.c")
+target_link_libraries(edge_swipe omniglass_linux)
