@@ -38,12 +38,12 @@ int omniglass_step(struct omniglass *handle){
  *  @param handle a handle to omniglass.
  * @param callback this function will be called whenever a slide gesture is detected.
  */
-omniglass_api_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback){
+omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback){
     lua_State *vm = handle->vm;
     handle->cslide = callback;
     lua_getglobal(vm,"listen_gesture_slide");
-        lua_call(vm,0,0);
-    return OMNIGLASS_API_GESTURE_OK;
+        lua_call(vm, 0, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
 }
 
 /** remove the listener for touch slide gestures. 
@@ -66,16 +66,17 @@ int trigger_gesture_slide(lua_State *vm){
     return 0;
 }
 
-/** register a listener for bottom edge slide gestures.
+/** register a listener for edge slide gestures.
  *  @param handle a handle to omniglass.
  * @param callback this function will be called whenever a slide is detected at the bottom edge.
  */
-omniglass_api_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback){
+omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback, omniglass_touchpad_edge edge){
     lua_State *vm = handle->vm;
     handle->cedge = callback;
     lua_getglobal(vm,"listen_gesture_edge");
-        lua_call(vm,0,0);
-    return OMNIGLASS_API_GESTURE_OK;
+        lua_pushnumber(vm, edge);
+        lua_call(vm, 1, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
 }
 
 /** remove the listener for bottom edge slide gestures.

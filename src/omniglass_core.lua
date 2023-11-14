@@ -1,4 +1,3 @@
-
 touchpad = {}
 
 print("lua-side parameter dump")
@@ -108,31 +107,45 @@ function disable_gesture_slide()
     statemachines.slide = nil
 end
 
-function create_task_edge ()
+function create_task_edge (selected_edge)
     local newtask = coroutine.create(function()
         print("creating the edge swipe state machine")
         local previous = getpoints()
         local current = previous
-        local edgemap = {
-            left = (touchpad.boundaries.max_x * config.edge_width),
-            right = touchpad.boundaries.max_x - (touchpad.boundaries.max_x * config.edge_width),
-            bottom = (touchpad.boundaries.max_y * config.edge_width),
-            top = touchpad.boundaries.max_y - (touchpad.boundaries.max_y * config.edge_width),
+        --TODO: GET GENERATED INDEXES FROM C ENUMS
+        local C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX = {
+            [0] = "left",
+            [1] = "right",
+            [2] = "top",
+            [3] = "bottom"
         }
-        print(string.format("edges have been assigned. \n {"))
-        for k, v in pairs(edgemap) do
-            print(string.format("\t%s:\t%d",k, v))
-        end
+        local edge_checkers = {
+            left = function(current, delta)
+                local boundary = touchpad.boundaries.max_x * config.edge_width
+                return (current.x < boundary), (delta.y)
+            end,
+            right = function(current, delta)
+                local boundary = touchpad.boundaries.max_x - (touchpad.boundaries.max_x * config.edge_width)
+                return (current.x > boundary), (delta.y)
+            end,
+            bottom = function (current, delta)
+                local boundary = (touchpad.boundaries.max_y * config.edge_width)
+                return (current.y < boundary), (delta.x)
+            end,
+            top = function(current, delta)
+                local boundary = touchpad.boundaries.max_y - (touchpad.boundaries.max_y * config.edge_width)
+                return (current.y > boundary), (delta.x)
+            end
+        }
         print(string.format("\t}"))
         print("reached edge init")
         while true do
             current = getpoints()
-            if(current[1].y < edgemap.bottom) then
-                local offset = point_delta(current[1], previous[1])
-                if (offset.x ~= 0) then
-                    print("bottom edge slide triggered")
-                    omniglass:trigger_gesture_edge(offset.x)
-                end
+            local delta = point_delta(current[1], previous[1])
+            local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
+            local in_border, offset = edge_checkers[edge](current[1], delta)
+            if in_border then
+                omniglass:trigger_gesture_edge(offset)
             end
             previous=current
             coroutine.yield()
@@ -141,9 +154,9 @@ function create_task_edge ()
     return newtask
 end
 
-function listen_gesture_edge()
+function listen_gesture_edge(selected_edge)
     print("registered event")
-    statemachines.edge = create_task_edge()
+    statemachines.edge = create_task_edge(selected_edge)
 end
 
 function disable_gesture_edge()

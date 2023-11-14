@@ -28,10 +28,10 @@ typedef void (*omniglass_callback_pressed)(int);
 typedef void (*omniglass_callback_released)(int);
 typedef void (*omniglass_callback_edge)(double);
 
-int omniglass_register_callback(struct omniglass *handle, void (*callback) ());
+int omniglass_register_callback(struct omniglass *handle, void (*callback) (), omniglass_touchpad_edge edge);
 
-omniglass_api_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
 void omniglass_disable_gesture_slide(struct omniglass *handle);
 
-omniglass_api_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback, omniglass_touchpad_edge edge);
 void omniglass_disable_gesture_edge(struct omniglass *handle);
