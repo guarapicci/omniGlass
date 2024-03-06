@@ -22,6 +22,10 @@ struct omniglass{
     // function pointers registered here will be called when their respective gesture happens.
     omniglass_callback_slide cslide; /**< called on slide left/right.*/
     omniglass_callback_edge cedge;
+    omniglass_callback_edge cedge_left;
+    omniglass_callback_edge cedge_right;
+    omniglass_callback_edge cedge_top;
+    omniglass_callback_edge cedge_bottom;
 };
 
 /**step function. user code must schedule to call this at ~100hz or more for responsiveness*/
@@ -73,13 +77,67 @@ int trigger_gesture_slide(lua_State *vm){
 omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback, omniglass_touchpad_edge edge){
     lua_State *vm = handle->vm;
     handle->cedge = callback;
+    switch(edge){
+        case OMNIGLASS_EDGE_LEFT:
+            handle->cedge_left = callback;
+            break;
+        case OMNIGLASS_EDGE_RIGHT:
+            handle->cedge_right = callback;
+            break;
+        case OMNIGLASS_EDGE_TOP:
+            handle->cedge_top = callback;
+            break;
+        case OMNIGLASS_EDGE_BOTTOM:
+            handle->cedge_bottom = callback;
+            break;
+    }
     lua_getglobal(vm,"listen_gesture_edge");
         lua_pushnumber(vm, edge);
         lua_call(vm, 1, 0);
     return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
 }
 
-/** remove the listener for bottom edge slide gestures.
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    handle->cedge_left = callback;
+    omniglass_touchpad_edge the_edge = OMNIGLASS_EDGE_LEFT;
+    lua_getglobal(vm,"listen_gesture_edge");
+        lua_pushnumber(vm, the_edge);
+        lua_call(vm, 1, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
+}
+
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    handle->cedge_right = callback;
+    omniglass_touchpad_edge the_edge = OMNIGLASS_EDGE_RIGHT;
+    lua_getglobal(vm,"listen_gesture_edge");
+        lua_pushnumber(vm, the_edge);
+        lua_call(vm, 1, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
+}
+
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    handle->cedge_top = callback;
+    omniglass_touchpad_edge the_edge = OMNIGLASS_EDGE_TOP;
+    lua_getglobal(vm,"listen_gesture_edge");
+        lua_pushnumber(vm, the_edge);
+        lua_call(vm, 1, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
+}
+
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_slide callback){
+    lua_State *vm = handle->vm;
+    handle->cedge_bottom = callback;
+    omniglass_touchpad_edge the_edge = OMNIGLASS_EDGE_BOTTOM;
+    lua_getglobal(vm,"listen_gesture_edge");
+        lua_pushnumber(vm, the_edge);
+        lua_call(vm, 1, 0);
+    return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
+}
+
+/** remove the listeners for any edge slide gestures.
  *  @param handle a handle to omniglass.
  * */
 void omniglass_disable_gesture_edge(struct omniglass *handle){
@@ -90,12 +148,26 @@ void omniglass_disable_gesture_edge(struct omniglass *handle){
 }
 
 /** (LUA-FACING)
- *  trigger the application's registered callback for the bottom edge slide action
+ *  trigger the application's registered callback for an edge slide action
  */
 int trigger_gesture_edge(lua_State *vm){
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
     double slide_amount = luaL_checknumber(vm,2);
-    handle->cedge(luaL_checknumber(vm,2));
+    omniglass_touchpad_edge edge = luaL_checknumber(vm, 3);
+    switch(edge){
+        case OMNIGLASS_EDGE_LEFT:
+            handle->cedge_left(luaL_checknumber(vm,2));
+            break;
+        case OMNIGLASS_EDGE_RIGHT:
+            handle->cedge_right(luaL_checknumber(vm,2));
+            break;
+        case OMNIGLASS_EDGE_TOP:
+            handle->cedge_top(luaL_checknumber(vm,2));
+            break;
+        case OMNIGLASS_EDGE_BOTTOM:
+            handle->cedge_bottom(luaL_checknumber(vm,2));
+            break;
+    }
     return 0;
 }
 

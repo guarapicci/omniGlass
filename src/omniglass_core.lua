@@ -145,7 +145,7 @@ function create_task_edge (selected_edge)
             local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
             local in_border, offset = edge_checkers[edge](current[1], delta)
             if in_border then
-                omniglass:trigger_gesture_edge(offset)
+                omniglass:trigger_gesture_edge(offset, selected_edge)
             end
             previous=current
             coroutine.yield()
@@ -156,11 +156,16 @@ end
 
 function listen_gesture_edge(selected_edge)
     print("registered event")
-    statemachines.edge = create_task_edge(selected_edge)
+    local edges = {"left","right","top","bottom"}
+    local task_title = "edge_"..edges[selected_edge + 1]
+    statemachines[task_title] = create_task_edge(selected_edge)
 end
 
 function disable_gesture_edge()
-    statemachines.edge = nil
+    local edges = {"left","right","top","bottom"}
+    for _, variation in pairs(edges) do
+        statemachines["edge_"..variation] = nil
+    end
 end
 
 

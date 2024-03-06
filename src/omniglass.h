@@ -35,3 +35,8 @@ void omniglass_disable_gesture_slide(struct omniglass *handle);
 
 omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback, omniglass_touchpad_edge edge);
 void omniglass_disable_gesture_edge(struct omniglass *handle);
+
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_slide callback);

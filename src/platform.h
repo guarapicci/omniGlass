@@ -61,7 +61,7 @@ typedef struct touch_point{
 typedef enum touchParameter {
     PRESSURE, /**< pressure (unknown metric) */
     AREA,   /**< area of the touch being tracked, in cm^2 */
-    DISTANCE_TO_SURFACE /** (note: only Galaxy S5 mini digitizers are known to have this feature) distance between object extremity and the sensitive surface, in millimters accross the surface normal.*/
+    DISTANCE_TO_SURFACE /** (note: only Galaxy S5 mini digitizers are reported  to have this feature) distance between object extremity and the sensitive surface, in millimters accross the surface normal.*/
 } touch_parameter;
 
 //extended parameters (many touchpad drivers may not support any of these.)
@@ -107,3 +107,15 @@ int platform_parse_events(lua_State *vm);
  * called by the lua VM to get the last touch report generated.
  */
 int platform_get_last_report(lua_State *vm);
+
+/** register a listener for touch slide gestures. 
+ *  @param handle a handle to omniglass.
+ * @param callback this function will be called whenever a slide gesture is detected.
+ */
+omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
+
+/** remove the listener for touch slide gestures. 
+ *  @param handle a handle to omniglass.
+ * */
+void omniglass_disable_gesture_slide(struct omniglass *handle);
+
