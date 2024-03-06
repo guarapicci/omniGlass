@@ -45,3 +45,7 @@ target_link_libraries(swipetap omniglass_linux)
 # demo for bottom edge slide
 add_executable(edge_swipe "src/tests/edge_swipe.c")
 target_link_libraries(edge_swipe omniglass_linux)
+
+# demo for multi edge slide
+add_executable(edge_swipe_multi "src/tests/edge_swipe_multi.c")
+target_link_libraries(edge_swipe_multi omniglass_linux)
