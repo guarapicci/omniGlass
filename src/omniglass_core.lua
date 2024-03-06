@@ -138,7 +138,7 @@ function create_task_edge (selected_edge)
             end
         }
         print(string.format("\t}"))
-        print("reached edge init")
+        print("reached edge init for "..C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge])
         while true do
             current = getpoints()
             local delta = point_delta(current[1], previous[1])
