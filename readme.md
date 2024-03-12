@@ -1,17 +1,17 @@
-# Omni-Glass: touchpad gestures library
+# omniGlass: touchpad gestures library
 
-## (DISCLAIMER) This is W.I.P. demos available at src/tests/
+## (DISCLAIMER) This is W.I.P; examples available at src/tests/
 
 ## STATUS
 - gestures supported right now: left/right drag, edge-swipe on left/right/up/down (4 edges available)
-- **omniglass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
+- **omniGlass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
 
 ## Quick-start
 - 1: go to project folder, open a shell.
-- 2: add your touchpad at `templates/config.lua`
+- 2: open `templates/config.lua` on a text editor, add your touchpad (path: "/dev/input/by-id/somethingsomething") there.
 - 3: `source utils.sh && cmgen && rebuild && reinstall && debug edge_swipe_multi`.
 - 4: That's it. You now have omniGlass installed and descriptive text will appear on the shell if you drag your finger accross the borders of the touchpad.
-## HOW TO RUN
+## Detailed instructions (if quick start failed)
 You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
 
 - 1: open "templates/config.lua" on a text editor. plug into it a path to the touchpad's device file.
