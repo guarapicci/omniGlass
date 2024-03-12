@@ -2,6 +2,7 @@
 /** \file platform_linux.c
  *  \brief linux-evdev implementation for the omniglass touchpad platform
  */
+
 #include <linux/input-event-codes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +23,7 @@
 
 #define PLATFORM_CLASS_NAME_META "platform_meta"
 #define PLATFORM_CLASS_NAME_GLOBAL "platform"
+
 
 /** all state for the linux platform*/
 struct platform{
@@ -228,7 +230,7 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     lua_setglobal(vm, PLATFORM_CLASS_NAME_GLOBAL);
     
     //run the real configuration process as a lua script.
-    if(luaL_dofile(vm, "omniglass_linux.lua")){
+    if(luaL_dofile(vm, OMNIGLASS_ENV_LIB_FOLDER "/omniglass_linux.lua")){
         printf("omniglass could not connect to an available touchpad device.\nerror: %s", luaL_checkstring(vm,-1));
         return OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD;
     }

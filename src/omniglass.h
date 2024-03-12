@@ -6,6 +6,7 @@
   */
 
 #include "constants.h"
+#include "config.h"
 /** opaque omniGlass structure used by all user-facing library calls */
 struct omniglass;
 

@@ -4,11 +4,14 @@ project(omniGlass
     DESCRIPTION "omni-glass touch gesture platform prototype"
 )
 
+include(GNUInstallDirs)
+
 set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 
 file(MAKE_DIRECTORY "output" "output/lib" "output/bin")
 
@@ -49,3 +52,16 @@ target_link_libraries(edge_swipe omniglass_linux)
 # demo for multi edge slide
 add_executable(edge_swipe_multi "src/tests/edge_swipe_multi.c")
 target_link_libraries(edge_swipe_multi omniglass_linux)
+
+install(TARGETS omniglass_linux 
+        LIBRARY
+            DESTINATION ${CUSTOM_LIB_FOLDER})
+install(PROGRAMS "src/omniglass_core.lua" "src/omniglass_linux.lua"
+        DESTINATION ${CUSTOM_LIB_FOLDER}/omniGlass)
+install(PROGRAMS "templates/config.lua"
+        DESTINATION ${CUSTOM_CONFIG_FOLDER}/omniGlass)
+install(FILES "src/omniglass.h" "src/config.h"
+        DESTINATION ${CUSTOM_INCLUDE_FOLDER}/omniGlass)
+install(TARGETS edge_swipe_multi
+        RUNTIME
+            DESTINATION ${CUSTOM_EXEC_FOLDER}/omniGlass)

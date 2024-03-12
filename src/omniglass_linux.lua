@@ -3,7 +3,7 @@ local paths = {
     "config.lua",
     --(lua does not recognize the home directory macro)
     --"~/.config/omniGlass/config.lua",
-    "/usr/share/omniGlass/config.lua"
+    "/etc/omniGlass/config.lua"
 }
 
 -- global configuration table (with everything the user defined for their setup)

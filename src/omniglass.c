@@ -217,7 +217,7 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
     }
     
     //Load core logic (configures gesture detection and event emission)
-    if(luaL_dofile((*handle)->vm, "omniglass_core.lua")){
+    if(luaL_dofile((*handle)->vm, OMNIGLASS_ENV_LIB_FOLDER "/omniglass_core.lua")){
         printf("could not initialize omniglass lua core. Error: %s", luaL_checkstring((*handle)->vm,-1));
         return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
     }
