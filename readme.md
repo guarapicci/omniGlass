@@ -3,19 +3,21 @@
 ## (DISCLAIMER) This is W.I.P. demos available at src/tests/
 
 ## STATUS
-- this library already has a few gestures available on the public API.
-- `utils.sh` is now the default option for running demos and running build tasks.
-- built-in "edge_swipe" demo demonstrates swipe motion constrained to the bottom edge
-- built-in "swipetap" demo showcases slide left/right and pressure transition (as in: started pressing, stopped pressing).
-- configuration file now has options for X/Y axis flip and for setting border width. the default of 0.1 means touches at up to 10% the full height is inside the bottom edge area.
+- gestures supported right now: left/right drag, edge-swipe on left/right/up/down (4 edges available)
+- **omniglass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
 
+## Quick-start
+- 1: go to project folder, open a shell.
+- 2: add your touchpad at `templates/config.lua`
+- 3: `source utils.sh && cmgen && rebuild && reinstall && debug edge_swipe_multi`.
+- 4: That's it. You now have omniGlass installed and descriptive text will appear on the shell if you drag your finger accross the borders of the touchpad.
 ## HOW TO RUN
 You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
 
 - 1: open "templates/config.lua" on a text editor. plug into it a path to the touchpad's device file.
   - you do have a touchpad, right? is it working? did you plug it in?
   - your path will look like `/dev/input/by-id/0934:a26c touchpad` or `/dev/input/by-path/goofyahhchipset0318:platform-serio-1-event-mouse`
-  - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`
+  - you can also choose the raw event files at `/dev/input` instead. running `evtest` as sudo will tell you which device file number relates to which device, as in: `6: touchpad-renesi`. **beware: files on this folder switch numbers often.**
 - 2: make sure your user has permission to access the touchpad device file, otherwise the program will fail unless you have root access
 - 3: Inside the project's root folder, call `source utils.sh` to load the functions into your unix shell, then:
   - use `cmgen` to run cmake with the project's defaults
@@ -24,7 +26,7 @@ You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your r
     - `edge_swipe` - an example that detects motion at the lower 10% of the touchpad by default (edge width can be changed in coonfig file)
     - `swipetap` - an example that detects left/right swipel
     - `init` - this executable just runs platform init. it fails if the system cannot connect to your touchpad.
-  
+  - use `reinstall` to install omniGlass as a shared library. This enables omniGlass gestures on applications that support it.
 ## example: swipetap.c (shows how to use the API)
 ```C
 #include "../omniglass.h"
