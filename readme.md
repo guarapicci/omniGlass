@@ -6,6 +6,10 @@
 - gestures supported right now: left/right drag, edge-swipe on left/right/up/down (4 edges available)
 - **omniGlass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
 
+
+https://github.com/guarapicci/omniGlass/assets/143821200/c59977a2-5516-438c-8ba7-a594fc1d1912
+
+
 ## Quick-start
 - 1: go to project folder, open a shell.
 - 2: open `templates/config.lua` on a text editor, add your touchpad (path: "/dev/input/by-id/somethingsomething") there.
