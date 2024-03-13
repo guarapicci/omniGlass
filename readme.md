@@ -2,12 +2,17 @@
 
 ## (DISCLAIMER) This is W.I.P; examples available at src/tests/
 
+
+
+
+
 ## STATUS
 - gestures supported right now: left/right drag, edge-swipe on left/right/up/down (4 edges available)
 - **omniGlass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
+  
+https://github.com/guarapicci/omniGlass/assets/143821200/0ef46864-e9b8-4218-96c3-8b4d17b1e7ef
 
-
-https://github.com/guarapicci/omniGlass/assets/143821200/c59977a2-5516-438c-8ba7-a594fc1d1912
+mpv-omniglass is the first piece of software to link to libomniglass.
 
 
 ## Quick-start
