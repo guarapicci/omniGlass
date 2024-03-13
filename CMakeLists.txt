@@ -60,7 +60,7 @@ install(PROGRAMS "src/omniglass_core.lua" "src/omniglass_linux.lua"
         DESTINATION ${CUSTOM_LIB_FOLDER}/omniGlass)
 install(PROGRAMS "templates/config.lua"
         DESTINATION ${CUSTOM_CONFIG_FOLDER}/omniGlass)
-install(FILES "src/omniglass.h" "src/config.h"
+install(FILES "src/omniglass.h" "src/config.h" "src/constants.h"
         DESTINATION ${CUSTOM_INCLUDE_FOLDER}/omniGlass)
 install(TARGETS edge_swipe_multi
         RUNTIME
