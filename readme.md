@@ -12,7 +12,7 @@
   
 https://github.com/guarapicci/omniGlass/assets/143821200/0ef46864-e9b8-4218-96c3-8b4d17b1e7ef
 
-mpv-omniglass is the first piece of software to link to libomniglass.
+[mpv-omniglass](https://github.com/guarapicci/mpv-omniGlass/tree/main) is the first piece of software to link to libomniglass.
 
 
 ## Quick-start
