@@ -20,6 +20,8 @@ function getpoints()
 
         if (config.invert_x) then do result.x = (touchpad.boundaries.max_x - point.x) end
         else do result.x = point.x end end
+        
+        result.touched = point.touched
 
         return result
     end
@@ -84,7 +86,7 @@ function create_task_slide ()
 --                 print("onetouch")
                 local delta = point_delta(current[k], previous[k])
                 if (delta.x ~= 0  and k == 1) then
-                    print("slide detected ", delta.x)
+--                     print("slide detected ", delta.x)
                     omniglass:trigger_gesture_slide(delta.x)
                 end
             end
@@ -141,11 +143,22 @@ function create_task_edge (selected_edge)
         print("reached edge init for "..C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge])
         while true do
             current = getpoints()
-            local delta = point_delta(current[1], previous[1])
-            local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
-            local in_border, offset = edge_checkers[edge](current[1], delta)
-            if in_border then
-                omniglass:trigger_gesture_edge(offset, selected_edge)
+--             print(string.format("%d; %d; %s", current[1].x, current[1].y, tostring(current[1].touched)))
+--             print("current point touch is", current.touched)
+            
+--             make sure there has been a contact point for at least the last 2 readings.
+--             this is meant to avoid cases where lifting a finger in one spot
+--             and then touching on another counts as a sliding motion.
+            if((previous[1].touched == true) and (current[1].touched == true)) then
+--                 print("touched.")
+                local delta = point_delta(current[1], previous[1])
+                local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
+                local in_border, offset = edge_checkers[edge](current[1], delta)
+                if in_border then
+                    omniglass:trigger_gesture_edge(offset, selected_edge)
+                end
+            else
+--                 print("not touched.")
             end
             previous=current
             coroutine.yield()
@@ -172,7 +185,7 @@ end
 function step()
     platform:parse_events()
 --     print("events acquired")
-    --step through all registered gesture state machines
+--     step through all registered gesture state machines
     for name,task in pairs(statemachines) do
         local running, condition = coroutine.resume(task)
         if not running then
