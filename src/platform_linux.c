@@ -3,6 +3,7 @@
  *  \brief linux-evdev implementation for the omniglass touchpad platform
  */
 
+#include <asm-generic/errno-base.h>
 #include <linux/input-event-codes.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -116,10 +117,9 @@ int platform_parse_events(lua_State *vm){
     int slot_count= platform->max_touchpoints;
     struct multitouch_report *report = platform->report;
     //pull next input event
-    if((libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev)) != LIBEVDEV_READ_STATUS_SUCCESS){
-        //no success means no points available..
-        lua_pushstring(vm,"no_ev");
-        return 1;
+    while(1){
+        if (libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev) == -EAGAIN)
+            break;
     }
 
     //fetch current touch position for all multitouch slots.
@@ -176,7 +176,7 @@ int platform_get_last_report(lua_State *vm){
 
 
 /** (LUA-FACING)
-/** push coordinates of top-right corner into the virtual machine as a point
+ ** push coordinates of top-right corner into the virtual machine as a point
  */
 int platform_get_touchpad_boundaries(lua_State *vm){
     struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
