@@ -15,6 +15,8 @@ https://github.com/guarapicci/omniGlass/assets/143821200/0ef46864-e9b8-4218-96c3
 
 [mpv-omniglass](https://github.com/guarapicci/mpv-omniGlass/tree/main) is the first piece of software to link to libomniglass.
 
+### licensing
+as of this writing, this software is licensed under GPLv3.
 
 ## Quick-start
 - 1: go to project folder, open a shell.
