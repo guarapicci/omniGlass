@@ -109,7 +109,7 @@ function disable_gesture_slide()
     statemachines.slide = nil
 end
 
-function create_task_edge (selected_edge)
+function create_task_edge (selected_edge, callback, passthrough)
     local newtask = coroutine.create(function()
         print("creating the edge swipe state machine")
         local previous = getpoints()
@@ -155,7 +155,7 @@ function create_task_edge (selected_edge)
                 local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
                 local in_border, offset = edge_checkers[edge](current[1], delta)
                 if in_border then
-                    omniglass:trigger_gesture_edge(offset, selected_edge)
+                    omniglass:trigger_gesture_edge(callback, offset, passthrough)
                 end
             else
 --                 print("not touched.")
@@ -167,11 +167,11 @@ function create_task_edge (selected_edge)
     return newtask
 end
 
-function listen_gesture_edge(selected_edge)
+function listen_gesture_edge(selected_edge, callback, passthrough)
     print("registered event")
     local edges = {"left","right","top","bottom"}
     local task_title = "edge_"..edges[selected_edge + 1]
-    statemachines[task_title] = create_task_edge(selected_edge)
+    statemachines[task_title] = create_task_edge(selected_edge, callback, passthrough)
 end
 
 function disable_gesture_edge()

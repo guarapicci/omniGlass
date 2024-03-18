@@ -22,22 +22,24 @@ omniglass_operation_results omniglass_init(struct omniglass **handle);
 int omniglass_step(struct omniglass *handle);
 
 /* callback section (listen, remove listener, define gestures)
+ * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.
+ * this allows passing to each callback the data it needs without using global variables.
 */
 
 typedef void (*omniglass_callback_slide)(double);
 typedef void (*omniglass_callback_pressed)(int);
 typedef void (*omniglass_callback_released)(int);
-typedef void (*omniglass_callback_edge)(double);
+typedef void (*omniglass_callback_edge)(double, void*);
 
 int omniglass_register_callback(struct omniglass *handle, void (*callback) (), omniglass_touchpad_edge edge);
 
 omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
 void omniglass_disable_gesture_slide(struct omniglass *handle);
 
-omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_slide callback, omniglass_touchpad_edge edge);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_edge callback, omniglass_touchpad_edge edge, void *passthrough);
 void omniglass_disable_gesture_edge(struct omniglass *handle);
 
-omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omniglass *handle, omniglass_callback_slide callback);
-omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct omniglass *handle, omniglass_callback_slide callback);
-omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_slide callback);
-omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omniglass *handle, omniglass_callback_edge callback, void * passthrough);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
+omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
