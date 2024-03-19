@@ -22,7 +22,7 @@ as of this writing, this software is licensed under GPLv3.
 
 ## Quick-start
 - 1: go to project folder, open a shell.
-- 2: open `templates/config.lua` on a text editor, add your touchpad (path: "/dev/input/by-id/somethingsomething") there.
+- 2: open `templates/config.lua` on a text editor, add your touchpad (path: "/dev/input/by-id/somethingsomething") there (**make sure your user has read access to the file!**).
 - 3: `source utils.sh && cmgen && rebuild && reinstall && debug edge_swipe_multi`.
 - 4: That's it. You now have omniGlass installed and descriptive text will appear on the shell if you drag your finger accross the borders of the touchpad.
 ## Detailed instructions (if quick start failed)
