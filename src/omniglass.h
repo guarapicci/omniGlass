@@ -33,10 +33,25 @@ typedef void (*omniglass_callback_edge)(double, void*);
 
 int omniglass_register_callback(struct omniglass *handle, void (*callback) (), omniglass_touchpad_edge edge);
 
+/** set a callback function for finger slide.
+ * whenever at least one finger has been in contact accross the surface and its contact position has moved since the last call to omniglass_step(), this callback is triggered.
+ * @param handle the handle to omniGlass.
+ * @param callback the function that will be called when a slide has happen
+ */
 omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
 void omniglass_disable_gesture_slide(struct omniglass *handle);
 
+/** schedule a function to be called whenever fingers have dragged accross a certain edge.
+ * @param handle the omniglass handle.
+ * @param callback this function is called upon edge scroll
+ * @param edge one of the touchpad's 4 edges where the dragging will be scanned for
+ * @param passthrough this arbitrary data is forwarded to the callback function.
+ */
 omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_edge callback, omniglass_touchpad_edge edge, void *passthrough);
+
+/** disable all edge scroll detection callbacks.
+ * @param handle the omniglass handle.
+ */
 void omniglass_disable_gesture_edge(struct omniglass *handle);
 
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omniglass *handle, omniglass_callback_edge callback, void * passthrough);
