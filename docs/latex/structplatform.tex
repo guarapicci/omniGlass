@@ -1,0 +1,40 @@
+\hypertarget{structplatform}{}\doxysection{platform Struct Reference}
+\label{structplatform}\index{platform@{platform}}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+struct libevdev $\ast$ \mbox{\hyperlink{structplatform_ab6102ae2e90fb04f6006729181c86d93}{touchpad\+\_\+handle}}
+\item 
+struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}} $\ast$ \mbox{\hyperlink{structplatform_a0c6ee0d8dfe3e2b23ce6c0e59859f71f}{report}}
+\item 
+int \mbox{\hyperlink{structplatform_a17437f390215f466effbf92425dde534}{max\+\_\+touchpoints}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+all state for the linux platform 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structplatform_a17437f390215f466effbf92425dde534}\label{structplatform_a17437f390215f466effbf92425dde534}} 
+\index{platform@{platform}!max\_touchpoints@{max\_touchpoints}}
+\index{max\_touchpoints@{max\_touchpoints}!platform@{platform}}
+\doxysubsubsection{\texorpdfstring{max\_touchpoints}{max\_touchpoints}}
+{\footnotesize\ttfamily int platform\+::max\+\_\+touchpoints}
+
+how many simultaneous touches the device can track. \mbox{\Hypertarget{structplatform_a0c6ee0d8dfe3e2b23ce6c0e59859f71f}\label{structplatform_a0c6ee0d8dfe3e2b23ce6c0e59859f71f}} 
+\index{platform@{platform}!report@{report}}
+\index{report@{report}!platform@{platform}}
+\doxysubsubsection{\texorpdfstring{report}{report}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}}$\ast$ platform\+::report}
+
+the latest set of touch contacts checked for \mbox{\Hypertarget{structplatform_ab6102ae2e90fb04f6006729181c86d93}\label{structplatform_ab6102ae2e90fb04f6006729181c86d93}} 
+\index{platform@{platform}!touchpad\_handle@{touchpad\_handle}}
+\index{touchpad\_handle@{touchpad\_handle}!platform@{platform}}
+\doxysubsubsection{\texorpdfstring{touchpad\_handle}{touchpad\_handle}}
+{\footnotesize\ttfamily struct libevdev$\ast$ platform\+::touchpad\+\_\+handle}
+
+the evdev-\/specific handle to the touchpad device 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{platform__linux_8c}{platform\+\_\+linux.\+c}}\end{DoxyCompactItemize}

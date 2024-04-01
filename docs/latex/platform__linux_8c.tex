@@ -1,0 +1,98 @@
+\hypertarget{platform__linux_8c}{}\doxysection{src/platform\+\_\+linux.c File Reference}
+\label{platform__linux_8c}\index{src/platform\_linux.c@{src/platform\_linux.c}}
+
+
+linux-\/evdev implementation for the omniglass touchpad platform  
+
+
+{\ttfamily \#include $<$asm-\/generic/errno-\/base.\+h$>$}\newline
+{\ttfamily \#include $<$linux/input-\/event-\/codes.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$lua.\+h$>$}\newline
+{\ttfamily \#include $<$lauxlib.\+h$>$}\newline
+{\ttfamily \#include $<$lualib.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}platform.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$linux/input.\+h$>$}\newline
+{\ttfamily \#include $<$libevdev-\/1.\+0/libevdev/libevdev.\+h$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structplatform}{platform}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{platform__linux_8c_a1627752f0c014efabbd366690726770b}\label{platform__linux_8c_a1627752f0c014efabbd366690726770b}} 
+\#define {\bfseries PLATFORM\+\_\+\+CLASS\+\_\+\+NAME\+\_\+\+META}~\char`\"{}platform\+\_\+meta\char`\"{}
+\item 
+\mbox{\Hypertarget{platform__linux_8c_ab4d1a8844c18447537ce0b314ff2a7b0}\label{platform__linux_8c_ab4d1a8844c18447537ce0b314ff2a7b0}} 
+\#define {\bfseries PLATFORM\+\_\+\+CLASS\+\_\+\+NAME\+\_\+\+GLOBAL}~\char`\"{}platform\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{platform__linux_8c_a128852f710705ef55a5cd86e10ffbc22}\label{platform__linux_8c_a128852f710705ef55a5cd86e10ffbc22}} 
+void {\bfseries \+\_\+push\+\_\+new\+\_\+touch\+\_\+point} (lua\+\_\+\+State $\ast$vm, \mbox{\hyperlink{structtouch__point}{touch\+\_\+point}} $\ast$point)
+\item 
+int \mbox{\hyperlink{platform__linux_8c_a374b5e289b2bf334fbc4bfec152e18f5}{platform\+\_\+evdev\+\_\+init}} (lua\+\_\+\+State $\ast$vm)
+\item 
+int \mbox{\hyperlink{platform__linux_8c_aba06d040d815f0679c3e8b8bacab12d2}{platform\+\_\+parse\+\_\+events}} (lua\+\_\+\+State $\ast$vm)
+\item 
+int \mbox{\hyperlink{platform__linux_8c_a3291c7e94cbcf789e872db612f63815f}{platform\+\_\+get\+\_\+last\+\_\+report}} (lua\+\_\+\+State $\ast$vm)
+\item 
+int \mbox{\hyperlink{platform__linux_8c_abf750a47e9be30f1852f84d0dace7bf8}{platform\+\_\+get\+\_\+touchpad\+\_\+boundaries}} (lua\+\_\+\+State $\ast$vm)
+\item 
+\mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}} \mbox{\hyperlink{platform__linux_8c_ab469fd3cc8744390b5cdc3a51197c285}{platform\+\_\+init}} (struct \mbox{\hyperlink{structplatform}{platform}} $\ast$$\ast$handle, lua\+\_\+\+State $\ast$vm)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+linux-\/evdev implementation for the omniglass touchpad platform 
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{platform__linux_8c_a374b5e289b2bf334fbc4bfec152e18f5}\label{platform__linux_8c_a374b5e289b2bf334fbc4bfec152e18f5}} 
+\index{platform\_linux.c@{platform\_linux.c}!platform\_evdev\_init@{platform\_evdev\_init}}
+\index{platform\_evdev\_init@{platform\_evdev\_init}!platform\_linux.c@{platform\_linux.c}}
+\doxysubsubsection{\texorpdfstring{platform\_evdev\_init()}{platform\_evdev\_init()}}
+{\footnotesize\ttfamily int platform\+\_\+evdev\+\_\+init (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State $\ast$}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) initialization function that detects a touchpad and sets up datastructures and functions needed by the lua VM. start evdev
+
+diagnostics\+: check if selected device does have touchpad-\/like event reporting\mbox{\Hypertarget{platform__linux_8c_a3291c7e94cbcf789e872db612f63815f}\label{platform__linux_8c_a3291c7e94cbcf789e872db612f63815f}} 
+\index{platform\_linux.c@{platform\_linux.c}!platform\_get\_last\_report@{platform\_get\_last\_report}}
+\index{platform\_get\_last\_report@{platform\_get\_last\_report}!platform\_linux.c@{platform\_linux.c}}
+\doxysubsubsection{\texorpdfstring{platform\_get\_last\_report()}{platform\_get\_last\_report()}}
+{\footnotesize\ttfamily int platform\+\_\+get\+\_\+last\+\_\+report (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State $\ast$}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) push latest report from the platform into lua \mbox{\Hypertarget{platform__linux_8c_abf750a47e9be30f1852f84d0dace7bf8}\label{platform__linux_8c_abf750a47e9be30f1852f84d0dace7bf8}} 
+\index{platform\_linux.c@{platform\_linux.c}!platform\_get\_touchpad\_boundaries@{platform\_get\_touchpad\_boundaries}}
+\index{platform\_get\_touchpad\_boundaries@{platform\_get\_touchpad\_boundaries}!platform\_linux.c@{platform\_linux.c}}
+\doxysubsubsection{\texorpdfstring{platform\_get\_touchpad\_boundaries()}{platform\_get\_touchpad\_boundaries()}}
+{\footnotesize\ttfamily int platform\+\_\+get\+\_\+touchpad\+\_\+boundaries (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State $\ast$}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) push coordinates of top-\/right corner into the virtual machine as a point \mbox{\Hypertarget{platform__linux_8c_ab469fd3cc8744390b5cdc3a51197c285}\label{platform__linux_8c_ab469fd3cc8744390b5cdc3a51197c285}} 
+\index{platform\_linux.c@{platform\_linux.c}!platform\_init@{platform\_init}}
+\index{platform\_init@{platform\_init}!platform\_linux.c@{platform\_linux.c}}
+\doxysubsubsection{\texorpdfstring{platform\_init()}{platform\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}} platform\+\_\+init (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structplatform}{platform}} $\ast$$\ast$}]{handle,  }\item[{lua\+\_\+\+State $\ast$}]{vm }\end{DoxyParamCaption})}
+
+this function pushes the entire platform internal API and state into a lua table 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a pointer to a pointer of a handle to create. \\
+\hline
+{\em vm} & an already-\/initialized lua state to be injected with the internal platform API \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{platform__linux_8c_aba06d040d815f0679c3e8b8bacab12d2}\label{platform__linux_8c_aba06d040d815f0679c3e8b8bacab12d2}} 
+\index{platform\_linux.c@{platform\_linux.c}!platform\_parse\_events@{platform\_parse\_events}}
+\index{platform\_parse\_events@{platform\_parse\_events}!platform\_linux.c@{platform\_linux.c}}
+\doxysubsubsection{\texorpdfstring{platform\_parse\_events()}{platform\_parse\_events()}}
+{\footnotesize\ttfamily int platform\+\_\+parse\+\_\+events (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State $\ast$}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) this function is where the linux touchpad implementation gets its touch points from the evdev interface 

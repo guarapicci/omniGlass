@@ -1,0 +1,163 @@
+\hypertarget{omniglass_8h}{}\doxysection{src/omniglass.h File Reference}
+\label{omniglass_8h}\index{src/omniglass.h@{src/omniglass.h}}
+
+
+the omniglass API definition.  
+
+
+{\ttfamily \#include \char`\"{}constants.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}config.\+h\char`\"{}}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{omniglass_8h_aca6dfbe446aced1006662f2e8d2e1c72}\label{omniglass_8h_aca6dfbe446aced1006662f2e8d2e1c72}} 
+typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+slide}) (double)
+\item 
+\mbox{\Hypertarget{omniglass_8h_a7b6fb844ad3193728cba244ec57903f4}\label{omniglass_8h_a7b6fb844ad3193728cba244ec57903f4}} 
+typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+pressed}) (int)
+\item 
+\mbox{\Hypertarget{omniglass_8h_a5493aac9fdc15739c9e66793bf4d2bf8}\label{omniglass_8h_a5493aac9fdc15739c9e66793bf4d2bf8}} 
+typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+released}) (int)
+\item 
+\mbox{\Hypertarget{omniglass_8h_a9095c8ded171a828dd12c4b43bc32026}\label{omniglass_8h_a9095c8ded171a828dd12c4b43bc32026}} 
+typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+edge}) (double, void $\ast$)
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633}{omniglass\+\_\+operation\+\_\+results}} \mbox{\hyperlink{omniglass_8h_a9cfe0d7ae7def6abc1704f3c78d62894}{omniglass\+\_\+init}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$$\ast$handle)
+\item 
+int \mbox{\hyperlink{omniglass_8h_a410372cd764e9b02f866c6004c94243c}{omniglass\+\_\+step}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle)
+\item 
+\mbox{\Hypertarget{omniglass_8h_afd4bdc79eadbcb6b6ce25414c44f937c}\label{omniglass_8h_afd4bdc79eadbcb6b6ce25414c44f937c}} 
+int {\bfseries omniglass\+\_\+register\+\_\+callback} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, void($\ast$callback)(), \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\+\_\+touchpad\+\_\+edge}} edge)
+\item 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} \mbox{\hyperlink{omniglass_8h_a8ec303568ab1545dffa3e4ce2edc51a1}{omniglass\+\_\+listen\+\_\+gesture\+\_\+slide}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+slide callback)
+\item 
+void \mbox{\hyperlink{omniglass_8h_aa31f5d6f4802d057f3c57f64588c246f}{omniglass\+\_\+disable\+\_\+gesture\+\_\+slide}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle)
+\item 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} \mbox{\hyperlink{omniglass_8h_a66ff546fe0533d3fc2ab6c01e6571f9f}{omniglass\+\_\+listen\+\_\+gesture\+\_\+edge}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\+\_\+touchpad\+\_\+edge}} edge, void $\ast$passthrough)
+\item 
+void \mbox{\hyperlink{omniglass_8h_a8286440d8ee3e603fa313c0c48c62015}{omniglass\+\_\+disable\+\_\+gesture\+\_\+edge}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle)
+\item 
+\mbox{\Hypertarget{omniglass_8h_acfd8112b2cd83d9ae097840785e96a7d}\label{omniglass_8h_acfd8112b2cd83d9ae097840785e96a7d}} 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} {\bfseries omniglass\+\_\+listen\+\_\+gesture\+\_\+edge\+\_\+left} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, void $\ast$passthrough)
+\item 
+\mbox{\Hypertarget{omniglass_8h_ab90758d0a20e15f452242a2999397777}\label{omniglass_8h_ab90758d0a20e15f452242a2999397777}} 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} {\bfseries omniglass\+\_\+listen\+\_\+gesture\+\_\+edge\+\_\+right} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, void $\ast$passthrough)
+\item 
+\mbox{\Hypertarget{omniglass_8h_a037578f9b08b8c4bf756379c88f07b04}\label{omniglass_8h_a037578f9b08b8c4bf756379c88f07b04}} 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} {\bfseries omniglass\+\_\+listen\+\_\+gesture\+\_\+edge\+\_\+top} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, void $\ast$passthrough)
+\item 
+\mbox{\Hypertarget{omniglass_8h_af44204af40b3aed40db340ac7fdac902}\label{omniglass_8h_af44204af40b3aed40db340ac7fdac902}} 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} {\bfseries omniglass\+\_\+listen\+\_\+gesture\+\_\+edge\+\_\+bottom} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, void $\ast$passthrough)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+the omniglass API definition. 
+
+the omniglass API gives applications means to detect and probe for gesture events on touchpad devices. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{omniglass_8h_a8286440d8ee3e603fa313c0c48c62015}\label{omniglass_8h_a8286440d8ee3e603fa313c0c48c62015}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_disable\_gesture\_edge@{omniglass\_disable\_gesture\_edge}}
+\index{omniglass\_disable\_gesture\_edge@{omniglass\_disable\_gesture\_edge}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_disable\_gesture\_edge()}{omniglass\_disable\_gesture\_edge()}}
+{\footnotesize\ttfamily void omniglass\+\_\+disable\+\_\+gesture\+\_\+edge (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$}]{handle }\end{DoxyParamCaption})}
+
+disable all edge scroll detection callbacks. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & the omniglass handle.\\
+\hline
+\end{DoxyParams}
+remove the listeners for any edge slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{omniglass_8h_aa31f5d6f4802d057f3c57f64588c246f}\label{omniglass_8h_aa31f5d6f4802d057f3c57f64588c246f}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_disable\_gesture\_slide@{omniglass\_disable\_gesture\_slide}}
+\index{omniglass\_disable\_gesture\_slide@{omniglass\_disable\_gesture\_slide}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_disable\_gesture\_slide()}{omniglass\_disable\_gesture\_slide()}}
+{\footnotesize\ttfamily void omniglass\+\_\+disable\+\_\+gesture\+\_\+slide (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$}]{handle }\end{DoxyParamCaption})}
+
+remove the listener for touch slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{omniglass_8h_a9cfe0d7ae7def6abc1704f3c78d62894}\label{omniglass_8h_a9cfe0d7ae7def6abc1704f3c78d62894}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_init@{omniglass\_init}}
+\index{omniglass\_init@{omniglass\_init}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_init()}{omniglass\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633}{omniglass\+\_\+operation\+\_\+results}} omniglass\+\_\+init (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$$\ast$}]{handle }\end{DoxyParamCaption})}
+
+make sure to call this initializer before anything else 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a pointer to a pointer of an omniglass handle.\\
+\hline
+\end{DoxyParams}
+initialization function. this function MUST be called before everything else. It will give you a handle that is required for all the other functions of the user-\/facing API. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & pointer to a pointer of omniglass. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{omniglass_8h_a66ff546fe0533d3fc2ab6c01e6571f9f}\label{omniglass_8h_a66ff546fe0533d3fc2ab6c01e6571f9f}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_listen\_gesture\_edge@{omniglass\_listen\_gesture\_edge}}
+\index{omniglass\_listen\_gesture\_edge@{omniglass\_listen\_gesture\_edge}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_listen\_gesture\_edge()}{omniglass\_listen\_gesture\_edge()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} omniglass\+\_\+listen\+\_\+gesture\+\_\+edge (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$}]{handle,  }\item[{omniglass\+\_\+callback\+\_\+edge}]{callback,  }\item[{\mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\+\_\+touchpad\+\_\+edge}}}]{edge,  }\item[{void $\ast$}]{passthrough }\end{DoxyParamCaption})}
+
+schedule a function to be called whenever fingers have dragged accross a certain edge. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & the omniglass handle. \\
+\hline
+{\em callback} & this function is called upon edge scroll \\
+\hline
+{\em edge} & one of the touchpad\textquotesingle{}s 4 edges where the dragging will be scanned for \\
+\hline
+{\em passthrough} & this arbitrary data is forwarded to the callback function.\\
+\hline
+\end{DoxyParams}
+register a listener for edge slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+{\em callback} & this function will be called whenever a slide is detected at the bottom edge. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{omniglass_8h_a8ec303568ab1545dffa3e4ce2edc51a1}\label{omniglass_8h_a8ec303568ab1545dffa3e4ce2edc51a1}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_listen\_gesture\_slide@{omniglass\_listen\_gesture\_slide}}
+\index{omniglass\_listen\_gesture\_slide@{omniglass\_listen\_gesture\_slide}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_listen\_gesture\_slide()}{omniglass\_listen\_gesture\_slide()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} omniglass\+\_\+listen\+\_\+gesture\+\_\+slide (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$}]{handle,  }\item[{omniglass\+\_\+callback\+\_\+slide}]{callback }\end{DoxyParamCaption})}
+
+set a callback function for finger slide. whenever at least one finger has been in contact accross the surface and its contact position has moved since the last call to \mbox{\hyperlink{omniglass_8h_a410372cd764e9b02f866c6004c94243c}{omniglass\+\_\+step()}}, this callback is triggered. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & the handle to omni\+Glass. \\
+\hline
+{\em callback} & the function that will be called when a slide has happen\\
+\hline
+\end{DoxyParams}
+register a listener for touch slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+{\em callback} & this function will be called whenever a slide gesture is detected. \\
+\hline
+{\em passthrough} & an optional pointer containing data that can be used by the callback. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{omniglass_8h_a410372cd764e9b02f866c6004c94243c}\label{omniglass_8h_a410372cd764e9b02f866c6004c94243c}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_step@{omniglass\_step}}
+\index{omniglass\_step@{omniglass\_step}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_step()}{omniglass\_step()}}
+{\footnotesize\ttfamily int omniglass\+\_\+step (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$}]{handle }\end{DoxyParamCaption})}
+
+this function must be called at $\sim$100hz in the application\textquotesingle{}s main loop in non-\/blocking mode, or as soon as possible in a separate thread. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & the handle to omniglass\\
+\hline
+\end{DoxyParams}
+step function. user code must schedule to call this at $\sim$100hz or more for responsiveness 

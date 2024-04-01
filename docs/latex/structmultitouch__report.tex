@@ -1,0 +1,36 @@
+\hypertarget{structmultitouch__report}{}\doxysection{multitouch\+\_\+report Struct Reference}
+\label{structmultitouch__report}\index{multitouch\_report@{multitouch\_report}}
+
+
+{\ttfamily \#include $<$platform.\+h$>$}
+
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structtouch__point}{touch\+\_\+point}} $\ast$ \mbox{\hyperlink{structmultitouch__report_a828f7b4de86e6ee3afeac86175a8d4f5}{touches}}
+\item 
+\mbox{\hyperlink{structextended__touch__parameter}{extended\+\_\+touch\+\_\+parameter}} $\ast$$\ast$ \mbox{\hyperlink{structmultitouch__report_af3113f3f30bac376c61a39b5b5f08b68}{extended\+\_\+touch\+\_\+parameters}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+central data structure for touch tracking. this data structure contains position data associated to each point. NOTE\+: Exact number of touches on every multitouch report is per-\/session, computed at initialization time. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structmultitouch__report_af3113f3f30bac376c61a39b5b5f08b68}\label{structmultitouch__report_af3113f3f30bac376c61a39b5b5f08b68}} 
+\index{multitouch\_report@{multitouch\_report}!extended\_touch\_parameters@{extended\_touch\_parameters}}
+\index{extended\_touch\_parameters@{extended\_touch\_parameters}!multitouch\_report@{multitouch\_report}}
+\doxysubsubsection{\texorpdfstring{extended\_touch\_parameters}{extended\_touch\_parameters}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structextended__touch__parameter}{extended\+\_\+touch\+\_\+parameter}}$\ast$$\ast$ multitouch\+\_\+report\+::extended\+\_\+touch\+\_\+parameters}
+
+ordered array of touch parameter arrays \mbox{\Hypertarget{structmultitouch__report_a828f7b4de86e6ee3afeac86175a8d4f5}\label{structmultitouch__report_a828f7b4de86e6ee3afeac86175a8d4f5}} 
+\index{multitouch\_report@{multitouch\_report}!touches@{touches}}
+\index{touches@{touches}!multitouch\_report@{multitouch\_report}}
+\doxysubsubsection{\texorpdfstring{touches}{touches}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structtouch__point}{touch\+\_\+point}}$\ast$ multitouch\+\_\+report\+::touches}
+
+ordered array of touch points (each index identifies a single finger) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{platform_8h}{platform.\+h}}\end{DoxyCompactItemize}
