@@ -1,0 +1,82 @@
+\doxysection{platform.\+h}
+\hypertarget{platform_8h_source}{}\label{platform_8h_source}\index{src/platform.h@{src/platform.h}}
+\mbox{\hyperlink{platform_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{OmniGlass:\ touchpad\ gesture\ detection\ engine.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{Copyright\ (C)\ 2023\ Felipe\ Choi}}
+\DoxyCodeLine{00004\ \textcolor{comment}{}}
+\DoxyCodeLine{00005\ \textcolor{comment}{This\ program\ is\ free\ software;\ you\ can\ redistribute\ it\ and/or}}
+\DoxyCodeLine{00006\ \textcolor{comment}{modify\ it\ under\ the\ terms\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00007\ \textcolor{comment}{as\ published\ by\ the\ Free\ Software\ Foundation;\ either\ version\ 2}}
+\DoxyCodeLine{00008\ \textcolor{comment}{of\ the\ License,\ or\ (at\ your\ option)\ any\ later\ version.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{}}
+\DoxyCodeLine{00010\ \textcolor{comment}{This\ program\ is\ distributed\ in\ the\ hope\ that\ it\ will\ be\ useful,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{but\ WITHOUT\ ANY\ WARRANTY;\ without\ even\ the\ implied\ warranty\ of}}
+\DoxyCodeLine{00012\ \textcolor{comment}{MERCHANTABILITY\ or\ FITNESS\ FOR\ A\ PARTICULAR\ PURPOSE.\ \ See\ the}}
+\DoxyCodeLine{00013\ \textcolor{comment}{GNU\ General\ Public\ License\ for\ more\ details.}}
+\DoxyCodeLine{00014\ \textcolor{comment}{}}
+\DoxyCodeLine{00015\ \textcolor{comment}{You\ should\ have\ received\ a\ copy\ of\ the\ GNU\ General\ Public\ License}}
+\DoxyCodeLine{00016\ \textcolor{comment}{along\ with\ this\ program;\ if\ not,\ write\ to\ the\ Free\ Software}}
+\DoxyCodeLine{00017\ \textcolor{comment}{Foundation,\ Inc.,\ 51\ Franklin\ Street,\ Fifth\ Floor,\ Boston,\ MA\ \ 02110-\/1301,\ USA.}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <lua.h>}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{omniglass_8h}{omniglass.h}}"{}}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structplatform}{platform}};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00044\ \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\_init\_result}}\ \mbox{\hyperlink{platform_8h_a0d8d617c511214f13aff36967dbd33b6}{platform\_init}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structplatform}{platform}}\ **\mbox{\hyperlink{structplatform}{platform}},\ lua\_State\ *vm);}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structtouch__point}{touch\_point}}\{}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ x;}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ y;}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ touched;}
+\DoxyCodeLine{00054\ \}\ \mbox{\hyperlink{platform_8h_a0b03e7b3c4c0074f024cdecf8f172e25}{touch\_point}};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00061\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touchParameter}}\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca86426522c91b417229c899ae35258a46}{PRESSURE}},\ }
+\DoxyCodeLine{00063\ \ \ \ \ \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca64099015ff7fbb8fc154086eaebb1957}{AREA}},\ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca151dcfbcb5f2fa0f61472a409d68a821}{DISTANCE\_TO\_SURFACE}}\ }
+\DoxyCodeLine{00065\ \}\ \mbox{\hyperlink{platform_8h_ac3f664eb43be5893ff4beada78082c9d}{touch\_parameter}};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{comment}{//extended\ parameters\ (many\ touchpad\ drivers\ may\ not\ support\ any\ of\ these.)}}
+\DoxyCodeLine{00068\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ touch\_pressure;\ \ \ \ \textcolor{comment}{//pressure\ applied\ on\ a\ contact\ point.}}
+\DoxyCodeLine{00069\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ touch\_area;\ \ \ \ \ \ \ \ \textcolor{comment}{//combined\ area\ of\ all\ the\ intersection\ belonging\ to\ an\ identified\ contact\ region\ centered\ around\ a\ point.}}
+\DoxyCodeLine{00070\ \textcolor{keyword}{typedef}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ touch\_distance\_to\_surface;\ \ \textcolor{comment}{//distance\ in\ millimeters;}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00076\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structextended__touch__parameter}{extended\_touch\_parameter}}\{}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{platform_8h_ac3f664eb43be5893ff4beada78082c9d}{touch\_parameter}}\ \mbox{\hyperlink{structextended__touch__parameter_a281be610bbdee798dc54869f7f633411}{type}};\ \ \ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ *\mbox{\hyperlink{structextended__touch__parameter_ae6962399d3c66a3d35d5824faccec580}{data}};\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00079\ \}\ \mbox{\hyperlink{platform_8h_a0eac97436f547ec37d7e63832ef40ef9}{extended\_touch\_parameter}};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structmultitouch__report}{multitouch\_report}}\{}
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{structtouch__point}{touch\_point}}\ *\mbox{\hyperlink{structmultitouch__report_a828f7b4de86e6ee3afeac86175a8d4f5}{touches}};}
+\DoxyCodeLine{00087\ \ \ \ \ \mbox{\hyperlink{structextended__touch__parameter}{extended\_touch\_parameter}}\ **\mbox{\hyperlink{structmultitouch__report_af3113f3f30bac376c61a39b5b5f08b68}{extended\_touch\_parameters}};}
+\DoxyCodeLine{00088\ \}\ \mbox{\hyperlink{platform_8h_a0e5689b01419f144949ae24fd4c72bf4}{multitouch\_report}};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{int}\ multitouch\_next\_report(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structmultitouch__report}{multitouch\_report}}\ *report);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structtouchpad__params}{touchpad\_params}}\{}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{int}\ min\_x;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{int}\ max\_x;}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{int}\ min\_y;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{int}\ max\_y;}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{int}\ touch\_count;}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{int}\ extended\_touch\_parameter\_count;}
+\DoxyCodeLine{00099\ \}\ \mbox{\hyperlink{structtouchpad__params}{touchpad\_params}};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00104\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{platform_8h_aba06d040d815f0679c3e8b8bacab12d2}{platform\_parse\_events}}(lua\_State\ *vm);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00109\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{platform_8h_a3291c7e94cbcf789e872db612f63815f}{platform\_get\_last\_report}}(lua\_State\ *vm);}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00115\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ \mbox{\hyperlink{platform_8h_a8ec303568ab1545dffa3e4ce2edc51a1}{omniglass\_listen\_gesture\_slide}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_slide\ callback);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00120\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{platform_8h_aa31f5d6f4802d057f3c57f64588c246f}{omniglass\_disable\_gesture\_slide}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle);}
+\DoxyCodeLine{00121\ }
+
+\end{DoxyCode}

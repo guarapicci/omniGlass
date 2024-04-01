@@ -1,0 +1,37 @@
+\doxysection{omniglass.\+h}
+\hypertarget{omniglass_8h_source}{}\label{omniglass_8h_source}\index{src/omniglass.h@{src/omniglass.h}}
+\mbox{\hyperlink{omniglass_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{constants_8h}{constants.h}}"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}config.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structomniglass}{omniglass}};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00016\ \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633}{omniglass\_operation\_results}}\ \mbox{\hyperlink{omniglass_8h_a9cfe0d7ae7def6abc1704f3c78d62894}{omniglass\_init}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ **handle);}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{omniglass_8h_a410372cd764e9b02f866c6004c94243c}{omniglass\_step}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{comment}{/*\ callback\ section\ (listen,\ remove\ listener,\ define\ gestures)}}
+\DoxyCodeLine{00025\ \textcolor{comment}{\ *\ most\ callbacks\ accept\ a\ "{}passthrough"{}\ void\ pointer\ that\ the\ user\ can\ provide\ at\ register-\/time.}}
+\DoxyCodeLine{00026\ \textcolor{comment}{\ *\ this\ allows\ passing\ to\ each\ callback\ the\ data\ it\ needs\ without\ using\ global\ variables.}}
+\DoxyCodeLine{00027\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{typedef}\ void\ (*omniglass\_callback\_slide)(double);}
+\DoxyCodeLine{00030\ \textcolor{keyword}{typedef}\ void\ (*omniglass\_callback\_pressed)(int);}
+\DoxyCodeLine{00031\ \textcolor{keyword}{typedef}\ void\ (*omniglass\_callback\_released)(int);}
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ void\ (*omniglass\_callback\_edge)(double,\ \textcolor{keywordtype}{void}*);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{int}\ omniglass\_register\_callback(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ \textcolor{keywordtype}{void}\ (*callback)\ (),\ \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\_touchpad\_edge}}\ edge);}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ \mbox{\hyperlink{omniglass_8h_a8ec303568ab1545dffa3e4ce2edc51a1}{omniglass\_listen\_gesture\_slide}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_slide\ callback);}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{omniglass_8h_aa31f5d6f4802d057f3c57f64588c246f}{omniglass\_disable\_gesture\_slide}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle);}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ \mbox{\hyperlink{omniglass_8h_a66ff546fe0533d3fc2ab6c01e6571f9f}{omniglass\_listen\_gesture\_edge}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_edge\ callback,\ \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\_touchpad\_edge}}\ edge,\ \textcolor{keywordtype}{void}\ *passthrough);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{omniglass_8h_a8286440d8ee3e603fa313c0c48c62015}{omniglass\_disable\_gesture\_edge}}(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ omniglass\_listen\_gesture\_edge\_left(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_edge\ callback,\ \textcolor{keywordtype}{void}\ *\ passthrough);}
+\DoxyCodeLine{00043\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ omniglass\_listen\_gesture\_edge\_right(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_edge\ callback,\ \textcolor{keywordtype}{void}\ *passthrough);}
+\DoxyCodeLine{00044\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ omniglass\_listen\_gesture\_edge\_top(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_edge\ callback,\ \textcolor{keywordtype}{void}\ *passthrough);}
+\DoxyCodeLine{00045\ \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\_gesture\_operation\_result}}\ omniglass\_listen\_gesture\_edge\_bottom(\textcolor{keyword}{struct}\ \mbox{\hyperlink{structomniglass}{omniglass}}\ *handle,\ omniglass\_callback\_edge\ callback,\ \textcolor{keywordtype}{void}\ *passthrough);}
+
+\end{DoxyCode}

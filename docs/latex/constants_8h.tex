@@ -1,0 +1,110 @@
+\doxysection{src/constants.h File Reference}
+\hypertarget{constants_8h}{}\label{constants_8h}\index{src/constants.h@{src/constants.h}}
+
+
+mostly enumerations for use in flow control  
+
+
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633}{omniglass\+\_\+operation\+\_\+results}} \{ {\bfseries OMNIGLASS\+\_\+\+RESULT\+\_\+\+SUCCESS} = 0
+, \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633a67d6fb73d4850055a5dc7c5b41425aa3}{OMNIGLASS\+\_\+\+RESULT\+\_\+\+MULTITOUCH\+\_\+\+REPORT\+\_\+\+FAILED}}
+, \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633a7ba1a3eee4120fd0d04ec0c612d47369}{OMNIGLASS\+\_\+\+RESULT\+\_\+\+NOMEM}}
+, \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633a21a3717ef3b41c06f9bd6181e282a043}{OMNIGLASS\+\_\+\+RESULT\+\_\+\+BOOTSTRAP\+\_\+\+FAILED}}
+ \}
+\item 
+enum \mbox{\hyperlink{constants_8h_a7d4905c6c13b695abfdd0941fd3941bc}{omniglass\+\_\+event\+\_\+type}} \{ {\bfseries OMNIGLASS\+\_\+\+EVENT\+\_\+\+GESTURE\+\_\+\+STARTED} = 0
+, {\bfseries OMNIGLASS\+\_\+\+EVENT\+\_\+\+GESTURE\+\_\+\+CHANGED}
+, {\bfseries OMNIGLASS\+\_\+\+EVENT\+\_\+\+GESTURE\+\_\+\+ENDED}
+ \}
+\item 
+enum \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}} \{ {\bfseries OMNIGLASS\+\_\+\+PLATFORM\+\_\+\+INIT\+\_\+\+SUCCESS} = 0
+, \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea79550d2db58b318e3b1455e32559fdaf}{OMNIGLASS\+\_\+\+PLATFORM\+\_\+\+INIT\+\_\+\+NO\+\_\+\+TOUCHPAD}}
+, \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea57ce5e4b1fe52b578dafe6feb1e1c1f1}{OMNIGLASS\+\_\+\+PLATFORM\+\_\+\+INIT\+\_\+\+CONFIG\+\_\+\+INVALID}}
+ \}
+\item 
+enum \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} \{ {\bfseries OMNIGLASS\+\_\+\+API\+\_\+\+GESTURE\+\_\+\+OPERATION\+\_\+\+SUCCESS} = 0
+, \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5edd5e6d3fda077da1880258322e2405}{OMNIGLASS\+\_\+\+API\+\_\+\+GESTURE\+\_\+\+OPERATION\+\_\+\+NOTSUPPORTED}}
+, \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5ed8b77a613745a8b296a97f9f0cf4e5}{OMNIGLASS\+\_\+\+API\+\_\+\+GESTURE\+\_\+\+OPERATION\+\_\+\+NOTIMPLEMENTED}}
+ \}
+\item 
+enum \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\+\_\+touchpad\+\_\+edge}} \{ {\bfseries OMNIGLASS\+\_\+\+EDGE\+\_\+\+LEFT} = 0
+, {\bfseries OMNIGLASS\+\_\+\+EDGE\+\_\+\+RIGHT}
+, {\bfseries OMNIGLASS\+\_\+\+EDGE\+\_\+\+TOP}
+, {\bfseries OMNIGLASS\+\_\+\+EDGE\+\_\+\+BOTTOM}
+ \}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+mostly enumerations for use in flow control 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{constants_8h_a7d4905c6c13b695abfdd0941fd3941bc}\label{constants_8h_a7d4905c6c13b695abfdd0941fd3941bc} 
+\index{constants.h@{constants.h}!omniglass\_event\_type@{omniglass\_event\_type}}
+\index{omniglass\_event\_type@{omniglass\_event\_type}!constants.h@{constants.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_event\_type}{omniglass\_event\_type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{constants_8h_a7d4905c6c13b695abfdd0941fd3941bc}{omniglass\+\_\+event\+\_\+type}}}
+
+specifies what type of event triggered the action or callback. \Hypertarget{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}\label{constants_8h_a4bd0f61798fc9e575d5546f5e154d697} 
+\index{constants.h@{constants.h}!omniglass\_gesture\_operation\_result@{omniglass\_gesture\_operation\_result}}
+\index{omniglass\_gesture\_operation\_result@{omniglass\_gesture\_operation\_result}!constants.h@{constants.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_gesture\_operation\_result}{omniglass\_gesture\_operation\_result}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}}}
+
+results of gesture operations \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTSUPPORTED@{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTSUPPORTED}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTSUPPORTED@{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTSUPPORTED}}}\Hypertarget{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5edd5e6d3fda077da1880258322e2405}\label{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5edd5e6d3fda077da1880258322e2405} 
+OMNIGLASS\+\_\+\+API\+\_\+\+GESTURE\+\_\+\+OPERATION\+\_\+\+NOTSUPPORTED&touchpad in use does not support this gesture \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTIMPLEMENTED@{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTIMPLEMENTED}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTIMPLEMENTED@{OMNIGLASS\_API\_GESTURE\_OPERATION\_NOTIMPLEMENTED}}}\Hypertarget{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5ed8b77a613745a8b296a97f9f0cf4e5}\label{constants_8h_a4bd0f61798fc9e575d5546f5e154d697a5ed8b77a613745a8b296a97f9f0cf4e5} 
+OMNIGLASS\+\_\+\+API\+\_\+\+GESTURE\+\_\+\+OPERATION\+\_\+\+NOTIMPLEMENTED&the library does not support this gesture \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}\label{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de} 
+\index{constants.h@{constants.h}!omniglass\_init\_result@{omniglass\_init\_result}}
+\index{omniglass\_init\_result@{omniglass\_init\_result}!constants.h@{constants.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_init\_result}{omniglass\_init\_result}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}}}
+
+defines the results of touchpad platform initialization. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_PLATFORM\_INIT\_NO\_TOUCHPAD@{OMNIGLASS\_PLATFORM\_INIT\_NO\_TOUCHPAD}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_PLATFORM\_INIT\_NO\_TOUCHPAD@{OMNIGLASS\_PLATFORM\_INIT\_NO\_TOUCHPAD}}}\Hypertarget{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea79550d2db58b318e3b1455e32559fdaf}\label{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea79550d2db58b318e3b1455e32559fdaf} 
+OMNIGLASS\+\_\+\+PLATFORM\+\_\+\+INIT\+\_\+\+NO\+\_\+\+TOUCHPAD&touchpad could not be detected \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_PLATFORM\_INIT\_CONFIG\_INVALID@{OMNIGLASS\_PLATFORM\_INIT\_CONFIG\_INVALID}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_PLATFORM\_INIT\_CONFIG\_INVALID@{OMNIGLASS\_PLATFORM\_INIT\_CONFIG\_INVALID}}}\Hypertarget{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea57ce5e4b1fe52b578dafe6feb1e1c1f1}\label{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88dea57ce5e4b1fe52b578dafe6feb1e1c1f1} 
+OMNIGLASS\+\_\+\+PLATFORM\+\_\+\+INIT\+\_\+\+CONFIG\+\_\+\+INVALID&settings were not accepted \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{constants_8h_a2dd274fcff06b621fbae6812ffd39633}\label{constants_8h_a2dd274fcff06b621fbae6812ffd39633} 
+\index{constants.h@{constants.h}!omniglass\_operation\_results@{omniglass\_operation\_results}}
+\index{omniglass\_operation\_results@{omniglass\_operation\_results}!constants.h@{constants.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_operation\_results}{omniglass\_operation\_results}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{constants_8h_a2dd274fcff06b621fbae6812ffd39633}{omniglass\+\_\+operation\+\_\+results}}}
+
+operation results summarize the aftermath of API calls (as in\+: registering a callback, masking an event...). \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_RESULT\_MULTITOUCH\_REPORT\_FAILED@{OMNIGLASS\_RESULT\_MULTITOUCH\_REPORT\_FAILED}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_RESULT\_MULTITOUCH\_REPORT\_FAILED@{OMNIGLASS\_RESULT\_MULTITOUCH\_REPORT\_FAILED}}}\Hypertarget{constants_8h_a2dd274fcff06b621fbae6812ffd39633a67d6fb73d4850055a5dc7c5b41425aa3}\label{constants_8h_a2dd274fcff06b621fbae6812ffd39633a67d6fb73d4850055a5dc7c5b41425aa3} 
+OMNIGLASS\+\_\+\+RESULT\+\_\+\+MULTITOUCH\+\_\+\+REPORT\+\_\+\+FAILED&the library has failed to acquire input data from the touchpad \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_RESULT\_NOMEM@{OMNIGLASS\_RESULT\_NOMEM}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_RESULT\_NOMEM@{OMNIGLASS\_RESULT\_NOMEM}}}\Hypertarget{constants_8h_a2dd274fcff06b621fbae6812ffd39633a7ba1a3eee4120fd0d04ec0c612d47369}\label{constants_8h_a2dd274fcff06b621fbae6812ffd39633a7ba1a3eee4120fd0d04ec0c612d47369} 
+OMNIGLASS\+\_\+\+RESULT\+\_\+\+NOMEM&out-\/of-\/memory, failed to allocate memory \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OMNIGLASS\_RESULT\_BOOTSTRAP\_FAILED@{OMNIGLASS\_RESULT\_BOOTSTRAP\_FAILED}!constants.h@{constants.h}}\index{constants.h@{constants.h}!OMNIGLASS\_RESULT\_BOOTSTRAP\_FAILED@{OMNIGLASS\_RESULT\_BOOTSTRAP\_FAILED}}}\Hypertarget{constants_8h_a2dd274fcff06b621fbae6812ffd39633a21a3717ef3b41c06f9bd6181e282a043}\label{constants_8h_a2dd274fcff06b621fbae6812ffd39633a21a3717ef3b41c06f9bd6181e282a043} 
+OMNIGLASS\+\_\+\+RESULT\+\_\+\+BOOTSTRAP\+\_\+\+FAILED&the library could not initialize \\
+\hline
+
+\end{DoxyEnumFields}
+\Hypertarget{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}\label{constants_8h_a016c0fdb230ec8c5e251979f117d15d1} 
+\index{constants.h@{constants.h}!omniglass\_touchpad\_edge@{omniglass\_touchpad\_edge}}
+\index{omniglass\_touchpad\_edge@{omniglass\_touchpad\_edge}!constants.h@{constants.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_touchpad\_edge}{omniglass\_touchpad\_edge}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{constants_8h_a016c0fdb230ec8c5e251979f117d15d1}{omniglass\+\_\+touchpad\+\_\+edge}}}
+
+represents edges/borders of a touchpad. 

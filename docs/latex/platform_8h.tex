@@ -1,0 +1,198 @@
+\doxysection{src/platform.h File Reference}
+\hypertarget{platform_8h}{}\label{platform_8h}\index{src/platform.h@{src/platform.h}}
+
+
+interface with touchpad drivers  
+
+
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$lua.\+h$>$}\newline
+{\ttfamily \#include "{}omniglass.\+h"{}}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structtouch__point}{touch\+\_\+point}}
+\item 
+struct \mbox{\hyperlink{structextended__touch__parameter}{extended\+\_\+touch\+\_\+parameter}}
+\item 
+struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}}
+\item 
+struct \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef struct touch\+\_\+point \mbox{\hyperlink{platform_8h_a0b03e7b3c4c0074f024cdecf8f172e25}{touch\+\_\+point}}
+\item 
+typedef enum \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touch\+Parameter}} \mbox{\hyperlink{platform_8h_ac3f664eb43be5893ff4beada78082c9d}{touch\+\_\+parameter}}
+\item 
+\Hypertarget{platform_8h_ae1267339d52c89c99537971d3419a41f}\label{platform_8h_ae1267339d52c89c99537971d3419a41f} 
+typedef unsigned int {\bfseries touch\+\_\+pressure}
+\item 
+\Hypertarget{platform_8h_ac9556e77b1dc30cfe7486945fb7e1cf8}\label{platform_8h_ac9556e77b1dc30cfe7486945fb7e1cf8} 
+typedef unsigned int {\bfseries touch\+\_\+area}
+\item 
+\Hypertarget{platform_8h_a3667b3484b0313be9b70626ca4cbabd7}\label{platform_8h_a3667b3484b0313be9b70626ca4cbabd7} 
+typedef unsigned int {\bfseries touch\+\_\+distance\+\_\+to\+\_\+surface}
+\item 
+typedef struct extended\+\_\+touch\+\_\+parameter \mbox{\hyperlink{platform_8h_a0eac97436f547ec37d7e63832ef40ef9}{extended\+\_\+touch\+\_\+parameter}}
+\item 
+typedef struct multitouch\+\_\+report \mbox{\hyperlink{platform_8h_a0e5689b01419f144949ae24fd4c72bf4}{multitouch\+\_\+report}}
+\item 
+\Hypertarget{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}\label{platform_8h_aae2dacff09cf7b13d3424c2aa6851007} 
+typedef struct touchpad\+\_\+params {\bfseries touchpad\+\_\+params}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touch\+Parameter}} \{ \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca86426522c91b417229c899ae35258a46}{PRESSURE}}
+, \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca64099015ff7fbb8fc154086eaebb1957}{AREA}}
+, \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca151dcfbcb5f2fa0f61472a409d68a821}{DISTANCE\+\_\+\+TO\+\_\+\+SURFACE}}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}} \mbox{\hyperlink{platform_8h_a0d8d617c511214f13aff36967dbd33b6}{platform\+\_\+init}} (struct \mbox{\hyperlink{structplatform}{platform}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\mbox{\hyperlink{structplatform}{platform}}, lua\+\_\+\+State \texorpdfstring{$\ast$}{*}vm)
+\item 
+\Hypertarget{platform_8h_aeec86e0ac809b580b043437814b5130b}\label{platform_8h_aeec86e0ac809b580b043437814b5130b} 
+int {\bfseries multitouch\+\_\+next\+\_\+report} (struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}} \texorpdfstring{$\ast$}{*}report)
+\item 
+int \mbox{\hyperlink{platform_8h_aba06d040d815f0679c3e8b8bacab12d2}{platform\+\_\+parse\+\_\+events}} (lua\+\_\+\+State \texorpdfstring{$\ast$}{*}vm)
+\item 
+int \mbox{\hyperlink{platform_8h_a3291c7e94cbcf789e872db612f63815f}{platform\+\_\+get\+\_\+last\+\_\+report}} (lua\+\_\+\+State \texorpdfstring{$\ast$}{*}vm)
+\item 
+\mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} \mbox{\hyperlink{platform_8h_a8ec303568ab1545dffa3e4ce2edc51a1}{omniglass\+\_\+listen\+\_\+gesture\+\_\+slide}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} \texorpdfstring{$\ast$}{*}handle, omniglass\+\_\+callback\+\_\+slide callback)
+\item 
+void \mbox{\hyperlink{platform_8h_aa31f5d6f4802d057f3c57f64588c246f}{omniglass\+\_\+disable\+\_\+gesture\+\_\+slide}} (struct \mbox{\hyperlink{structomniglass}{omniglass}} \texorpdfstring{$\ast$}{*}handle)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+interface with touchpad drivers 
+
+Touchpad enumeration, selection and multitouch report generation are implemented by the platform layer.
+
+Initialization of this subsystem happens on the C-\/side, however most functions here are expected to be called from the lua-\/side, be it directly or through userdata metatable indexing. 
+
+\doxysubsection{Typedef Documentation}
+\Hypertarget{platform_8h_a0eac97436f547ec37d7e63832ef40ef9}\label{platform_8h_a0eac97436f547ec37d7e63832ef40ef9} 
+\index{platform.h@{platform.h}!extended\_touch\_parameter@{extended\_touch\_parameter}}
+\index{extended\_touch\_parameter@{extended\_touch\_parameter}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{extended\_touch\_parameter}{extended\_touch\_parameter}}
+{\footnotesize\ttfamily typedef struct extended\+\_\+touch\+\_\+parameter extended\+\_\+touch\+\_\+parameter}
+
+an extended parameter associated with a touch point. parameters must be associated to their parent points. raw data associated to a parameter must be casted to its corresponding type. \Hypertarget{platform_8h_a0e5689b01419f144949ae24fd4c72bf4}\label{platform_8h_a0e5689b01419f144949ae24fd4c72bf4} 
+\index{platform.h@{platform.h}!multitouch\_report@{multitouch\_report}}
+\index{multitouch\_report@{multitouch\_report}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{multitouch\_report}{multitouch\_report}}
+{\footnotesize\ttfamily typedef struct multitouch\+\_\+report multitouch\+\_\+report}
+
+central data structure for touch tracking. this data structure contains position data associated to each point. NOTE\+: Exact number of touches on every multitouch report is per-\/session, computed at initialization time. \Hypertarget{platform_8h_ac3f664eb43be5893ff4beada78082c9d}\label{platform_8h_ac3f664eb43be5893ff4beada78082c9d} 
+\index{platform.h@{platform.h}!touch\_parameter@{touch\_parameter}}
+\index{touch\_parameter@{touch\_parameter}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{touch\_parameter}{touch\_parameter}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touch\+Parameter}} \mbox{\hyperlink{platform_8h_ac3f664eb43be5893ff4beada78082c9d}{touch\+\_\+parameter}}}
+
+type identification for extended parameters of a touch contact (might eventually include crazy stuff like material type, distance to actual surface, etc) @ \Hypertarget{platform_8h_a0b03e7b3c4c0074f024cdecf8f172e25}\label{platform_8h_a0b03e7b3c4c0074f024cdecf8f172e25} 
+\index{platform.h@{platform.h}!touch\_point@{touch\_point}}
+\index{touch\_point@{touch\_point}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{touch\_point}{touch\_point}}
+{\footnotesize\ttfamily typedef struct touch\+\_\+point touch\+\_\+point}
+
+Touch point in left-\/to-\/right x and bottom-\/to-\/top y. Touch points include a touch ID; 
+
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}\label{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c} 
+\index{platform.h@{platform.h}!touchParameter@{touchParameter}}
+\index{touchParameter@{touchParameter}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{touchParameter}{touchParameter}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touch\+Parameter}}}
+
+type identification for extended parameters of a touch contact (might eventually include crazy stuff like material type, distance to actual surface, etc) @ \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PRESSURE@{PRESSURE}!platform.h@{platform.h}}\index{platform.h@{platform.h}!PRESSURE@{PRESSURE}}}\Hypertarget{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca86426522c91b417229c899ae35258a46}\label{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca86426522c91b417229c899ae35258a46} 
+PRESSURE&pressure (unknown metric) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AREA@{AREA}!platform.h@{platform.h}}\index{platform.h@{platform.h}!AREA@{AREA}}}\Hypertarget{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca64099015ff7fbb8fc154086eaebb1957}\label{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca64099015ff7fbb8fc154086eaebb1957} 
+AREA&area of the touch being tracked, in cm\texorpdfstring{$^\wedge$}{\string^}2 \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DISTANCE\_TO\_SURFACE@{DISTANCE\_TO\_SURFACE}!platform.h@{platform.h}}\index{platform.h@{platform.h}!DISTANCE\_TO\_SURFACE@{DISTANCE\_TO\_SURFACE}}}\Hypertarget{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca151dcfbcb5f2fa0f61472a409d68a821}\label{platform_8h_a2e69ce2921d9c247f4a35b101bf1744ca151dcfbcb5f2fa0f61472a409d68a821} 
+DISTANCE\+\_\+\+TO\+\_\+\+SURFACE&(note\+: only Galaxy S5 mini digitizers are reported to have this feature) distance between object extremity and the sensitive surface, in millimters accross the surface normal. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{platform_8h_aa31f5d6f4802d057f3c57f64588c246f}\label{platform_8h_aa31f5d6f4802d057f3c57f64588c246f} 
+\index{platform.h@{platform.h}!omniglass\_disable\_gesture\_slide@{omniglass\_disable\_gesture\_slide}}
+\index{omniglass\_disable\_gesture\_slide@{omniglass\_disable\_gesture\_slide}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_disable\_gesture\_slide()}{omniglass\_disable\_gesture\_slide()}}
+{\footnotesize\ttfamily void omniglass\+\_\+disable\+\_\+gesture\+\_\+slide (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} \texorpdfstring{$\ast$}{*}}]{handle }\end{DoxyParamCaption})}
+
+remove the listener for touch slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{platform_8h_a8ec303568ab1545dffa3e4ce2edc51a1}\label{platform_8h_a8ec303568ab1545dffa3e4ce2edc51a1} 
+\index{platform.h@{platform.h}!omniglass\_listen\_gesture\_slide@{omniglass\_listen\_gesture\_slide}}
+\index{omniglass\_listen\_gesture\_slide@{omniglass\_listen\_gesture\_slide}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_listen\_gesture\_slide()}{omniglass\_listen\_gesture\_slide()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} omniglass\+\_\+listen\+\_\+gesture\+\_\+slide (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structomniglass}{omniglass}} \texorpdfstring{$\ast$}{*}}]{handle,  }\item[{omniglass\+\_\+callback\+\_\+slide}]{callback }\end{DoxyParamCaption})}
+
+register a listener for touch slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+{\em callback} & this function will be called whenever a slide gesture is detected.\\
+\hline
+\end{DoxyParams}
+register a listener for touch slide gestures. 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a handle to omniglass. \\
+\hline
+{\em callback} & this function will be called whenever a slide gesture is detected. \\
+\hline
+{\em passthrough} & an optional pointer containing data that can be used by the callback. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{platform_8h_a3291c7e94cbcf789e872db612f63815f}\label{platform_8h_a3291c7e94cbcf789e872db612f63815f} 
+\index{platform.h@{platform.h}!platform\_get\_last\_report@{platform\_get\_last\_report}}
+\index{platform\_get\_last\_report@{platform\_get\_last\_report}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{platform\_get\_last\_report()}{platform\_get\_last\_report()}}
+{\footnotesize\ttfamily int platform\+\_\+get\+\_\+last\+\_\+report (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State \texorpdfstring{$\ast$}{*}}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) called by the lua VM to get the last touch report generated.
+
+(LUA-\/\+FACING) push latest report from the platform into lua \Hypertarget{platform_8h_a0d8d617c511214f13aff36967dbd33b6}\label{platform_8h_a0d8d617c511214f13aff36967dbd33b6} 
+\index{platform.h@{platform.h}!platform\_init@{platform\_init}}
+\index{platform\_init@{platform\_init}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{platform\_init()}{platform\_init()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{constants_8h_a3fd9ebd8efee0fa3a0efe8e4182b88de}{omniglass\+\_\+init\+\_\+result}} platform\+\_\+init (\begin{DoxyParamCaption}\item[{struct \mbox{\hyperlink{structplatform}{platform}} \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{handle,  }\item[{lua\+\_\+\+State \texorpdfstring{$\ast$}{*}}]{vm }\end{DoxyParamCaption})}
+
+initialize the platform. you MUST call the platform init before using any other platform function. you MUST ensure any lua state passed into the other functions has been passed to this function first. 
+\begin{DoxyParams}{Parameters}
+{\em platform} & a pointer to a pointer of a platform. \\
+\hline
+{\em vm} & the lua state that will use platform functions.\\
+\hline
+\end{DoxyParams}
+this function pushes the entire platform internal API and state into a lua table 
+\begin{DoxyParams}{Parameters}
+{\em handle} & a pointer to a pointer of a handle to create. \\
+\hline
+{\em vm} & an already-\/initialized lua state to be injected with the internal platform API \\
+\hline
+\end{DoxyParams}
+\Hypertarget{platform_8h_aba06d040d815f0679c3e8b8bacab12d2}\label{platform_8h_aba06d040d815f0679c3e8b8bacab12d2} 
+\index{platform.h@{platform.h}!platform\_parse\_events@{platform\_parse\_events}}
+\index{platform\_parse\_events@{platform\_parse\_events}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{platform\_parse\_events()}{platform\_parse\_events()}}
+{\footnotesize\ttfamily int platform\+\_\+parse\+\_\+events (\begin{DoxyParamCaption}\item[{lua\+\_\+\+State \texorpdfstring{$\ast$}{*}}]{vm }\end{DoxyParamCaption})}
+
+(LUA-\/\+FACING) called by the lua VM to convert the latest events into a touch report.
+
+(LUA-\/\+FACING) this function is where the linux touchpad implementation gets its touch points from the evdev interface 
