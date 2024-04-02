@@ -134,26 +134,26 @@ int trigger_gesture_edge(lua_State *vm){
 int push_public_report(lua_State *vm){
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
     int touch_count = luaL_checkinteger(vm, 2);
-    printf("touch count is %d\n", touch_count);
+    // printf("touch count is %d\n", touch_count);
     for (int i = 0; i < touch_count; i++){
         lua_pushnumber(vm,i+1);
             lua_gettable(vm, 3);
             lua_pushstring(vm,"touched");
                 lua_gettable(vm,4);
-                printf("indexing \"touched\" field\n");
+                // printf("indexing \"touched\" field\n");
                 handle->last_raw_report.points[i].is_touching = lua_toboolean(vm,5);
                 lua_pop(vm,1);
             lua_pushstring(vm,"x");
                 lua_gettable(vm,4);
-                printf("indexing \"x\" field\n");
+                // printf("indexing \"x\" field\n");
                 handle->last_raw_report.points[i].x = luaL_checknumber(vm,5);
                 lua_pop(vm,1);
             lua_pushstring(vm,"y");
                 lua_gettable(vm,4);
-                printf("indexing \"y\" field\n");
+                // printf("indexing \"y\" field\n");
                 handle->last_raw_report.points[i].y = luaL_checknumber(vm,5);
-                lua_pop(vm,1);
-    }
+                lua_pop(vm,2);
+    };
     return 0;
 }
 
@@ -228,7 +228,7 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
         printf("could not initialize omniglass lua core. Error: %s", luaL_checkstring((*handle)->vm,-1));
         return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
     }
-    (*handle)->last_raw_report.points=malloc(sizeof(struct omniglass_raw_report) * spec->max_points); //this might actually belong in the platform layer
+    (*handle)->last_raw_report.points=malloc(sizeof(struct omniglass_raw_touchpoint) * spec->max_points); //this might actually belong in the platform layer
     printf("touchpad spec: width %2fmm, height %2fmm, %d-touch max\n", spec->width, spec->height, spec->max_points);
 
     printf("initialized omniglass core\n");
