@@ -68,8 +68,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">omniglass.h File Reference</div>  </div>
 </div><!--header-->
@@ -89,11 +88,20 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomniglass__raw__report.html">omniglass_raw_report</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomniglass__raw__specifications.html">omniglass_raw_specifications</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:a6579af6658c50b7e1cc0b63e8f2d9d7c"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structomniglass__raw__touchpoint.html">omniglass_raw_touchpoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="omniglass_8h.html#a6579af6658c50b7e1cc0b63e8f2d9d7c">omniglass_raw_touchpoint</a></td></tr>
 <tr class="separator:a6579af6658c50b7e1cc0b63e8f2d9d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae22a25bd4ee2fb208024edce4d957fd9"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structomniglass__raw__report.html">omniglass_raw_report</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="omniglass_8h.html#ae22a25bd4ee2fb208024edce4d957fd9">omniglass_raw_report</a></td></tr>
+<tr class="separator:ae22a25bd4ee2fb208024edce4d957fd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98ed58d5c21fdac39cda99d22829da99"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structomniglass__raw__specifications.html">omniglass_raw_specifications</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="omniglass_8h.html#a98ed58d5c21fdac39cda99d22829da99">omniglass_raw_specifications</a></td></tr>
+<tr class="separator:a98ed58d5c21fdac39cda99d22829da99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca6dfbe446aced1006662f2e8d2e1c72"><td class="memItemLeft" align="right" valign="top"><a id="aca6dfbe446aced1006662f2e8d2e1c72"></a>
+typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>omniglass_callback_slide</b>) (double)</td></tr>
+<tr class="separator:aca6dfbe446aced1006662f2e8d2e1c72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b6fb844ad3193728cba244ec57903f4"><td class="memItemLeft" align="right" valign="top"><a id="a7b6fb844ad3193728cba244ec57903f4"></a>
 typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><b>omniglass_callback_pressed</b>) (int)</td></tr>
 <tr class="separator:a7b6fb844ad3193728cba244ec57903f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,21 +141,41 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>omniglass_register_cal
 <tr class="memitem:af44204af40b3aed40db340ac7fdac902"><td class="memItemLeft" align="right" valign="top"><a id="af44204af40b3aed40db340ac7fdac902"></a>
 <a class="el" href="constants_8h.html#a4bd0f61798fc9e575d5546f5e154d697">omniglass_gesture_operation_result</a>&#160;</td><td class="memItemRight" valign="bottom"><b>omniglass_listen_gesture_edge_bottom</b> (struct <a class="el" href="structomniglass.html">omniglass</a> *handle, omniglass_callback_edge callback, void *passthrough)</td></tr>
 <tr class="separator:af44204af40b3aed40db340ac7fdac902"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a9e8f22ea11585c2111c4b2be016485e5"><td class="memItemLeft" align="right" valign="top"><a id="a9e8f22ea11585c2111c4b2be016485e5"></a>
-struct <a class="el" href="structomniglass__raw__report.html">omniglass_raw_report</a> void(*&#160;</td><td class="memItemRight" valign="bottom"><b>omniglass_callback_slide</b> )(double)</td></tr>
-<tr class="separator:a9e8f22ea11585c2111c4b2be016485e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3911b1d7b15c02dde70b8edc3b750980"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="omniglass_8h.html#a3911b1d7b15c02dde70b8edc3b750980">points_max</a></td></tr>
-<tr class="separator:a3911b1d7b15c02dde70b8edc3b750980"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99f456027caa3bb0192aec1fd84e45d2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structomniglass__raw__touchpoint.html">omniglass_raw_touchpoint</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="omniglass_8h.html#a99f456027caa3bb0192aec1fd84e45d2">points</a></td></tr>
-<tr class="separator:a99f456027caa3bb0192aec1fd84e45d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>the omniglass public API definition. </p>
 <p>the omniglass API gives applications means to detect and probe for gesture events on touchpad devices. </p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
+<a id="ae22a25bd4ee2fb208024edce4d957fd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae22a25bd4ee2fb208024edce4d957fd9">&#9670;&nbsp;</a></span>omniglass_raw_report</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structomniglass__raw__report.html">omniglass_raw_report</a> <a class="el" href="structomniglass__raw__report.html">omniglass_raw_report</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>a report of contact points, barely filtered from the latest input events acquired from the platform </p>
+
+</div>
+</div>
+<a id="a98ed58d5c21fdac39cda99d22829da99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98ed58d5c21fdac39cda99d22829da99">&#9670;&nbsp;</a></span>omniglass_raw_specifications</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structomniglass__raw__specifications.html">omniglass_raw_specifications</a> <a class="el" href="structomniglass__raw__specifications.html">omniglass_raw_specifications</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>a representation of the touchpad's capabilities relevant to gesture detection. </p>
+
+</div>
+</div>
 <a id="a6579af6658c50b7e1cc0b63e8f2d9d7c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6579af6658c50b7e1cc0b63e8f2d9d7c">&#9670;&nbsp;</a></span>omniglass_raw_touchpoint</h2>
 
@@ -369,37 +397,6 @@ struct <a class="el" href="structomniglass__raw__report.html">omniglass_raw_repo
   </dd>
 </dl>
 <p>step function. user code must schedule to call this at ~100hz or more for responsiveness </p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a99f456027caa3bb0192aec1fd84e45d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99f456027caa3bb0192aec1fd84e45d2">&#9670;&nbsp;</a></span>points</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structomniglass__raw__touchpoint.html">omniglass_raw_touchpoint</a>* points</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>array with all the touch points that may be detected by the touchpad. </p>
-
-</div>
-</div>
-<a id="a3911b1d7b15c02dde70b8edc3b750980"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3911b1d7b15c02dde70b8edc3b750980">&#9670;&nbsp;</a></span>points_max</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int points_max</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>number of touch points on the "points" array. note: this value means "up to this many may touch at once", do not mistake it for "there are this many touching right now" </p>
 
 </div>
 </div>

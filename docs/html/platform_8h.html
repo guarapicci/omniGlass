@@ -113,8 +113,7 @@ typedef unsigned int&#160;</td><td class="memItemRight" valign="bottom"><b>touch
 <tr class="separator:a0eac97436f547ec37d7e63832ef40ef9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e5689b01419f144949ae24fd4c72bf4"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structmultitouch__report.html">multitouch_report</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="platform_8h.html#a0e5689b01419f144949ae24fd4c72bf4">multitouch_report</a></td></tr>
 <tr class="separator:a0e5689b01419f144949ae24fd4c72bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae2dacff09cf7b13d3424c2aa6851007"><td class="memItemLeft" align="right" valign="top"><a id="aae2dacff09cf7b13d3424c2aa6851007"></a>
-typedef struct <a class="el" href="structtouchpad__params.html">touchpad_params</a>&#160;</td><td class="memItemRight" valign="bottom"><b>touchpad_params</b></td></tr>
+<tr class="memitem:aae2dacff09cf7b13d3424c2aa6851007"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtouchpad__params.html">touchpad_params</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="platform_8h.html#aae2dacff09cf7b13d3424c2aa6851007">touchpad_params</a></td></tr>
 <tr class="separator:aae2dacff09cf7b13d3424c2aa6851007"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -132,6 +131,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aeec86e0ac809b580b043437814b5130b"><td class="memItemLeft" align="right" valign="top"><a id="aeec86e0ac809b580b043437814b5130b"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>multitouch_next_report</b> (struct <a class="el" href="structmultitouch__report.html">multitouch_report</a> *report)</td></tr>
 <tr class="separator:aeec86e0ac809b580b043437814b5130b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26a157634a33f4985097c933a4f64049"><td class="memItemLeft" align="right" valign="top"><a id="a26a157634a33f4985097c933a4f64049"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>get_touchpad_parameters</b> (struct <a class="el" href="structomniglass.html">omniglass</a> *handle, struct <a class="el" href="structtouchpad__params.html">touchpad_params</a> *destination)</td></tr>
+<tr class="separator:a26a157634a33f4985097c933a4f64049"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba06d040d815f0679c3e8b8bacab12d2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="platform_8h.html#aba06d040d815f0679c3e8b8bacab12d2">platform_parse_events</a> (lua_State *vm)</td></tr>
 <tr class="separator:aba06d040d815f0679c3e8b8bacab12d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3291c7e94cbcf789e872db612f63815f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="platform_8h.html#a3291c7e94cbcf789e872db612f63815f">platform_get_last_report</a> (lua_State *vm)</td></tr>
@@ -203,6 +205,21 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>multitouch_next_report
       </table>
 </div><div class="memdoc">
 <p>Touch point in left-to-right x and bottom-to-top y. Touch points include a touch ID; </p>
+
+</div>
+</div>
+<a id="aae2dacff09cf7b13d3424c2aa6851007"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae2dacff09cf7b13d3424c2aa6851007">&#9670;&nbsp;</a></span>touchpad_params</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structtouchpad__params.html">touchpad_params</a> <a class="el" href="structtouchpad__params.html">touchpad_params</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>internal touchpad parameters straight from the drivers. do not mistake this for the public touchpad specification from the API, which has normalized dimensions! </p>
 
 </div>
 </div>

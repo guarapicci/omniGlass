@@ -39,8 +39,7 @@ typedef struct \mbox{\hyperlink{structextended__touch__parameter}{extended\+\_\+
 \item 
 typedef struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}} \mbox{\hyperlink{platform_8h_a0e5689b01419f144949ae24fd4c72bf4}{multitouch\+\_\+report}}
 \item 
-\mbox{\Hypertarget{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}\label{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}} 
-typedef struct \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}} {\bfseries touchpad\+\_\+params}
+typedef struct \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}} \mbox{\hyperlink{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}{touchpad\+\_\+params}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
@@ -57,6 +56,9 @@ enum \mbox{\hyperlink{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}{touch\+Para
 \item 
 \mbox{\Hypertarget{platform_8h_aeec86e0ac809b580b043437814b5130b}\label{platform_8h_aeec86e0ac809b580b043437814b5130b}} 
 int {\bfseries multitouch\+\_\+next\+\_\+report} (struct \mbox{\hyperlink{structmultitouch__report}{multitouch\+\_\+report}} $\ast$report)
+\item 
+\mbox{\Hypertarget{platform_8h_a26a157634a33f4985097c933a4f64049}\label{platform_8h_a26a157634a33f4985097c933a4f64049}} 
+void {\bfseries get\+\_\+touchpad\+\_\+parameters} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, struct \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}} $\ast$destination)
 \item 
 int \mbox{\hyperlink{platform_8h_aba06d040d815f0679c3e8b8bacab12d2}{platform\+\_\+parse\+\_\+events}} (lua\+\_\+\+State $\ast$vm)
 \item 
@@ -100,7 +102,13 @@ type identification for extended parameters of a touch contact (might eventually
 \doxysubsubsection{\texorpdfstring{touch\_point}{touch\_point}}
 {\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structtouch__point}{touch\+\_\+point}} \mbox{\hyperlink{structtouch__point}{touch\+\_\+point}}}
 
-Touch point in left-\/to-\/right x and bottom-\/to-\/top y. Touch points include a touch ID; 
+Touch point in left-\/to-\/right x and bottom-\/to-\/top y. Touch points include a touch ID; \mbox{\Hypertarget{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}\label{platform_8h_aae2dacff09cf7b13d3424c2aa6851007}} 
+\index{platform.h@{platform.h}!touchpad\_params@{touchpad\_params}}
+\index{touchpad\_params@{touchpad\_params}!platform.h@{platform.h}}
+\doxysubsubsection{\texorpdfstring{touchpad\_params}{touchpad\_params}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}} \mbox{\hyperlink{structtouchpad__params}{touchpad\+\_\+params}}}
+
+internal touchpad parameters straight from the drivers. do not mistake this for the public touchpad specification from the API, which has normalized dimensions! 
 
 \doxysubsection{Enumeration Type Documentation}
 \mbox{\Hypertarget{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}\label{platform_8h_a2e69ce2921d9c247f4a35b101bf1744c}} 

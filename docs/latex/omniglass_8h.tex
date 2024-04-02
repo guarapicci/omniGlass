@@ -14,11 +14,20 @@ the omniglass public API definition.
 struct \mbox{\hyperlink{structomniglass__raw__touchpoint}{omniglass\+\_\+raw\+\_\+touchpoint}}
 \item 
 struct \mbox{\hyperlink{structomniglass__raw__report}{omniglass\+\_\+raw\+\_\+report}}
+\item 
+struct \mbox{\hyperlink{structomniglass__raw__specifications}{omniglass\+\_\+raw\+\_\+specifications}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
 typedef struct \mbox{\hyperlink{structomniglass__raw__touchpoint}{omniglass\+\_\+raw\+\_\+touchpoint}} \mbox{\hyperlink{omniglass_8h_a6579af6658c50b7e1cc0b63e8f2d9d7c}{omniglass\+\_\+raw\+\_\+touchpoint}}
+\item 
+typedef struct \mbox{\hyperlink{structomniglass__raw__report}{omniglass\+\_\+raw\+\_\+report}} \mbox{\hyperlink{omniglass_8h_ae22a25bd4ee2fb208024edce4d957fd9}{omniglass\+\_\+raw\+\_\+report}}
+\item 
+typedef struct \mbox{\hyperlink{structomniglass__raw__specifications}{omniglass\+\_\+raw\+\_\+specifications}} \mbox{\hyperlink{omniglass_8h_a98ed58d5c21fdac39cda99d22829da99}{omniglass\+\_\+raw\+\_\+specifications}}
+\item 
+\mbox{\Hypertarget{omniglass_8h_aca6dfbe446aced1006662f2e8d2e1c72}\label{omniglass_8h_aca6dfbe446aced1006662f2e8d2e1c72}} 
+typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+slide}) (double)
 \item 
 \mbox{\Hypertarget{omniglass_8h_a7b6fb844ad3193728cba244ec57903f4}\label{omniglass_8h_a7b6fb844ad3193728cba244ec57903f4}} 
 typedef void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+pressed}) (int)
@@ -59,16 +68,6 @@ void \mbox{\hyperlink{omniglass_8h_a8286440d8ee3e603fa313c0c48c62015}{omniglass\
 \mbox{\Hypertarget{omniglass_8h_af44204af40b3aed40db340ac7fdac902}\label{omniglass_8h_af44204af40b3aed40db340ac7fdac902}} 
 \mbox{\hyperlink{constants_8h_a4bd0f61798fc9e575d5546f5e154d697}{omniglass\+\_\+gesture\+\_\+operation\+\_\+result}} {\bfseries omniglass\+\_\+listen\+\_\+gesture\+\_\+edge\+\_\+bottom} (struct \mbox{\hyperlink{structomniglass}{omniglass}} $\ast$handle, omniglass\+\_\+callback\+\_\+edge callback, void $\ast$passthrough)
 \end{DoxyCompactItemize}
-\doxysubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-\mbox{\Hypertarget{omniglass_8h_a9e8f22ea11585c2111c4b2be016485e5}\label{omniglass_8h_a9e8f22ea11585c2111c4b2be016485e5}} 
-struct \mbox{\hyperlink{structomniglass__raw__report}{omniglass\+\_\+raw\+\_\+report}} void($\ast$ {\bfseries omniglass\+\_\+callback\+\_\+slide} )(double)
-\item 
-int \mbox{\hyperlink{omniglass_8h_a3911b1d7b15c02dde70b8edc3b750980}{points\+\_\+max}}
-\item 
-\mbox{\hyperlink{structomniglass__raw__touchpoint}{omniglass\+\_\+raw\+\_\+touchpoint}} $\ast$ \mbox{\hyperlink{omniglass_8h_a99f456027caa3bb0192aec1fd84e45d2}{points}}
-\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -77,7 +76,19 @@ the omniglass public API definition.
 the omniglass API gives applications means to detect and probe for gesture events on touchpad devices. 
 
 \doxysubsection{Typedef Documentation}
-\mbox{\Hypertarget{omniglass_8h_a6579af6658c50b7e1cc0b63e8f2d9d7c}\label{omniglass_8h_a6579af6658c50b7e1cc0b63e8f2d9d7c}} 
+\mbox{\Hypertarget{omniglass_8h_ae22a25bd4ee2fb208024edce4d957fd9}\label{omniglass_8h_ae22a25bd4ee2fb208024edce4d957fd9}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_raw\_report@{omniglass\_raw\_report}}
+\index{omniglass\_raw\_report@{omniglass\_raw\_report}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_raw\_report}{omniglass\_raw\_report}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structomniglass__raw__report}{omniglass\+\_\+raw\+\_\+report}} \mbox{\hyperlink{structomniglass__raw__report}{omniglass\+\_\+raw\+\_\+report}}}
+
+a report of contact points, barely filtered from the latest input events acquired from the platform \mbox{\Hypertarget{omniglass_8h_a98ed58d5c21fdac39cda99d22829da99}\label{omniglass_8h_a98ed58d5c21fdac39cda99d22829da99}} 
+\index{omniglass.h@{omniglass.h}!omniglass\_raw\_specifications@{omniglass\_raw\_specifications}}
+\index{omniglass\_raw\_specifications@{omniglass\_raw\_specifications}!omniglass.h@{omniglass.h}}
+\doxysubsubsection{\texorpdfstring{omniglass\_raw\_specifications}{omniglass\_raw\_specifications}}
+{\footnotesize\ttfamily typedef struct \mbox{\hyperlink{structomniglass__raw__specifications}{omniglass\+\_\+raw\+\_\+specifications}} \mbox{\hyperlink{structomniglass__raw__specifications}{omniglass\+\_\+raw\+\_\+specifications}}}
+
+a representation of the touchpad\textquotesingle{}s capabilities relevant to gesture detection. \mbox{\Hypertarget{omniglass_8h_a6579af6658c50b7e1cc0b63e8f2d9d7c}\label{omniglass_8h_a6579af6658c50b7e1cc0b63e8f2d9d7c}} 
 \index{omniglass.h@{omniglass.h}!omniglass\_raw\_touchpoint@{omniglass\_raw\_touchpoint}}
 \index{omniglass\_raw\_touchpoint@{omniglass\_raw\_touchpoint}!omniglass.h@{omniglass.h}}
 \doxysubsubsection{\texorpdfstring{omniglass\_raw\_touchpoint}{omniglass\_raw\_touchpoint}}
@@ -187,18 +198,3 @@ this function must be called at $\sim$100hz in the application\textquotesingle{}
 \hline
 \end{DoxyParams}
 step function. user code must schedule to call this at $\sim$100hz or more for responsiveness 
-
-\doxysubsection{Variable Documentation}
-\mbox{\Hypertarget{omniglass_8h_a99f456027caa3bb0192aec1fd84e45d2}\label{omniglass_8h_a99f456027caa3bb0192aec1fd84e45d2}} 
-\index{omniglass.h@{omniglass.h}!points@{points}}
-\index{points@{points}!omniglass.h@{omniglass.h}}
-\doxysubsubsection{\texorpdfstring{points}{points}}
-{\footnotesize\ttfamily \mbox{\hyperlink{structomniglass__raw__touchpoint}{omniglass\+\_\+raw\+\_\+touchpoint}}$\ast$ points}
-
-array with all the touch points that may be detected by the touchpad. \mbox{\Hypertarget{omniglass_8h_a3911b1d7b15c02dde70b8edc3b750980}\label{omniglass_8h_a3911b1d7b15c02dde70b8edc3b750980}} 
-\index{omniglass.h@{omniglass.h}!points\_max@{points\_max}}
-\index{points\_max@{points\_max}!omniglass.h@{omniglass.h}}
-\doxysubsubsection{\texorpdfstring{points\_max}{points\_max}}
-{\footnotesize\ttfamily int points\+\_\+max}
-
-number of touch points on the \char`\"{}points\char`\"{} array. note\+: this value means \char`\"{}up to this many may touch at once\char`\"{}, do not mistake it for \char`\"{}there are this many touching right now\char`\"{} 

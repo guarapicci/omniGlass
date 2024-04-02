@@ -15,11 +15,12 @@ var searchData=
   ['omniglass_5foperation_5fresults_22',['omniglass_operation_results',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633',1,'constants.h']]],
   ['omniglass_5fplatform_5finit_5fconfig_5finvalid_23',['OMNIGLASS_PLATFORM_INIT_CONFIG_INVALID',['../constants_8h.html#a3fd9ebd8efee0fa3a0efe8e4182b88dea57ce5e4b1fe52b578dafe6feb1e1c1f1',1,'constants.h']]],
   ['omniglass_5fplatform_5finit_5fno_5ftouchpad_24',['OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD',['../constants_8h.html#a3fd9ebd8efee0fa3a0efe8e4182b88dea79550d2db58b318e3b1455e32559fdaf',1,'constants.h']]],
-  ['omniglass_5fraw_5freport_25',['omniglass_raw_report',['../structomniglass__raw__report.html',1,'']]],
-  ['omniglass_5fraw_5ftouchpoint_26',['omniglass_raw_touchpoint',['../structomniglass__raw__touchpoint.html',1,'omniglass_raw_touchpoint'],['../omniglass_8h.html#a6579af6658c50b7e1cc0b63e8f2d9d7c',1,'omniglass_raw_touchpoint():&#160;omniglass.h']]],
-  ['omniglass_5fresult_5fbootstrap_5ffailed_27',['OMNIGLASS_RESULT_BOOTSTRAP_FAILED',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a21a3717ef3b41c06f9bd6181e282a043',1,'constants.h']]],
-  ['omniglass_5fresult_5fmultitouch_5freport_5ffailed_28',['OMNIGLASS_RESULT_MULTITOUCH_REPORT_FAILED',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a67d6fb73d4850055a5dc7c5b41425aa3',1,'constants.h']]],
-  ['omniglass_5fresult_5fnomem_29',['OMNIGLASS_RESULT_NOMEM',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a7ba1a3eee4120fd0d04ec0c612d47369',1,'constants.h']]],
-  ['omniglass_5fstep_30',['omniglass_step',['../omniglass_8h.html#a410372cd764e9b02f866c6004c94243c',1,'omniglass.c']]],
-  ['omniglass_5ftouchpad_5fedge_31',['omniglass_touchpad_edge',['../constants_8h.html#a016c0fdb230ec8c5e251979f117d15d1',1,'constants.h']]]
+  ['omniglass_5fraw_5freport_25',['omniglass_raw_report',['../omniglass_8h.html#ae22a25bd4ee2fb208024edce4d957fd9',1,'omniglass_raw_report():&#160;omniglass.h'],['../structomniglass__raw__report.html',1,'omniglass_raw_report']]],
+  ['omniglass_5fraw_5fspecifications_26',['omniglass_raw_specifications',['../structomniglass__raw__specifications.html',1,'omniglass_raw_specifications'],['../omniglass_8h.html#a98ed58d5c21fdac39cda99d22829da99',1,'omniglass_raw_specifications():&#160;omniglass.h']]],
+  ['omniglass_5fraw_5ftouchpoint_27',['omniglass_raw_touchpoint',['../structomniglass__raw__touchpoint.html',1,'omniglass_raw_touchpoint'],['../omniglass_8h.html#a6579af6658c50b7e1cc0b63e8f2d9d7c',1,'omniglass_raw_touchpoint():&#160;omniglass.h']]],
+  ['omniglass_5fresult_5fbootstrap_5ffailed_28',['OMNIGLASS_RESULT_BOOTSTRAP_FAILED',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a21a3717ef3b41c06f9bd6181e282a043',1,'constants.h']]],
+  ['omniglass_5fresult_5fmultitouch_5freport_5ffailed_29',['OMNIGLASS_RESULT_MULTITOUCH_REPORT_FAILED',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a67d6fb73d4850055a5dc7c5b41425aa3',1,'constants.h']]],
+  ['omniglass_5fresult_5fnomem_30',['OMNIGLASS_RESULT_NOMEM',['../constants_8h.html#a2dd274fcff06b621fbae6812ffd39633a7ba1a3eee4120fd0d04ec0c612d47369',1,'constants.h']]],
+  ['omniglass_5fstep_31',['omniglass_step',['../omniglass_8h.html#a410372cd764e9b02f866c6004c94243c',1,'omniglass.c']]],
+  ['omniglass_5ftouchpad_5fedge_32',['omniglass_touchpad_edge',['../constants_8h.html#a016c0fdb230ec8c5e251979f117d15d1',1,'constants.h']]]
 ];
