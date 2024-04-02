@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['touches_74',['touches',['../structmultitouch__report.html#a828f7b4de86e6ee3afeac86175a8d4f5',1,'multitouch_report']]],
-  ['touchpad_5fhandle_75',['touchpad_handle',['../structplatform.html#ab6102ae2e90fb04f6006729181c86d93',1,'platform']]],
-  ['type_76',['type',['../structextended__touch__parameter.html#a281be610bbdee798dc54869f7f633411',1,'extended_touch_parameter']]]
+  ['report_85',['report',['../structplatform.html#a0c6ee0d8dfe3e2b23ce6c0e59859f71f',1,'platform']]]
 ];

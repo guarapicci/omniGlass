@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['touch_5fparameter_80',['touch_parameter',['../platform_8h.html#ac3f664eb43be5893ff4beada78082c9d',1,'platform.h']]],
-  ['touch_5fpoint_81',['touch_point',['../platform_8h.html#a0b03e7b3c4c0074f024cdecf8f172e25',1,'platform.h']]]
+  ['omniglass_5fraw_5ftouchpoint_94',['omniglass_raw_touchpoint',['../omniglass_8h.html#a6579af6658c50b7e1cc0b63e8f2d9d7c',1,'omniglass.h']]]
 ];

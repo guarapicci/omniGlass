@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['platform_72',['platform',['../structomniglass.html#a0ca1eae6227477e01f7830333d072d91',1,'omniglass']]]
+  ['max_5ftouchpoints_81',['max_touchpoints',['../structplatform.html#a17437f390215f466effbf92425dde534',1,'platform']]]
 ];
