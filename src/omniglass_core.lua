@@ -1,4 +1,30 @@
-touchpad = {}
+touchpad =
+{
+    boundaries =
+    {
+        max_x = 0,
+        max_y = 0
+    },
+    last_touch_report_public=
+    {
+        {
+            touched = false,
+            x = 0,
+            y = 0,
+        },
+        {
+            touched = false,
+            x = 0,
+            y = 0
+        }
+    },
+    capabilities =
+    {
+        width = 0,
+        height = 0,
+        touch_count = 0
+    }
+}
 
 print("lua-side parameter dump")
 touchpad.boundaries = platform:get_touchpad_boundaries()
@@ -8,6 +34,14 @@ end
 for k, v in pairs(config) do
     print(k, v)
 end
+
+touchpad.capabilities = {
+    width = touchpad.boundaries.max_x * config.scale,
+    height = touchpad.boundaries.max_y * config.scale,
+    touch_count = #(platform:get_last_report().touches) --careful if you replace the platform, this value must be constant per-touchpad
+}
+
+omniglass:push_public_touchpad_specifications(touchpad.capabilities.width, touchpad.capabilities.height, touchpad.capabilities.touch_count)
 
 -- every touch point from the platform goes through here.
 -- this centralizes all correction, flipping and transformations applied globally to touchpad contact points
@@ -30,6 +64,7 @@ function getpoints()
     for k, v in ipairs(report.touches) do
         transformed_points[k] = transform_touchpoint(report.touches[k])
     end
+    touchpad.last_touch_report_public = transformed_points
     return transformed_points
 end
 
@@ -193,5 +228,7 @@ function step()
             statemachines[name] = nil
         end
     end
+    --(FIXME fix broken public report calls to expose the touchpad's points)
+    --omniglass:push_public_report(#touchpad.last_touch_report_public, touchpad.last_touch_report_public)
 end
 print("ms2: \n\t create_task_slide", create_task_slide)

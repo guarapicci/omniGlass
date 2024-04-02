@@ -89,6 +89,9 @@ typedef struct multitouch_report{
 
 int multitouch_next_report(struct multitouch_report *report);
 
+/** internal touchpad parameters straight from the drivers.
+ * do not mistake this for the public touchpad specification from the API, which has normalized dimensions!
+ */
 typedef struct touchpad_params{
     int min_x;
     int max_x;
@@ -97,6 +100,8 @@ typedef struct touchpad_params{
     int touch_count;
     int extended_touch_parameter_count;
 } touchpad_params;
+
+void get_touchpad_parameters(struct omniglass *handle, struct touchpad_params *destination);
 
 /**(LUA-FACING)
  * called by the lua VM to convert the latest events into a touch report.
@@ -118,4 +123,3 @@ omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omnigla
  *  @param handle a handle to omniglass.
  * */
 void omniglass_disable_gesture_slide(struct omniglass *handle);
-

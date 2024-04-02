@@ -39,6 +39,14 @@ typedef struct omniglass_raw_report {
   omniglass_raw_touchpoint *points; /**< array with all the touch points that may be detected by the touchpad. */
 } omniglass_raw_report;
 
+/** a representation of the touchpad's capabilities relevant to gesture detection.
+ */
+typedef struct omniglass_raw_specifications {
+  double width;
+  double height;
+  int max_points;
+} omniglass_raw_specifications;
+
 /* callback section (listen, remove listener, define gestures)
  * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.
  * this allows passing to each callback the data it needs without using global variables.

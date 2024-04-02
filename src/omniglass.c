@@ -18,6 +18,9 @@ struct omniglass{
     struct platform *platform; /**<touchpad device backends (evdev/HID/etc.) and all of their associated state go here*/
     lua_State *vm; /**<lua Virtual Machine (abbreviated as "vm")*/
     
+    omniglass_raw_specifications touchpad_specifications;
+    omniglass_raw_report last_raw_report;
+
     // gesture trigger callbacks
     // function pointers registered here will be called when their respective gesture happens.
     omniglass_callback_slide cslide; /**< called on slide left/right.*/
@@ -123,10 +126,49 @@ int trigger_gesture_edge(lua_State *vm){
     return 0;
 }
 
+//(FIXME broken function.)
+/**(LUA-FACING)
+ * (requires fully initialized platform!)
+ * copy transformed touch points back to the public multitouch report
+ */
+int push_public_report(lua_State *vm){
+    struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
+    int touch_count = luaL_checkinteger(vm, 2);
+    printf("touch count is %d\n", touch_count);
+    for (int i = 0; i < touch_count; i++){
+        lua_pushnumber(vm,i+1);
+            lua_gettable(vm, 3);
+            lua_pushstring(vm,"touched");
+                lua_gettable(vm,4);
+                handle->last_raw_report.points[i].is_touching = lua_toboolean(vm,-1);
+            lua_pushstring(vm,"x");
+                lua_gettable(vm,4);
+                handle->last_raw_report.points[i].x = luaL_checknumber(vm,-1);
+            lua_pushstring(vm,"y");
+                lua_gettable(vm,4);
+                handle->last_raw_report.points[i].y = luaL_checknumber(vm,-1);
+    }
+    return 0;
+}
+
+/**(LUA-FACING)
+ * (requires fully initialized platform!)
+ * hand transformed touchpad specifications to the C-side state.
+ */
+int push_public_touchpad_specifications(lua_State *vm){
+    struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
+    omniglass_raw_specifications *spec = &(handle->touchpad_specifications);
+    spec->width = luaL_checknumber(vm, 2);
+    spec->height = luaL_checknumber(vm, 3);
+    spec->max_points = luaL_checkinteger(vm, 4);
+    return 0;
+}
 
 luaL_Reg core_api_cfuncs [] = {
     {"trigger_gesture_slide", trigger_gesture_slide},
     {"trigger_gesture_edge", trigger_gesture_edge},
+    {"push_public_report", push_public_report},
+    {"push_public_touchpad_specifications", push_public_touchpad_specifications},
     {NULL, NULL}
 };
 
@@ -143,11 +185,18 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
     printf("creating omniglass handle\n");
     fflush(stdout);
     
-    //create omniglass state structure with valid initial values.
+    //create omniglass state structure with "safe" initial values.
     *handle = lua_newuserdata(vm, sizeof(struct omniglass));
     (*handle)->cslide = NULL;
     (*handle)->vm = vm;
-    
+
+    omniglass_raw_specifications *spec = &((*handle)->touchpad_specifications);
+    spec->width = 0.0;
+    spec->height = 0.0;
+    spec->max_points = 0;
+
+    (*handle)->last_raw_report.points=NULL;
+
     printf("pushing core C API.\n");
         //push core C functions into lua omniglass table
         luaL_newmetatable(vm, OMNIGLASS_CLASS_NAME_META);    // the "omniglass" metatable holds native operations
@@ -167,13 +216,17 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
         fprintf(stderr,"failed to initialize omniglass platform.\n");
         return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
     }
-    
+
     //Load core logic (configures gesture detection and event emission)
     if(luaL_dofile((*handle)->vm, OMNIGLASS_ENV_LIB_FOLDER "/omniglass_core.lua")){
         printf("could not initialize omniglass lua core. Error: %s", luaL_checkstring((*handle)->vm,-1));
         return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
     }
+    (*handle)->last_raw_report.points=malloc(sizeof(struct omniglass_raw_report) * spec->max_points); //this might actually belong in the platform layer
+    printf("touchpad spec: width %2fmm, height %2fmm, %d-touch max\n", spec->width, spec->height, spec->max_points);
+
     printf("initialized omniglass core\n");
+
     fflush(stdout);
     return OMNIGLASS_RESULT_SUCCESS;
 }
