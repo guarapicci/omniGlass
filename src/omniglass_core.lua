@@ -229,6 +229,6 @@ function step()
         end
     end
     --(FIXME fix broken public report calls to expose the touchpad's points)
-    --omniglass:push_public_report(#touchpad.last_touch_report_public, touchpad.last_touch_report_public)
+--     omniglass:push_public_report(#touchpad.last_touch_report_public, touchpad.last_touch_report_public)
 end
 print("ms2: \n\t create_task_slide", create_task_slide)

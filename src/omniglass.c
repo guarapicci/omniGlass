@@ -140,13 +140,19 @@ int push_public_report(lua_State *vm){
             lua_gettable(vm, 3);
             lua_pushstring(vm,"touched");
                 lua_gettable(vm,4);
-                handle->last_raw_report.points[i].is_touching = lua_toboolean(vm,-1);
+                printf("indexing \"touched\" field\n");
+                handle->last_raw_report.points[i].is_touching = lua_toboolean(vm,5);
+                lua_pop(vm,1);
             lua_pushstring(vm,"x");
                 lua_gettable(vm,4);
-                handle->last_raw_report.points[i].x = luaL_checknumber(vm,-1);
+                printf("indexing \"x\" field\n");
+                handle->last_raw_report.points[i].x = luaL_checknumber(vm,5);
+                lua_pop(vm,1);
             lua_pushstring(vm,"y");
                 lua_gettable(vm,4);
-                handle->last_raw_report.points[i].y = luaL_checknumber(vm,-1);
+                printf("indexing \"y\" field\n");
+                handle->last_raw_report.points[i].y = luaL_checknumber(vm,5);
+                lua_pop(vm,1);
     }
     return 0;
 }
