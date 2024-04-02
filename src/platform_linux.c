@@ -20,7 +20,7 @@
 #include <linux/input.h>
 //this is not the path shown by the official example,
 //but it is the actual path for both debian, arch and SUSE.
-#include <libevdev-1.0/libevdev/libevdev.h>
+#include "libevdev/libevdev.h"
 
 #define PLATFORM_CLASS_NAME_META "platform_meta"
 #define PLATFORM_CLASS_NAME_GLOBAL "platform"

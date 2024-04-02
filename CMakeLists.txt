@@ -25,17 +25,16 @@ configure_file(scripts/launcher.sh ${CMAKE_BINARY_DIR} COPYONLY)
 find_library(evdev libevdev)
 find_library(luaruntime lua5.1)
 
-add_library(platform_linux "src/platform_linux.c")
-set_property(TARGET platform_linux
-    PROPERTY POSITION_INDEPENDENT_CODE True)
-    
-# linux platform (only one right now) uses libevdev and lua 5.1
-target_link_libraries(platform_linux evdev)
-target_include_directories(platform_linux PUBLIC "/usr/include/lua5.1")
-
 # resulting shared object uses the platform implementation
-add_library(omniglass_linux SHARED "src/omniglass.c")
-target_link_libraries(omniglass_linux lua5.1 platform_linux)
+add_library(omniglass_linux SHARED "src/omniglass.c" "src/platform_linux.c")
+target_link_libraries(omniglass_linux lua5.1 evdev)
+if(NOT DEFINED LUA_INCLUDE_DIR)
+        set(LUA_INCLUDE_DIR "/usr/include/lua5.1")
+endif()
+if(NOT DEFINED LIBEVDEV_INCLUDE_DIR)
+        set(LIBEVDEV_INCLUDE_DIR "/usr/include/libevdev-1.0")
+endif()
+target_include_directories(omniglass_linux PUBLIC ${LUA_INCLUDE_DIR} PUBLIC ${LIBEVDEV_INCLUDE_DIR})
 
 # simple app, just runs init (underlying platform prints out various checks)
 add_executable(initialization_test "src/tests/init.c")

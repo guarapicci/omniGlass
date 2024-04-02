@@ -1,10 +1,14 @@
 
  /** \file omniglass.h
-  *  \brief the omniglass API definition.
+  *  \brief the omniglass public API definition.
   * 
   * the omniglass API gives applications means to detect and probe for gesture events on touchpad devices.
   */
+#ifndef OMNIGLASS_PUBLIC_API_INCLUDED
+#define OMNIGLASS_PUBLIC_API_INCLUDED
 
+
+#include <stdbool.h>
 #include "constants.h"
 #include "config.h"
 /** opaque omniGlass structure used by all user-facing library calls */
@@ -20,6 +24,20 @@ omniglass_operation_results omniglass_init(struct omniglass **handle);
  @param handle the handle to omniglass
  */
 int omniglass_step(struct omniglass *handle);
+
+/** representation of a potential contact point between a finger and the touchpad.
+ */
+typedef struct omniglass_raw_touchpoint {
+  bool is_touching; /**< for this point, there is a finger contacting the surface. */
+  double x; /**< x coordinate (drag units, starting from 0, from left to right ) */
+  double y; /**< y coordinate (drag units, starting from 0, from  up to down) */
+} omniglass_raw_touchpoint;
+
+/** a report of contact points, barely filtered from the latest input events acquired from the platform */
+typedef struct omniglass_raw_report {
+  int points_max; /**< number of touch points on the "points" array. note: this value means "up to this many may touch at once", do not mistake it for "there are this many touching right now"*/
+  omniglass_raw_touchpoint *points; /**< array with all the touch points that may be detected by the touchpad. */
+} omniglass_raw_report;
 
 /* callback section (listen, remove listener, define gestures)
  * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.
@@ -58,3 +76,6 @@ omniglass_gesture_operation_result omniglass_listen_gesture_edge_left(struct omn
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
+
+
+#endif
