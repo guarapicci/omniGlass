@@ -69,8 +69,9 @@ void omniglass_disable_gesture_slide(struct omniglass *handle){
  */
 int trigger_gesture_slide(lua_State *vm){
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
-    double slide_amount = luaL_checknumber(vm,2);
-    handle->cslide(luaL_checknumber(vm,2));    
+    double slide_x = luaL_checknumber(vm,2);
+    double slide_y = luaL_checknumber(vm,3);
+    handle->cslide(slide_x, slide_y);
     return 0;
 }
 

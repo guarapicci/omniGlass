@@ -52,7 +52,7 @@ typedef struct omniglass_raw_specifications {
  * this allows passing to each callback the data it needs without using global variables.
 */
 typedef void (*omniglass_callback_touched)(omniglass_raw_report*, void *passthrough);
-typedef void (*omniglass_callback_slide)(double);
+typedef void (*omniglass_callback_slide)(double, double);
 typedef void (*omniglass_callback_pressed)(int);
 typedef void (*omniglass_callback_released)(int);
 typedef void (*omniglass_callback_edge)(double, void*);

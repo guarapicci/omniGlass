@@ -4,11 +4,16 @@
 #include <stdbool.h>
 #include <time.h>
 
-void on_slide(double value) {
-    if (value < 0)
-        printf("moved left\t\t%g\n", value);
-    else if (value > 0)
-        printf("moved right\t\t%g\n",value);
+void on_slide(double x, double y) {
+    if (x < 0)
+        printf("moved left\t%g", x);
+    else if (x > 0)
+        printf("moved right\t%g",x);
+    if (y > 0)
+        printf(",\tmoved down\t%g",y);
+    else if (y < 0)
+        printf(",\tmoved up\t%g",y);
+    printf("\n");
     fflush(stdout);
 }
 
