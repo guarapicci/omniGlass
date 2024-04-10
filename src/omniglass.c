@@ -125,10 +125,62 @@ int trigger_gesture_edge(lua_State *vm){
     callback(slide_amount, passthrough);
     return 0;
 }
+/**(PUBLIC)
+ * register callback for touch started
+ */
+omniglass_operation_results omniglass_listen_gesture_touches_changed
+    (struct omniglass *handle, omniglass_callback_touched callback, void *passthrough)
+{
+    lua_State *vm = handle->vm;
 
-//(FIXME broken function.)
+    omniglass_raw_report *filtered_report = malloc(sizeof(omniglass_raw_report));
+    filtered_report->points_max = handle->touchpad_specifications.max_points;
+    filtered_report->points = calloc(sizeof(omniglass_raw_touchpoint),filtered_report->points_max);
+    lua_getglobal(vm, "listen_gesture_touched");
+        lua_pushlightuserdata(vm,callback);
+            lua_pushlightuserdata(vm, filtered_report);
+                lua_pushlightuserdata(vm,passthrough);
+    printf("setting up touch start gesture\n");
+    fflush(stdout);
+    lua_call(vm, 3, 0);
+    return OMNIGLASS_RESULT_SUCCESS;
+}
+
 /**(LUA-FACING)
- * (requires fully initialized platform!)
+ * trigger registered callback for "points have started touching", passing
+ */
+int trigger_gesture_touches_changed(lua_State *vm){
+    /*signature of parameters expected from stack:
+     * (omniglass address, callback address,
+     *   report table, raw report address,
+     *   passthrough)
+     */
+    struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
+    omniglass_callback_touched callback = (omniglass_callback_touched)lua_touserdata(vm,2);
+    omniglass_raw_report *report = lua_touserdata(vm, 4);
+    void *passthrough = lua_touserdata(vm,5);
+    lua_pushvalue(vm, 3);
+    for (int i= 0; i < report->points_max; i++){
+        lua_pushnumber(vm, i+1);
+            lua_gettable(vm, -2);
+            lua_pushstring(vm,"touched");
+                lua_gettable(vm, -2);
+                report->points[i].is_touching = lua_toboolean(vm, -1);
+                lua_pop(vm,1);
+            lua_pushstring(vm,"x");
+                lua_gettable(vm,-2);
+                report->points[i].x = luaL_checknumber(vm,-1);
+                lua_pop(vm,1);
+            lua_pushstring(vm,"y");
+                lua_gettable(vm,-2);
+                report->points[i].y = luaL_checknumber(vm,-1);
+                lua_pop(vm,2);
+    };
+    callback(report, passthrough);
+    return 0;
+}
+
+/**(LUA-FACING)
  * copy transformed touch points back to the public multitouch report
  */
 int push_public_report(lua_State *vm){
@@ -173,6 +225,7 @@ int push_public_touchpad_specifications(lua_State *vm){
 luaL_Reg core_api_cfuncs [] = {
     {"trigger_gesture_slide", trigger_gesture_slide},
     {"trigger_gesture_edge", trigger_gesture_edge},
+    {"trigger_gesture_touches_changed", trigger_gesture_touches_changed},
     {"push_public_report", push_public_report},
     {"push_public_touchpad_specifications", push_public_touchpad_specifications},
     {NULL, NULL}

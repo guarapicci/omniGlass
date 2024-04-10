@@ -1,3 +1,6 @@
+--require("mobdebug").start()
+
+--everything touchpad related that the whole program uses
 touchpad =
 {
     boundaries =
@@ -26,6 +29,9 @@ touchpad =
     }
 }
 
+--track time
+time_elapsed=0
+
 print("lua-side parameter dump")
 touchpad.boundaries = platform:get_touchpad_boundaries()
 for k, v in pairs(touchpad.boundaries) do
@@ -49,6 +55,7 @@ function getpoints()
     local function transform_touchpoint(point)
         local result = {}
 
+        --coordinate system inversion
         if (config.invert_y) then do result.y = (touchpad.boundaries.max_y - point.y) end
         else do result.y = point.y end end
 
@@ -56,6 +63,10 @@ function getpoints()
         else do result.x = point.x end end
         
         result.touched = point.touched
+
+        --real-world size of touchpad movement units
+        result.x = result.x * config.scale
+        result.y = result.y * config.scale
 
         return result
     end
@@ -107,6 +118,79 @@ statemachines = {
     edge = nil,
 }
 
+--(HACK) 3-sample threshold for "touch-started".
+--  a clean implementation requires a timer for touch debouncing
+--  (as in, "only touching for at least 50ms is real touching")
+function create_task_touched(callback, report, passthrough)
+    local newtask = coroutine.create(function()
+        local touching_debounced = {}
+        local time_since_touched = {}
+        local triggered = {}
+        print("setting up for touch start")
+
+        --3 samples of holding until a touch is actually recognized.
+        local debounce_time_threshold = 3
+
+        for i = 1, touchpad.capabilities.touch_count , 1 do
+            touching_debounced[i] = false
+            time_since_touched[i] = 0
+        end
+
+        while true do
+            coroutine.yield()
+            local released = false
+            local current = touchpad.last_touch_report_public --just an alias for shorthand.
+            --  do debouncing (only accept touches after a certain
+            --amount of time still touching)
+            for i = 1, touchpad.capabilities.touch_count , 1 do
+--                 print("i ", i)
+--                 print(current, current[1], "x", current[1].x, "\ty", current[1].y, "\t touched:", current[1].touched)
+                if (current[i].touched) then
+--                     print("stepping touch check.")
+                    time_since_touched[i] = time_since_touched[i] + 1
+                    if(time_since_touched[i]) > debounce_time_threshold then
+                        touching_debounced[i] = true
+                    end
+                else
+                    time_since_touched[i] = 0
+                    if (touching_debounced[i]) then
+                       released=true
+                    end
+                    touching_debounced[i] = false
+                    triggered[i]=false
+                end
+            end
+
+            --  trigger events if points are still touched after debouncing or if any point was released
+            for i = 1, touchpad.capabilities.touch_count , 1 do
+                if(touching_debounced[i] and (not triggered[i])
+                    or released) then
+                    triggered[i] = true
+                    local touch_dump_debounced = {}
+
+                    --  do not modify the public touch report values;
+                    --copy only their coordinates into debounced points instead.
+                    for j = 1, touchpad.capabilities.touch_count, 1 do
+                        touch_dump_debounced[j] = {}
+                        touch_dump_debounced[j].touched = touching_debounced[j]
+                        touch_dump_debounced[j].x = touchpad.last_touch_report_public[j].x
+                        touch_dump_debounced[j].y = touchpad.last_touch_report_public[j].y
+                    end
+                        omniglass:trigger_gesture_touches_changed(callback, touch_dump_debounced, report, passthrough)
+                    break
+                end
+            end
+        end
+    end
+    )
+    return newtask
+end
+
+function listen_gesture_touched(callback, report, passthrough)
+    print("attaching \"touched\" callback")
+    statemachines.touched = create_task_touched(callback, report, passthrough)
+end
+
 -- slide gesture detector task.
 -- current implementation: create a 2d direction vector from a two-point (previous -> current) path.
 function create_task_slide ()
@@ -143,6 +227,7 @@ end
 function disable_gesture_slide()
     statemachines.slide = nil
 end
+
 
 function create_task_edge (selected_edge, callback, passthrough)
     local newtask = coroutine.create(function()
@@ -219,17 +304,18 @@ end
 
 function step()
     platform:parse_events()
+    getpoints()
 --     print("events acquired")
 --     step through all registered gesture state machines
+    --(FIXME fix broken public report calls to expose the touchpad's points)
+    omniglass:push_public_report(#touchpad.last_touch_report_public, touchpad.last_touch_report_public)
     for name,task in pairs(statemachines) do
         local running, condition = coroutine.resume(task)
         if not running then
-            print("task %s died. reason: %s", name, condition)
+            print(string.format("task %s died. reason: %s", name, condition))
             statemachines[name] = nil
         end
     end
-    --(FIXME fix broken public report calls to expose the touchpad's points)
-    omniglass:push_public_report(#touchpad.last_touch_report_public, touchpad.last_touch_report_public)
 --     print("public touch report pushed.")
 end
 print("ms2: \n\t create_task_slide", create_task_slide)
