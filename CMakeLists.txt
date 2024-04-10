@@ -52,6 +52,10 @@ target_link_libraries(edge_swipe omniglass_linux)
 add_executable(edge_swipe_multi "src/tests/edge_swipe_multi.c")
 target_link_libraries(edge_swipe_multi omniglass_linux)
 
+# demo for touch start
+add_executable(touching "src/tests/touching.c")
+target_link_libraries(touching omniglass_linux)
+
 install(TARGETS omniglass_linux 
         LIBRARY
             DESTINATION ${CUSTOM_LIB_FOLDER})
