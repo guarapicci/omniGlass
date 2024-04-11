@@ -193,7 +193,7 @@ end
 
 -- one-finger-slide gesture detector task.
 -- current implementation: create a 2d direction vector from a two-point (previous -> current) path.
-function create_task_slide ()
+function create_task_slide (callback, passthrough)
     local newtask = coroutine.create(function()
         local previous = getpoints()
         local current = previous
@@ -204,7 +204,7 @@ function create_task_slide ()
             local delta = point_delta(current[1], previous[1])
             if ( (delta.x ~= 0 or delta.y ~= 0)
                 and (current[1].touched and previous[1].touched)) then
-                omniglass:trigger_gesture_slide(delta.x,delta.y)
+                omniglass:trigger_gesture_slide(callback, delta.x, delta.y, passthrough)
             end
             previous = current
             coroutine.yield()
@@ -215,9 +215,9 @@ function create_task_slide ()
 end
 -- print("ms1 state machines")
 
-function listen_gesture_slide()
-    print("registered event")
-    statemachines.slide = create_task_slide()
+function listen_gesture_slide(callback, passthrough)
+    print("registered slide event")
+    statemachines.slide = create_task_slide(callback, passthrough)
 end
 
 function disable_gesture_slide()
@@ -242,21 +242,21 @@ function create_task_edge (selected_edge, callback, passthrough)
         }
 
         local edge_checkers = {
-            left = function(current, delta)
+            left = function(point, delta)
                 local boundary = touchpad.capabilities.width * config.edge_width
-                return (current.touched and current.x < boundary), (delta.y)
+                return (point.touched and point.x < boundary), (delta.y)
             end,
-            right = function(current, delta)
+            right = function(point, delta)
                 local boundary = touchpad.capabilities.width - (touchpad.capabilities.width * config.edge_width)
-                return (current.touched and current.x > boundary), (delta.y)
+                return (point.touched and point.x > boundary), (delta.y)
             end,
-            bottom = function (current, delta)
+            bottom = function (point, delta)
                 local boundary = (touchpad.capabilities.height * config.edge_width)
-                return (current.touched and current.y < boundary), (delta.x)
+                return (point.touched and point.y < boundary), (delta.x)
             end,
-            top = function(current, delta)
+            top = function(point, delta)
                 local boundary = touchpad.capabilities.height - (touchpad.capabilities.height * config.edge_width)
-                return (current.touched and current.y > boundary), (delta.x)
+                return (point.touched and point.y > boundary), (delta.x)
             end
         }
         print(string.format("\t}"))

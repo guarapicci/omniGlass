@@ -46,11 +46,12 @@ int omniglass_step(struct omniglass *handle){
  * @param callback this function will be called whenever a slide gesture is detected.
  * @param passthrough an optional pointer containing data that can be used by the callback.
  */
-omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback){
+omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback, void *passthrough){
     lua_State *vm = handle->vm;
-    handle->cslide = callback;
     lua_getglobal(vm,"listen_gesture_slide");
-        lua_call(vm, 0, 0);
+        lua_pushlightuserdata(vm, callback);
+            lua_pushlightuserdata(vm, passthrough);
+                lua_call(vm, 2, 0);
     return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
 }
 
@@ -60,7 +61,6 @@ omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omnigla
 void omniglass_disable_gesture_slide(struct omniglass *handle){
     lua_getglobal(handle->vm,"disable_gesture_slide");
     lua_call(handle->vm, 0, 0);
-    handle->cslide = NULL;
     return;
 }
 
@@ -69,9 +69,11 @@ void omniglass_disable_gesture_slide(struct omniglass *handle){
  */
 int trigger_gesture_slide(lua_State *vm){
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
-    double slide_x = luaL_checknumber(vm,2);
-    double slide_y = luaL_checknumber(vm,3);
-    handle->cslide(slide_x, slide_y);
+    omniglass_callback_slide callback = lua_touserdata(vm, 2);
+    double slide_x = luaL_checknumber(vm,3);
+    double slide_y = luaL_checknumber(vm,4);
+    void *passthrough = lua_touserdata(vm,5);
+    callback(slide_x, slide_y, passthrough);
     return 0;
 }
 

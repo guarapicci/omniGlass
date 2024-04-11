@@ -51,8 +51,8 @@ typedef struct omniglass_raw_specifications {
  * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.
  * this allows passing to each callback the data it needs without using global variables.
 */
-typedef void (*omniglass_callback_touches_changed)(omniglass_raw_report*, void *);
-typedef void (*omniglass_callback_slide)(double, double);
+typedef void (*omniglass_callback_touches_changed)(omniglass_raw_report*, void*);
+typedef void (*omniglass_callback_slide)(double, double, void*);
 typedef void (*omniglass_callback_pressed)(int);
 typedef void (*omniglass_callback_released)(int);
 typedef void (*omniglass_callback_edge)(double, void*);
@@ -73,7 +73,7 @@ omniglass_operation_results omniglass_listen_gesture_touches_changed(struct omni
  * @param handle the handle to omniGlass.
  * @param callback the function that will be called when a slide has happen
  */
-omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
+omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback, void *passthrough);
 void omniglass_disable_gesture_slide(struct omniglass *handle);
 
 /** schedule a function to be called whenever fingers have dragged accross a certain edge.
