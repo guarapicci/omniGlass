@@ -112,14 +112,3 @@ int platform_parse_events(lua_State *vm);
  * called by the lua VM to get the last touch report generated.
  */
 int platform_get_last_report(lua_State *vm);
-
-/** register a listener for touch slide gestures. 
- *  @param handle a handle to omniglass.
- * @param callback this function will be called whenever a slide gesture is detected.
- */
-omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omniglass *handle, omniglass_callback_slide callback);
-
-/** remove the listener for touch slide gestures. 
- *  @param handle a handle to omniglass.
- * */
-void omniglass_disable_gesture_slide(struct omniglass *handle);
