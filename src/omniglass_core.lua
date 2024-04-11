@@ -230,6 +230,9 @@ function create_task_edge (selected_edge, callback, passthrough)
         print("creating the edge swipe state machine")
         local previous = getpoints()
         local current = previous
+
+        local started_in_edge = false;
+
         --TODO: GET GENERATED INDEXES FROM C ENUMS
         local C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX = {
             [0] = "left",
@@ -237,42 +240,57 @@ function create_task_edge (selected_edge, callback, passthrough)
             [2] = "top",
             [3] = "bottom"
         }
+
         local edge_checkers = {
             left = function(current, delta)
                 local boundary = touchpad.capabilities.width * config.edge_width
-                return (current.x < boundary), (delta.y)
+                return (current.touched and current.x < boundary), (delta.y)
             end,
             right = function(current, delta)
                 local boundary = touchpad.capabilities.width - (touchpad.capabilities.width * config.edge_width)
-                return (current.x > boundary), (delta.y)
+                return (current.touched and current.x > boundary), (delta.y)
             end,
             bottom = function (current, delta)
                 local boundary = (touchpad.capabilities.height * config.edge_width)
-                return (current.y < boundary), (delta.x)
+                return (current.touched and current.y < boundary), (delta.x)
             end,
             top = function(current, delta)
                 local boundary = touchpad.capabilities.height - (touchpad.capabilities.height * config.edge_width)
-                return (current.y > boundary), (delta.x)
+                return (current.touched and current.y > boundary), (delta.x)
             end
         }
         print(string.format("\t}"))
         print("reached edge init for "..C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge])
         while true do
             current = getpoints()
+
+            local delta = point_delta(current[1], previous[1])
+            local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
+            local in_border, offset = edge_checkers[edge](current[1], delta)
+
+            --"started in edge" means contact point 1 began its contact inside the selected edge
+            if (current[1].touched) then
+                if ((not previous[1].touched) and in_border) then
+                    started_in_edge = true
+                end
+            else
+                started_in_edge = false
+            end
+
+
+
 --             print(string.format("%d; %d; %s", current[1].x, current[1].y, tostring(current[1].touched)))
 --             print("current point touch is", current.touched)
             
 --             make sure there has been a contact point for at least the last 2 readings.
 --             this is meant to avoid cases where lifting a finger in one spot
 --             and then touching on another counts as a sliding motion.
-            if((previous[1].touched == true) and (current[1].touched == true)) then
---                 print("touched.")
-                local delta = point_delta(current[1], previous[1])
-                local edge = C_ENUM_OMNIGLASS_TOUCHPAD_EDGE_PLACEHOLDER_PLEASE_FIX[selected_edge]
-                local in_border, offset = edge_checkers[edge](current[1], delta)
-                if in_border then
+            if((previous[1].touched == true)
+                and (current[1].touched == true)
+                and started_in_edge
+                and in_border
+                and offset ~= 0) then
                     omniglass:trigger_gesture_edge(callback, offset, passthrough)
-                end
             else
 --                 print("not touched.")
             end
