@@ -130,7 +130,7 @@ int trigger_gesture_edge(lua_State *vm){
  * register callback for touch started
  */
 omniglass_operation_results omniglass_listen_gesture_touches_changed
-    (struct omniglass *handle, omniglass_callback_touched callback, void *passthrough)
+    (struct omniglass *handle, omniglass_callback_touches_changed callback, void *passthrough)
 {
     lua_State *vm = handle->vm;
 
@@ -157,7 +157,7 @@ int trigger_gesture_touches_changed(lua_State *vm){
      *   passthrough)
      */
     struct omniglass *handle = luaL_checkudata(vm,1,OMNIGLASS_CLASS_NAME_META);
-    omniglass_callback_touched callback = (omniglass_callback_touched)lua_touserdata(vm,2);
+    omniglass_callback_touches_changed callback = (omniglass_callback_touches_changed)lua_touserdata(vm,2);
     omniglass_raw_report *report = lua_touserdata(vm, 4);
     void *passthrough = lua_touserdata(vm,5);
     lua_pushvalue(vm, 3);
