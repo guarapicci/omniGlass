@@ -47,6 +47,8 @@ typedef struct omniglass_raw_specifications {
   int max_points;
 } omniglass_raw_specifications;
 
+omniglass_operation_results omniglass_get_touchpad_specifications(struct omniglass *handle, omniglass_raw_specifications **specs);
+
 /* callback section (listen, remove listener, define gestures)
  * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.
  * this allows passing to each callback the data it needs without using global variables.

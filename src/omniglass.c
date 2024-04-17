@@ -225,6 +225,11 @@ int push_public_touchpad_specifications(lua_State *vm){
     return 0;
 }
 
+omniglass_operation_results omniglass_get_touchpad_parameters(struct omniglass *handle, omniglass_raw_specifications **specs){
+    (*specs) = &(handle->touchpad_specifications);
+    return OMNIGLASS_RESULT_SUCCESS;
+}
+
 luaL_Reg core_api_cfuncs [] = {
     {"trigger_gesture_slide", trigger_gesture_slide},
     {"trigger_gesture_edge", trigger_gesture_edge},
