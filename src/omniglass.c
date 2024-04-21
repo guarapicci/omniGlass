@@ -225,8 +225,21 @@ int push_public_touchpad_specifications(lua_State *vm){
     return 0;
 }
 
-omniglass_operation_results omniglass_get_touchpad_parameters(struct omniglass *handle, omniglass_raw_specifications **specs){
+/**(PUBLIC)
+ * (requires fully initialized platform!)
+ * get height, width and other specifications of the touchpad.
+ */
+omniglass_operation_results omniglass_get_touchpad_specifications(struct omniglass *handle, omniglass_raw_specifications **specs){
     (*specs) = &(handle->touchpad_specifications);
+    return OMNIGLASS_RESULT_SUCCESS;
+}
+
+/**(PUBLIC)
+ * (requires fully initialized platform!)
+ * get the address of the memory region where the touch report from the active touchpad is located
+ */
+omniglass_operation_results omniglass_get_raw_report(struct omniglass *handle, omniglass_raw_report **report){
+    (*report) = &(handle->last_raw_report);
     return OMNIGLASS_RESULT_SUCCESS;
 }
 

@@ -39,6 +39,13 @@ typedef struct omniglass_raw_report {
   omniglass_raw_touchpoint *points; /**< array with all the touch points that may be detected by the touchpad. */
 } omniglass_raw_report;
 
+/** get the address of the report for raw touch points 
+ * get the address of the memory region where the touch report from the active touchpad is located.
+ * @param handle the handle to omniglass
+ * @param report (output) after executing this function, the content of report will be a pointer to the raw multitouch report of the active touchpad.
+ */
+omniglass_operation_results omniglass_get_raw_report(struct omniglass *handle, omniglass_raw_report **report);
+
 /** a representation of the touchpad's capabilities relevant to gesture detection.
  */
 typedef struct omniglass_raw_specifications {
@@ -47,6 +54,11 @@ typedef struct omniglass_raw_specifications {
   int max_points;
 } omniglass_raw_specifications;
 
+/** get address of touchpad specifications.
+ * get the address of the memory region where the width, height and other parameters from the active touchpad are defined.
+ * @param handle the handle to omniglass.
+ * @param specs (output) after executing this function the content of specs will be a pointer to the raw specifications of the active touchpad.
+ */
 omniglass_operation_results omniglass_get_touchpad_specifications(struct omniglass *handle, omniglass_raw_specifications **specs);
 
 /* callback section (listen, remove listener, define gestures)
