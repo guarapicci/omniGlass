@@ -10,6 +10,14 @@ local paths = {
 -- TODO: move the acquisition of this config script to the core lua init
 config = {}
 
+--mirror of enumerations from C-side platform code.
+-- (make sure the codes match on both ends!)
+status= {
+    NO_CONFIG = -2,
+    EVDEV_INIT_FAILED = -1,
+    EVDEV_INIT_SUCCESS = 0
+}
+
 --initialize the evdev backend
 do
     local configured = false
@@ -28,22 +36,22 @@ do
             message = message .."\""..v.."\"\n"
         end
         print(message)
-        error("no_config")
+        return status.NO_CONFIG
     end
 end
 
 if not config.touchpad_file_path then
     print("error: device file path for touchpad not set in \""..config.sourcefile.."\"")
-    error("no_config")
+    return status.NO_CONFIG
 end
 
 local dameta = debug.getmetatable(platform)
 print ("metatable for platform is:", dameta)
 
 local linux_init_status = platform:evdev_init(config.touchpad_file_path)
-if not (linux_init_status == "ok") then
+if not (linux_init_status == status.EVDEV_INIT_SUCCESS) then
     print("linux evdev init failed.")
-    error("no_config")
+    return status.EVDEV_INIT_FAILED
 end
 
-return
+return status.EVDEV_INIT_SUCCESS

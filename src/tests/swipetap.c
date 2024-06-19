@@ -34,8 +34,10 @@ int main(int argc, char **argv) {
     };
         
     struct omniglass *handle;
-    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS)
+    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS){
         fprintf(stderr,"could not initialize omniglass.\n");
+        return -1;
+    }
     omniglass_listen_gesture_slide(handle,&on_slide, &somedata);
     fflush(stdout);
     //8 milliseconds polling rate for touchpad events

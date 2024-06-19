@@ -108,5 +108,6 @@ omniglass_gesture_operation_result omniglass_listen_gesture_edge_right(struct om
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_top(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
 omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct omniglass *handle, omniglass_callback_edge callback, void *passthrough);
 
+omniglass_gesture_operation_result omniglass_enable_parameter_swipe(struct omniglass *handle, double *swipe_x, double *swipe_y);
 
 #endif

@@ -29,7 +29,29 @@ touchpad =
     }
 }
 
---track time
+--gestures quantified as parameters.
+gesture_parameters =
+{
+    touching_one_finger = false,
+    touching_two_finger = false,
+    swipe = {x = 0.0, y = 0.0},
+    on_edge = "NONE"
+}
+gesture_parameter_engines =
+{
+    basic_tracking = nil,
+    default_boundaries = nil
+}
+
+-- state machine task list.
+-- every member in this table should keep track of a sequence of contact points to check for a gesture.
+statemachines = {
+    slide = nil,
+    edge = nil,
+    edge_slide = nil
+}
+
+--track time in milliseconds
 time_elapsed=0
 
 print("lua-side parameter dump")
@@ -110,13 +132,6 @@ function point_delta(a,b)
         transition = transition
         }
 end
-
--- state machine task list.
--- every member in this table should keep track of a sequence of contact points to check for a gesture.
-statemachines = {
-    slide = nil,
-    edge = nil,
-}
 
 --(HACK) 3-sample threshold for "touch-started".
 --  a clean implementation requires a timer for touch debouncing
@@ -215,6 +230,50 @@ function create_task_slide (callback, passthrough)
 end
 -- print("ms1 state machines")
 
+-- compute 1-finger- slide, hold, tap and other parameters from touch coordinates and copy it to a global.
+function create_task_basic_tracking()
+    local newtask = coroutine.create(function()
+        local previous = getpoints()
+        local current = previous
+        while true do
+--             print("checking for slide")
+            current = touchpad.last_touch_report_public
+
+            --expression computation: one-finger drag
+            local delta = point_delta(current[1], previous[1])
+            local first_finger_touching_and_dragging = ( (delta.x ~= 0 or delta.y ~= 0)
+                and (current[1].touched and previous[1].touched))
+            local touched_finger_count = 0
+            for k, v in pairs(current) do
+                if (v.touched) then touched_finger_count = touched_finger_count + 1 end
+            end
+            local single_finger_exclusive = (first_finger_touching_and_dragging and touched_finger_count == 1)
+            if single_finger_exclusive then
+                gesture_parameters.slide = delta
+            else
+                gesture_parameters.slide = {x=0, y=0}
+            end
+
+            --boundary checks
+            local boundary_left = touchpad.capabilities.width * config.edge_width
+            gesture_parameters.on_left_edge = (single_finger_exclusive and current[1].x < boundary_left)
+
+            local boundary_right = touchpad.capabilities.width - (touchpad.capabilities.width * config.edge_width)
+            gesture_parameters.on_right_edge = (single_finger_exclusive and current[1].x > boundary_right)
+
+            local boundary_bottom = (touchpad.capabilities.height * config.edge_width)
+            gesture_parameters.on_bottom_edge = (single_finger_exclusive and current[1].y < boundary_bottom)
+
+            local boundary_top = touchpad.capabilities.height - (touchpad.capabilities.height * config.edge_width)
+            gesture_parameters.on_top_edge = (single_finger_exclusive and current[1].y > boundary_top)
+
+            previous = current
+            coroutine.yield()
+        end
+    end
+    )
+    return newtask
+end
 function listen_gesture_slide(callback, passthrough)
     print("registered slide event")
     statemachines.slide = create_task_slide(callback, passthrough)

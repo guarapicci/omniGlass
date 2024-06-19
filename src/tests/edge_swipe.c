@@ -15,8 +15,10 @@ void on_edge_slide(double value, void *data) {
 int main(int argc, char **argv) {
         
     struct omniglass *handle;
-    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS)
+    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS){
         fprintf(stderr,"could not initialize omniglass.\n");
+        return 0;
+    }
     omniglass_listen_gesture_edge(handle,&on_edge_slide, OMNIGLASS_EDGE_LEFT, NULL);
     fflush(stdout);
 

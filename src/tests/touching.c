@@ -33,8 +33,10 @@ int main(int argc, char **argv) {
         0,
         0
     };
-    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS)
+    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS){
         fprintf(stderr,"could not initialize omniglass.\n");
+        return -1;
+    }
     omniglass_listen_gesture_touches_changed(handle, on_touches_changed, &top_state);
     fflush(stdout);
 

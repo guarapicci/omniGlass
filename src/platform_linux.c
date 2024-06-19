@@ -5,6 +5,7 @@
 
 #include <asm-generic/errno-base.h>
 #include <linux/input-event-codes.h>
+#include <omniGlass/constants.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -24,6 +25,12 @@
 
 #define PLATFORM_CLASS_NAME_META "platform_meta"
 #define PLATFORM_CLASS_NAME_GLOBAL "platform"
+
+typedef enum {
+    OMNIGLASS_PLATFORM_NO_CONFIG = -2,
+    OMNIGLASS_PLATFORM_EVDEV_INIT_FAILED = -1,
+    OMNIGLASS_PLATFORM_EVDEV_INIT_SUCCESS = 0
+} omniglass_platform_status;
 
 
 /** all state for the linux platform*/
@@ -64,6 +71,7 @@ int platform_evdev_init(lua_State *vm){
     rc = libevdev_new_from_fd(fd, &(platform->touchpad_handle));
     if(rc<0) {
         fprintf(stderr, "failed to initialize libevdev (%s)\n", strerror(-rc));
+        return 0;
     }
     printf("Input device name: \"%s\"\n", libevdev_get_name(platform->touchpad_handle));
 
@@ -117,9 +125,19 @@ int platform_parse_events(lua_State *vm){
     int slot_count= platform->max_touchpoints;
     struct multitouch_report *report = platform->report;
     //pull next input event
-    while(1){
-        if (libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev) == -EAGAIN)
+    for(int evdev_catched_up = 0; evdev_catched_up == 0;){
+        int status = libevdev_next_event(dev,LIBEVDEV_READ_FLAG_NORMAL,&ev);
+        if( status == -EAGAIN){
+            evdev_catched_up = 1;
             break;
+        }
+        else{
+            if(status < 0){
+                fprintf(stderr, "Cannot read events from touchpad. Check the device file\n");
+                lua_pushstring(vm, "OMNIGLASS_TOUCHPAD_LOST");
+                return 1;
+            }
+        }
     }
 
     //fetch current touch position for all multitouch slots.
@@ -150,7 +168,7 @@ int platform_parse_events(lua_State *vm){
     fflush(stdout);
     
     lua_pushstring(vm,"ok");
-    return 0;
+    return 1;
 };
 
 /** (LUA-FACING)
@@ -230,10 +248,10 @@ omniglass_init_result platform_init(struct platform **handle, lua_State *vm){
     lua_setglobal(vm, PLATFORM_CLASS_NAME_GLOBAL);
     
     //run the real configuration process as a lua script.
-    if(luaL_dofile(vm, OMNIGLASS_ENV_LIB_FOLDER "/omniglass_linux.lua")){
-        printf("omniglass could not connect to an available touchpad device.\nerror: %s", luaL_checkstring(vm,-1));
+    luaL_dofile(vm, OMNIGLASS_ENV_LIB_FOLDER "/omniglass_linux.lua");
+    int platform_init_status = luaL_checkint(vm, -1);
+    if(platform_init_status != OMNIGLASS_PLATFORM_EVDEV_INIT_SUCCESS)
         return OMNIGLASS_PLATFORM_INIT_NO_TOUCHPAD;
-    }
-    
-    return OMNIGLASS_PLATFORM_INIT_SUCCESS;
+    else
+        return OMNIGLASS_PLATFORM_INIT_SUCCESS;
 }
