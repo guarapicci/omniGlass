@@ -6,7 +6,7 @@ return {
 
     --If the selected touchpad is not available,
     -- try scanning the available devices for anything that looks like a touchpad.
-    scan_for_touchpads = false,
+    scan_for_touchpads = true,
     
     --How big the edges of the screen are.
     -- 0.0 is no edge;
