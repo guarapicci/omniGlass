@@ -48,7 +48,7 @@ end
 local dameta = debug.getmetatable(platform)
 print ("metatable for platform is:", dameta)
 
-local linux_init_status = platform:evdev_init(config.touchpad_file_path)
+local linux_init_status = platform:evdev_init(config.touchpad_file_path, config.scan_for_touchpads)
 if not (linux_init_status == status.EVDEV_INIT_SUCCESS) then
     print("linux evdev init failed.")
     return status.EVDEV_INIT_FAILED
