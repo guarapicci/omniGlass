@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <errno.h>
 #include <string.h>
 
@@ -23,15 +24,18 @@
 //but it is the actual path for both debian, arch and SUSE.
 #include "libevdev/libevdev.h"
 
+#include <dirent.h>
+
 #define PLATFORM_CLASS_NAME_META "platform_meta"
 #define PLATFORM_CLASS_NAME_GLOBAL "platform"
+
+#define PLATFORM_DEFAULT_DEVICE_DIRECTORY "/dev/input"
 
 typedef enum {
     OMNIGLASS_PLATFORM_NO_CONFIG = -2,
     OMNIGLASS_PLATFORM_EVDEV_INIT_FAILED = -1,
     OMNIGLASS_PLATFORM_EVDEV_INIT_SUCCESS = 0
 } omniglass_platform_status;
-
 
 /** all state for the linux platform*/
 struct platform{
@@ -63,52 +67,108 @@ int platform_evdev_init(lua_State *vm){
     //get parameters: platform state pointer and touchpad device file path
     struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
     const char *touchpad_file_path = luaL_checkstring(vm,2);
-    
-    /**start evdev*/
-    printf("opening event file: %s\n", touchpad_file_path);
-    int fd = open(touchpad_file_path,O_RDONLY | O_NONBLOCK);
-    int rc = 1;
-    rc = libevdev_new_from_fd(fd, &(platform->touchpad_handle));
-    if(rc<0) {
-        fprintf(stderr, "failed to initialize libevdev (%s)\n", strerror(-rc));
+    bool scan_for_devices = lua_toboolean(vm, 3);
+
+    DIR *directory = opendir(PLATFORM_DEFAULT_DEVICE_DIRECTORY);
+    if(directory == NULL){
+        fprintf(stderr, "Omniglass expects device file(s) at  %s, but this folder could not be opened. "
+            "Aborting touchpad initialization.\n", PLATFORM_DEFAULT_DEVICE_DIRECTORY);
         return 0;
     }
-    printf("Input device name: \"%s\"\n", libevdev_get_name(platform->touchpad_handle));
 
-    /**diagnostics: check if selected device does have touchpad-like event reporting*/
-    int touchpad_profile_types[] = {EV_SYN, EV_KEY, EV_ABS};
-    int touchpad_profile_codes[] = {
-        EV_ABS,ABS_X,
-        EV_ABS,ABS_Y,
-        EV_ABS,ABS_MT_SLOT,
-        EV_ABS,ABS_MT_TRACKING_ID};
-    for (int i = 0;i<3;i++){
-        if(!libevdev_has_event_type(platform->touchpad_handle, touchpad_profile_types[i])) {
-            printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad.\n",touchpad_file_path, touchpad_profile_types[i]);
+    //try the exact device file chosen at the configuration
+    printf("trying selected event file: %s\n", touchpad_file_path);
+    int fd = open(touchpad_file_path,O_RDONLY | O_NONBLOCK);
+    int rc = libevdev_new_from_fd(fd, &(platform->touchpad_handle));
+    if(rc<0) {
+        fprintf(stderr, "failed to initialize libevdev with a default touchpad (%s).", strerror(-rc));
+        if(!scan_for_devices){
+            fprintf(stderr,"\n");
             return 0;
         }
-    }
-    for (int i = 0;i<4;i+=2){
-        if(!libevdev_has_event_code(platform->touchpad_handle, touchpad_profile_codes[i], touchpad_profile_codes[i+1])) {
-            printf("device at %s does not support event code %d. omniGlass will not consider it a touchpad\n.",touchpad_file_path, touchpad_profile_codes[i]);
-            return 0;
+        else{
+            fprintf(stderr, " Omniglass will fall back to any touchpad available.\n");
+
         }
     }
-    printf("the device selected is considered a touchpad.\n");
-    
-    //autodetect number of slots in a multitouch device.
-    platform->max_touchpoints = libevdev_get_num_slots(platform->touchpad_handle);
-    touch_point *touch_slots = malloc(sizeof(touch_point) * (platform->max_touchpoints));
-    multitouch_report *report = malloc(sizeof(multitouch_report));
-    report->touches = touch_slots;
-    report->extended_touch_parameters = NULL;
-    platform->report = report;
-    
-    printf("successfully allocated evdev: %d \n.", platform->max_touchpoints);
-    fflush(stdout);
-    
-    lua_pushstring(vm,"ok");
-    return 1;
+    while (true){
+
+        rc = libevdev_new_from_fd(fd, &(platform->touchpad_handle));
+        //keep trying for file descriptors until either a touchpad is detected or we run out of devices to check.
+        if(rc<0) {
+            close(fd);
+            struct dirent *current_directory_entry = readdir(directory);
+            if(current_directory_entry == NULL){
+                fprintf(stderr, "No touchpads were found at %s. Aborting touchpad initialization.\n", PLATFORM_DEFAULT_DEVICE_DIRECTORY);
+                lua_pushinteger(vm, OMNIGLASS_PLATFORM_EVDEV_INIT_FAILED);
+                return 0;
+            }
+            char devpath[512];
+            sprintf(devpath, "%s/%s", PLATFORM_DEFAULT_DEVICE_DIRECTORY, current_directory_entry->d_name);
+            fd = open(devpath, O_RDONLY | O_NONBLOCK);
+            continue;
+        }
+                /**start evdev*/
+        const char *device_name = libevdev_get_name(platform->touchpad_handle);
+        printf("Input device: \"%s\"", device_name);
+
+        /**diagnostics: check if selected device does have touchpad-like event reporting*/
+        int touchpad_profile_types[] = {EV_SYN, EV_KEY, EV_ABS};
+        int touchpad_profile_codes[] = {
+            EV_ABS,ABS_X,
+            EV_ABS,ABS_Y,
+            EV_ABS,ABS_MT_SLOT,
+            EV_ABS,ABS_MT_TRACKING_ID};
+        bool device_approved = true;
+        for (int i = 0;i<3;i++){
+            if(!libevdev_has_event_type(platform->touchpad_handle, touchpad_profile_types[i])) {
+                printf(" does not support event type %d.",
+                    touchpad_profile_types[i]);
+                device_approved &= false;
+                break;
+            }
+        }
+        if(device_approved){
+            for (int i = 0;i<4;i+=2){
+                int type = touchpad_profile_codes[i];
+                int code = touchpad_profile_codes[i+1];
+                if(!libevdev_has_event_code(platform->touchpad_handle, type, code)) {
+                    printf(" does not support event  (T%d, C%d).",
+                        type, code);
+                    device_approved &= false;
+                    break;
+                }
+            }
+        }
+
+        //autodetect number of slots in a multitouch device.
+        if(device_approved){
+            platform->max_touchpoints = libevdev_get_num_slots(platform->touchpad_handle);
+            if(platform->max_touchpoints < 1){
+                printf(" Does not have touch slots.");
+                device_approved &= false;
+            }
+        }
+        if(!device_approved){
+            printf(" Not a touchpad\n.");
+            fd = -1;
+            continue;
+        }
+        else
+            printf(" is a touchpad.\n");
+        touch_point *touch_slots = malloc(sizeof(touch_point) * (platform->max_touchpoints));
+        multitouch_report *report = malloc(sizeof(multitouch_report));
+        report->touches = touch_slots;
+        report->extended_touch_parameters = NULL;
+        platform->report = report;
+
+        printf("successfully allocated evdev for a %d-point touchpad\n.", platform->max_touchpoints);
+        fflush(stdout);
+
+        //if we got this far, then the hardware is set.
+        lua_pushinteger(vm,OMNIGLASS_PLATFORM_EVDEV_INIT_SUCCESS);
+        return 1;
+    }
 }
 
 /** (LUA-FACING)
