@@ -55,8 +55,7 @@ omniglass_gesture_operation_result omniglass_listen_gesture_slide(struct omnigla
     return OMNIGLASS_API_GESTURE_OPERATION_SUCCESS;
 }
 
-/** remove the listener for touch slide gestures. 
- *  @param handle a handle to omniglass.
+/* remove the listener for touch slide gestures.
  * */
 void omniglass_disable_gesture_slide(struct omniglass *handle){
     lua_getglobal(handle->vm,"disable_gesture_slide");
@@ -64,7 +63,7 @@ void omniglass_disable_gesture_slide(struct omniglass *handle){
     return;
 }
 
-/** (LUA-FACING)
+/* (LUA-FACING)
  *  trigger the application's registered callback for the slide action
  */
 int trigger_gesture_slide(lua_State *vm){
@@ -77,9 +76,7 @@ int trigger_gesture_slide(lua_State *vm){
     return 0;
 }
 
-/** register a listener for edge slide gestures.
- *  @param handle a handle to omniglass.
- * @param callback this function will be called whenever a slide is detected at the bottom edge.
+/* register a listener for edge slide gestures.
  */
 omniglass_gesture_operation_result omniglass_listen_gesture_edge(struct omniglass *handle, omniglass_callback_edge callback, omniglass_touchpad_edge edge, void *passthrough){
     lua_State *vm = handle->vm;
@@ -107,8 +104,7 @@ omniglass_gesture_operation_result omniglass_listen_gesture_edge_bottom(struct o
     return omniglass_listen_gesture_edge(handle, callback, OMNIGLASS_EDGE_BOTTOM, passthrough);
 }
 
-/** remove the listeners for any edge slide gestures.
- *  @param handle a handle to omniglass.
+/* remove the listeners for any edge slide gestures.
  * */
 void omniglass_disable_gesture_edge(struct omniglass *handle){
     lua_getglobal(handle->vm,"disable_gesture_edge");
@@ -225,7 +221,7 @@ int push_public_touchpad_specifications(lua_State *vm){
     return 0;
 }
 
-/**(PUBLIC)
+/*(PUBLIC)
  * (requires fully initialized platform!)
  * get height, width and other specifications of the touchpad.
  */
@@ -234,7 +230,7 @@ omniglass_operation_results omniglass_get_touchpad_specifications(struct omnigla
     return OMNIGLASS_RESULT_SUCCESS;
 }
 
-/**(PUBLIC)
+/*(PUBLIC)
  * (requires fully initialized platform!)
  * get the address of the memory region where the touch report from the active touchpad is located
  */
@@ -252,9 +248,9 @@ luaL_Reg core_api_cfuncs [] = {
     {NULL, NULL}
 };
 
-/**initialization function.
- * this function MUST be called before everything else. It will give you a handle that is required for all the other functions of the user-facing API.
- @param handle pointer to a pointer of omniglass.
+/*initialization function.
+ * this function MUST be called before everything else.
+ * It will give you a handle that is required for all the other functions of the user-facing API.
  */
 omniglass_operation_results omniglass_init(struct omniglass **handle){
     //prepare a lua instance.
