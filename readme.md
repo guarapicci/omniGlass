@@ -6,10 +6,10 @@
 
 
 
-## STATUS (v0.2)
-- gestures supported right now: left/right drag, edge-swipe on left/right/up/down (4 edges available)
-- **omniGlass can now be installed!** this means applications can now access the public API without including the entirety of omniGlass inside.
-- now available on the AUR.
+## STATUS (v0.2.1)
+- Applications can now request the coordinates of contact points directly to perform their own gesture detection (exported via `omniglass_get_raw_report()`)
+- Touchpads are now autodetected if the specific device chosen on the config file was not found.
+- Available on the AUR.
 
 https://github.com/guarapicci/mpv-omniGlass/assets/143821200/d76cfa4c-902c-4cea-83ea-c51126f85f82
 
@@ -20,11 +20,17 @@ https://github.com/guarapicci/omniGlass/assets/143821200/0ef46864-e9b8-4218-96c3
 ### licensing
 as of this writing, this software is licensed under GPLv3.
 
-## Quick-start
+## Get OmniGlass (for arch linux users)
+- 1: install from the AUR [as instructed on their wiki](https://wiki.archlinux.org/title/Arch_User_Repository#Installing_and_upgrading_packages).
+- 2: make your user has read-access to the touchpad's device file.
+- 2: that's it. Your computer now has OmniGlass!
+
+## Build from source
 - 1: go to project folder, open a shell.
 - 2: open `templates/config.lua` on a text editor, add your touchpad (path: "/dev/input/by-id/somethingsomething") there (**make sure your user has read access to the touchpad file!**).
-- 3: `source utils.sh && cmgen && rebuild && reinstall && debug edge_swipe_multi`.
+- 3: with superuser permissions, run the command line: `source utils.sh && cmgen && rebuild && reinstall && debug edge_swipe_multi`.
 - 4: That's it. You now have omniGlass installed and descriptive text will appear on the shell if you drag your finger accross the borders of the touchpad.
+  
 ## Detailed instructions (if quick start failed)
 You're gonna need `cmake`, GCC, a lua interpreter compatible with 5.1 and your run-of-the-mill linux distro (usually includes everything else needed).
 
@@ -74,13 +80,9 @@ int main(int argc, char **argv) {
 ```
 
 ## WINDOWS PORTING
-I wanna make a windows port of this. how? subjects to search:
-- windows rawInputDevice API (mostly from `Winuser.h`)
-  - `GetRawInputDeviceList()` will return a list of available raw input devices
-  - `GetRawInoutDeviceInfo()` supplies info about a specific raw input device.
-  - raw input devices returned by the list can be queried for HID data and identification
-- windows device interface class
-- HID API????
+A windows port is not available (and there is no demand for it) at the moment.
+
+To those willing to start a windows port of omniglass, i suggest you start from `platform_linux.c`, replacing all the evdev stuff with [libhid](https://github.com/bfoz/libhid) equivalents.
 
 ## What is this thing?
 
@@ -94,4 +96,4 @@ It emulates a wide variety of **non-pointer** devices out of input from your tou
 
 ## We are not touchégg.
 The purpose of Omni-Glass is to implement arbitrary gestures for each application, instead of just doing desktop-wide actions like switch window & expand desktop.
-We do provide a PIE, mainly for videogames, but applications with source code available can (and should) properly map touch gestures to actions due to how contextual any given gesture could be.´
+We do plan on providing a PIE, mainly for videogames, but applications with source code available can (and should) properly map touch gestures to actions due to how contextual any given gesture could be.
