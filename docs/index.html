@@ -65,7 +65,7 @@ $(function() {
 <div class="title">Omniglass documentation </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Welcome to the documentation of the OmniGlass.</p>
+<div class="textblock"><p>Welcome to the documentation of OmniGlass.</p>
 <p>Omniglass is a touchpad gesture detection library that aims to stay as far out of the way as possible, allowing the user code to just ask for the touchpoints or gesture parameters.</p>
 <p>Start by checking out the reference for <code><a class="el" href="omniglass_8h.html" title="the omniglass public API definition.">omniglass.h</a></code> .</p>
 <p>To start using the library on your application, <b>you can either carefully read this short introduction or skip to the examples at the end.</b></p>
@@ -100,7 +100,8 @@ Starting up the library</h3>
 <p><b>Status codes</b> are returned by most functions in the OmniGlass API. These codes are enumerated for use in error-checking patterns.</p>
 <h3><a class="anchor" id="autotoc_md3"></a>
 Registering gestures (with callbacks)</h3>
-<p>you can register gestures to be detected by providing a callback. the criteria of the gesture (if any) and an optional pointer to passthrough data you intend to let the callback use when it's called. The passthrough is just a convenience to avoid having to use global variables (usually undesirable for multithreaded code).</p>
+<p>You can register gestures to be detected by providing a callback. The criteria of the gesture (if any) and an optional pointer to passthrough data you intend to let the callback use when it's called.</p>
+<p>Passthroughs, also known as <em>userdata</em>, are just a convenience to avoid having to use global variables (usually undesirable for multithreaded code).</p>
 <p>Here is an example of a callback meant for the edge slide gesture: </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> on_edge_slide(<span class="keywordtype">double</span> value, <span class="keywordtype">void</span> *data) {</div>
 <div class="line">    <span class="keywordflow">if</span> (value &lt; 0)</div>
 <div class="line">        printf(<span class="stringliteral">&quot;moved on edge, negative\t\t%g\n&quot;</span>, value);</div>
@@ -123,6 +124,7 @@ Running the gesture detection engine</h3>
 <p>To detect the gestures you registered when they happen, you must regularly run iterations of the gesture engine: </p><div class="fragment"><div class="line"><a class="code" href="omniglass_8h.html#a410372cd764e9b02f866c6004c94243c">omniglass_step</a>(handle);</div>
 <div class="ttc" id="aomniglass_8h_html_a410372cd764e9b02f866c6004c94243c"><div class="ttname"><a href="omniglass_8h.html#a410372cd764e9b02f866c6004c94243c">omniglass_step</a></div><div class="ttdeci">int omniglass_step(struct omniglass *handle)</div><div class="ttdef"><b>Definition:</b> omniglass.c:35</div></div>
 </div><!-- fragment --><p> This function checks for all the gestures registered, calls the callbacks for the gestures actually happening and updates the parameters of each gesture.</p>
+<p>It is recommended that you run this function at a constant rate of 100hz or more. Operating systems, game engines and UI frameworks usually have a timer API for this.</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
 A small code example using callbacks (based on tests/edge_swipe.c ):</h2>
 <p>This example puts together the code snippets shown in the introduction, using callbacks. </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;omniGlass/constants.h&gt;</span></div>

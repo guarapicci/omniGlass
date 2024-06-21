@@ -1,5 +1,5 @@
 /** \mainpage Omniglass documentation
-    Welcome to the documentation of the OmniGlass.
+    Welcome to the documentation of OmniGlass.
 
     Omniglass is a touchpad gesture detection library that aims to stay as far out of the way as possible, allowing the user code to just ask for the touchpoints or gesture parameters.
 
@@ -45,7 +45,9 @@
     <b>Status codes</b> are returned by most functions in the OmniGlass API. These codes are enumerated for use in error-checking patterns.
 
     ### Registering gestures (with callbacks)
-    you can register gestures to be detected by providing a callback. the criteria of the gesture (if any) and an optional pointer to passthrough data you intend to let the callback use when it's called. The passthrough is just a convenience to avoid having to use global variables (usually undesirable for multithreaded code).
+    You can register gestures to be detected by providing a callback. The criteria of the gesture (if any) and an optional pointer to passthrough data you intend to let the callback use when it's called.
+
+    Passthroughs, also known as *userdata*, are just a convenience to avoid having to use global variables (usually undesirable for multithreaded code).
 
     Here is an example of a callback meant for the edge slide gesture:
     ```C
@@ -79,6 +81,8 @@
     omniglass_step(handle);
     ```
     This function checks for all the gestures registered, calls the callbacks for the gestures actually happening and updates the parameters of each gesture.
+
+    It is recommended that you run this function at a constant rate of 100hz or more. Operating systems, game engines and UI frameworks usually have a timer API for this.
 
     ## A small code example using callbacks (based on tests/edge_swipe.c ):
     This example puts together the code snippets shown in the introduction, using callbacks.
