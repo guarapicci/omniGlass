@@ -1,0 +1,123 @@
+/** \mainpage Omniglass documentation
+    Welcome to the documentation of the OmniGlass.
+
+    Omniglass is a touchpad gesture detection library that aims to stay as far out of the way as possible, allowing the user code to just ask for the touchpoints or gesture parameters.
+
+    Start by checking out the reference for `omniglass.h` .
+
+    To start using the library on your application, **you can either carefully read this short introduction or skip to the examples at the end.**
+
+    ## An introduction to gesture detection with omniglass
+
+    ### Linking binaries and including headers
+    - All the functionality is encapsulated in the shared library `libomniglass`. You can link with it on your average c compiler via the flag `-lomniglass`.
+    - The current linux implementation also uses `omniglass_core.lua` and `omniglass_linux.lua`. You don't need to directly load those, but make sure they are properly installed before proceeding.
+
+
+    Include `omniGlass/constants.h` and `omniGlass/omniglass.h` on your application.
+    ```C
+    #include <omniGlass/constants.h>
+    #include <omniGlass/omniglass.h>
+    ```
+    `constants.h` gathers all the enums in one spot; `omniglass.h` is the main header file that contains everything you'll actually use.
+
+    Here is a typical build command for a single-source application that uses omniglass and only omniglass:
+    ```bash
+        gcc -lomniglass_linux goofyahhslider.c -o goofyahhslider.elf
+    ```
+
+    ### Starting up the library
+    Omniglass holds all the state on an opaque handle. You must initialize it with `omniglass_init`:
+    ```C
+    struct omniglass *handle;
+    int init_result = omniglass_init(&handle);
+    if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS){
+        fprintf(stderr,"could not initialize omniglass.\n");
+            return 0;
+        }
+    ```
+    Notice how the init process itself returns a **status code** `init_result`. Checking this against the enums lets the application bail out if initialization failed. And fail it can, in many ways, including:
+    - there is no touchpad.
+    - a bug in the touchpad driver (or on omniglass' own platform layer) made the platform abort initialization.
+    - the user or application does not have permission to access the touchpads available.
+    - the user wanted a certain touchpad, and only this touchpad, but it was not available when the initialization started.
+
+    <b>Status codes</b> are returned by most functions in the OmniGlass API. These codes are enumerated for use in error-checking patterns.
+
+    ### Registering gestures (with callbacks)
+    you can register gestures to be detected by providing a callback. the criteria of the gesture (if any) and an optional pointer to passthrough data you intend to let the callback use when it's called. The passthrough is just a convenience to avoid having to use global variables (usually undesirable for multithreaded code).
+
+    Here is an example of a callback meant for the edge slide gesture:
+    ```C
+    void on_edge_slide(double value, void *data) {
+        if (value < 0)
+            printf("moved on edge, negative\t\t%g\n", value);
+        else if (value > 0)
+            printf("moved on edge, positive\t\t%g\n",value);
+        fflush(stdout);
+    }
+    ```
+
+    And here is a piece of code that registers an edge slide gesture against this callback:
+    ```C
+        omniglass_listen_gesture_edge(handle,&on_edge_slide, OMNIGLASS_EDGE_LEFT, NULL);
+    ```
+    Omniglass will keep track of the gesture and fire the callback for you when two conditions are met:
+    - the gesture has happened or some part of it changed (progress, distance, finger count, whatever).
+    - you called `omniglass_step()`.
+
+
+    ### Registering gestures (with parameter outputs)
+    You can also register gestures by providing a pointer to a struct that will hold **parameters**: values (usually numeric) bundled together telling everything you need to know about a gesture.
+    The exact type of the struct varies for each gesture and its data will reflect the relevant variables of the representation of the gesture selected. Example: a struct for a finger slide may be registered against a finger slide structure, which will hold updated values of how many fingers are sliding since the last time you checked for a finger slide.
+
+    (TODO: properly elaborate on this one with code example)
+
+    ### Running the gesture detection engine
+    To detect the gestures you registered when they happen, you must regularly run iterations of the gesture engine:
+    ```C
+    omniglass_step(handle);
+    ```
+    This function checks for all the gestures registered, calls the callbacks for the gestures actually happening and updates the parameters of each gesture.
+
+    ## A small code example using callbacks (based on tests/edge_swipe.c ):
+    This example puts together the code snippets shown in the introduction, using callbacks.
+    ```C
+    #include <omniGlass/constants.h>
+    #include <omniGlass/omniglass.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <stdbool.h>
+    #include <unistd.h>
+
+    void on_edge_slide(double value, void *data) {
+        if (value < 0)
+            printf("moved on edge, negative\t\t%g\n", value);
+        else if (value > 0)
+            printf("moved on edge, positive\t\t%g\n",value);
+        fflush(stdout);
+    }
+
+    int main(int argc, char **argv) {
+
+        struct omniglass *handle;
+        if (omniglass_init(&handle) != OMNIGLASS_RESULT_SUCCESS){
+            fprintf(stderr,"could not initialize omniglass.\n");
+            return 0;
+        }
+        omniglass_listen_gesture_edge(handle,&on_edge_slide, OMNIGLASS_EDGE_LEFT, NULL);
+        fflush(stdout);
+
+        printf("starting event loop\n");
+        while (true) {
+            usleep(1000);
+            omniglass_step(handle);
+            fflush(stdout);
+        }
+
+        return 0;
+    }
+    ```
+
+
+*/
