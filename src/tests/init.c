@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <omniGlass/constants.h>
+#include "../constants.h"
 #include "../omniglass.h"
 
 int main(int argc, char **argv){

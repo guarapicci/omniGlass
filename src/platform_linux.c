@@ -5,7 +5,7 @@
 
 #include <asm-generic/errno-base.h>
 #include <linux/input-event-codes.h>
-#include <omniGlass/constants.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -17,6 +17,7 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#include "constants.h"
 #include "platform.h"
 
 #include <linux/input.h>
