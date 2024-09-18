@@ -299,6 +299,7 @@ omniglass_operation_results omniglass_init(struct omniglass **handle){
         return OMNIGLASS_RESULT_BOOTSTRAP_FAILED;
     }
     (*handle)->last_raw_report.points=malloc(sizeof(struct omniglass_raw_touchpoint) * spec->max_points); //this might actually belong in the platform layer
+    (*handle)->last_raw_report.points_max = spec->max_points;
     printf("touchpad spec: width %2fmm, height %2fmm, %d-touch max\n", spec->width, spec->height, spec->max_points);
 
     printf("initialized omniglass core\n");
