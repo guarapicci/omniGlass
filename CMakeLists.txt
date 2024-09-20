@@ -56,6 +56,11 @@ target_link_libraries(edge_swipe_multi omniglass_linux)
 add_executable(touching "src/tests/touching.c")
 target_link_libraries(touching omniglass_linux)
 
+# demo for touchpad grab
+# (same as the "touching" test, but blocks any other process from accessing the touchpad)
+add_executable(grab_device "src/tests/grab_device.c")
+target_link_libraries(grab_device omniglass_linux)
+
 install(TARGETS omniglass_linux 
         LIBRARY
             DESTINATION ${CUSTOM_LIB_FOLDER})

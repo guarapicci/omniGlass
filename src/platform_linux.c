@@ -106,7 +106,7 @@ int platform_evdev_init(lua_State *vm){
             }
             char devpath[512];
             sprintf(devpath, "%s/%s", PLATFORM_DEFAULT_DEVICE_DIRECTORY, current_directory_entry->d_name);
-            fd = open(devpath, O_RDONLY | O_NONBLOCK);
+            fd = open(devpath, O_RDWR | O_NONBLOCK);
             continue;
         }
                 /**start evdev*/
@@ -284,6 +284,15 @@ int platform_get_fd(struct platform *platform){
     return libevdev_get_fd(platform->touchpad_handle);
 }
 
+/** (C-SIDE, LINUX-ONLY)
+ ** grab the touchpad (exclusive access) or release the grabbed touchpad
+ */
+void platform_grab_touchpad(struct platform *platform){
+    libevdev_grab(platform->touchpad_handle, LIBEVDEV_GRAB);
+}
+void platform_ungrab_touchpad(struct platform *platform){
+    libevdev_grab(platform->touchpad_handle, LIBEVDEV_UNGRAB);
+}
 //platform functions implemented by the linux backend.
 static luaL_Reg platform_funcs [] = {
     {"evdev_init", platform_evdev_init},

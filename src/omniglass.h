@@ -61,6 +61,29 @@ typedef struct omniglass_raw_specifications {
  */
 omniglass_operation_results omniglass_get_touchpad_specifications(struct omniglass *handle, omniglass_raw_specifications **specs);
 
+/** (LINUX-ONLY)
+ * (requires fully initialized platform!)
+ * get the file descriptor for the touchpad, Just in case you want omniglass AND direct access.
+ * @param[in] handle the handle to omniglass
+ * @param[out] fd the file descriptor number. Linux returns [0,1024] as something valid; -1 means no file.
+ */
+omniglass_operation_results omniglass_get_raw_file_descriptor(struct omniglass *handle, int *fd);
+
+
+/** (LINUX-ONLY)
+ * (requires fully initialized platform!)
+ * trigger grab status the file descriptor for the touchpad, giving your process exclusive access to the touchpad.
+ * @param[in] handle the handle to omniglass
+ */
+omniglass_operation_results omniglass_grab_touchpad(struct omniglass *handle);
+
+/** (LINUX-ONLY)
+ * (requires fully initialized platform!)
+ * release the grab status from the file descriptor for the touchpad, so that other processes can access it again.
+ * @param[in] handle the handle to omniglass
+ */
+omniglass_operation_results omniglass_ungrab_touchpad(struct omniglass *handle);
+
 /* CALLBACK SECTION (listen, remove listener, define gestures)
  *
  * most callbacks accept a "passthrough" void pointer that the user can provide at register-time.

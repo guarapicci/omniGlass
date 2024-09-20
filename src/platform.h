@@ -117,3 +117,9 @@ int platform_get_last_report(lua_State *vm);
  * hand over the file descriptor of the touchpad device file.
  */
 int platform_get_fd(struct platform *platform);
+
+/** (C-SIDE, LINUX-ONLY)
+ ** grab the touchpad (exclusive access) or release the grabbed touchpad
+ */
+void platform_grab_touchpad(struct platform *platform);
+void platform_ungrab_touchpad(struct platform *platform);
