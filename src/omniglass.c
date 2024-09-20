@@ -239,6 +239,16 @@ omniglass_operation_results omniglass_get_raw_report(struct omniglass *handle, o
     return OMNIGLASS_RESULT_SUCCESS;
 }
 
+/*(PUBLIC, LINUX-ONLY)
+ * (requires fully initialized platform!)
+ * get the file descriptor for the touchpad
+ */
+omniglass_operation_results omniglass_get_raw_file_descriptor(struct omniglass *handle, int *fd){
+    *fd = platform_get_fd(handle->platform);
+    return OMNIGLASS_RESULT_SUCCESS;
+}
+
+
 luaL_Reg core_api_cfuncs [] = {
     {"trigger_gesture_slide", trigger_gesture_slide},
     {"trigger_gesture_edge", trigger_gesture_edge},

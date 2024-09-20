@@ -265,6 +265,7 @@ int platform_get_touchpad_boundaries(lua_State *vm){
     int max_y = 0;
     max_x = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_X);
     max_y = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_Y);
+
 //     printf("c-side dump: %d %d", max_x, max_y);
     lua_newtable(vm);
         lua_pushstring(vm, "max_x");
@@ -274,6 +275,13 @@ int platform_get_touchpad_boundaries(lua_State *vm){
             lua_pushnumber(vm, (double) max_y);
                 lua_settable(vm,-3);
     return 1;
+}
+
+/** (C-SIDE, LINUX-ONLY)
+ ** hand over the open file descriptor for the touchpad device file.
+ */
+int platform_get_fd(struct platform *platform){
+    return libevdev_get_fd(platform->touchpad_handle);
 }
 
 //platform functions implemented by the linux backend.

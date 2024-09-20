@@ -112,3 +112,8 @@ int platform_parse_events(lua_State *vm);
  * called by the lua VM to get the last touch report generated.
  */
 int platform_get_last_report(lua_State *vm);
+
+/**(C-SIDE)
+ * hand over the file descriptor of the touchpad device file.
+ */
+int platform_get_fd(struct platform *platform);
