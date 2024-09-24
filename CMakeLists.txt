@@ -73,3 +73,5 @@ install(FILES "src/omniglass.h" "src/config.h" "src/constants.h"
 install(TARGETS edge_swipe_multi
         RUNTIME
             DESTINATION ${CUSTOM_EXEC_FOLDER}/omniGlass)
+install(FILES "udev\ rules/63-omniglass-touchpad.rules"
+        DESTINATION ${CUSTOM_LIB_FOLDER}/udev/rules.d)

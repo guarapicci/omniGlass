@@ -1,0 +1,2 @@
+
+SUBSYSTEMS=="input", ATTRS{name}=="*[Tt]ouchpad*" MODE="0660", TAG+="uaccess"
