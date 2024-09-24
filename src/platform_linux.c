@@ -261,18 +261,41 @@ int platform_get_touchpad_boundaries(lua_State *vm){
     struct platform *platform = luaL_checkudata(vm,1,PLATFORM_CLASS_NAME_META);
     struct libevdev *evdev = platform->touchpad_handle;
 
+    int min_x = 0;
+    int min_y = 0;
     int max_x = 0;
     int max_y = 0;
-    max_x = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_X);
-    max_y = libevdev_get_abs_maximum(evdev, ABS_MT_POSITION_Y);
+    double res_x = 0.0;
+    double res_y = 0.0;
+    const struct input_absinfo *info_x = libevdev_get_abs_info(evdev, ABS_MT_POSITION_X);
+    if(info_x != NULL){
+        res_x = info_x->resolution;
+        min_x = info_x->minimum;
+        max_x = info_x->maximum;
+    }
+    const struct input_absinfo *info_y = libevdev_get_abs_info(evdev, ABS_MT_POSITION_Y);
+    if(info_y != NULL){
+        res_y = info_y->resolution;
+        min_y = info_y->minimum;
+        max_y = info_y->maximum;
+    }
 
 //     printf("c-side dump: %d %d", max_x, max_y);
     lua_newtable(vm);
+        lua_pushstring(vm, "min_x");
+            lua_pushnumber(vm, (double) min_x);
+                lua_settable(vm,-3);
+        lua_pushstring(vm, "min_y");
+            lua_pushnumber(vm, (double) min_y);
+                lua_settable(vm,-3);
         lua_pushstring(vm, "max_x");
             lua_pushnumber(vm, (double) max_x);
                 lua_settable(vm,-3);
         lua_pushstring(vm, "max_y");
             lua_pushnumber(vm, (double) max_y);
+                lua_settable(vm,-3);
+        lua_pushstring(vm, "units_per_millimeter");
+            lua_pushnumber(vm, (double) res_x);
                 lua_settable(vm,-3);
     return 1;
 }

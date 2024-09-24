@@ -8,7 +8,8 @@ touchpad =
         min_x = 0,
         min_y = 0,
         max_x = 0,
-        max_y = 0
+        max_y = 0,
+        units_per_millimeter=23
     },
     last_touch_report_public=
     {
@@ -66,8 +67,8 @@ for k, v in pairs(config) do
 end
 
 touchpad.capabilities = {
-    width = touchpad.boundaries.max_x * config.scale,
-    height = touchpad.boundaries.max_y * config.scale,
+    width = touchpad.boundaries.max_x / touchpad.boundaries.units_per_millimeter,
+    height = touchpad.boundaries.max_y / touchpad.boundaries.units_per_millimeter,
     touch_count = #(platform:get_last_report().touches) --careful if you replace the platform, this value must be constant per-touchpad
 }
 
@@ -89,8 +90,8 @@ function getpoints()
         result.touched = point.touched
 
         --real-world size of touchpad movement units
-        result.x = result.x * config.scale
-        result.y = result.y * config.scale
+        result.x = (result.x - touchpad.boundaries.min_x) / touchpad.boundaries.units_per_millimeter
+        result.y = (result.y - touchpad.boundaries.min_y) / touchpad.boundaries.units_per_millimeter
 
         return result
     end
