@@ -59,6 +59,10 @@ time_elapsed=0
 
 print("lua-side parameter dump")
 touchpad.boundaries = platform:get_touchpad_boundaries()
+if (touchpad.boundaries.units_per_millimeter < 1.0) then
+    touchpad.boundaries.units_per_millimeter = (touchpad.boundaries.max_x - touchpad.boundaries.min_x) * config.scale
+end
+
 for k, v in pairs(touchpad.boundaries) do
     print(k, v)
 end
