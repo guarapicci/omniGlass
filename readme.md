@@ -1,6 +1,6 @@
 # omniGlass: touchpad gestures library
 
-## (DISCLAIMER) This is W.I.P; examples available at src/tests/
+## (DISCLAIMER) This project is discontinued. The repository remains as proof-of-concept and inspiration for future work on Human-Machine Interfaces.
 
 
 
